@@ -4,12 +4,16 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, ChevronDown, Bike, ChevronRight, Calculator, Phone } from 'lucide-react';
+import { 
+  Menu, X, ChevronDown, Bike, ChevronRight, Calculator, Phone, 
+  Home, Zap, TrendingDown, Clock, ShoppingBag, Info, HelpCircle, Share2, Mail 
+} from 'lucide-react';
 
 interface NavItem {
   label: string;
   href?: string;
-  dropdownItems?: { label: string; href: string; description?: string }[];
+  icon?: React.ComponentType<{ className?: string }>;
+  dropdownItems?: { label: string; href: string; description?: string; icon?: React.ComponentType<{ className?: string }> }[];
 }
 
 export default function OptimizedHeader() {
@@ -39,25 +43,27 @@ export default function OptimizedHeader() {
   }, [pathname]);
 
   const navItems: NavItem[] = [
-    { label: 'Inicio', href: '/' },
+    { label: 'Inicio', href: '/', icon: Home },
     {
       label: 'Servicios',
+      icon: Bike,
       dropdownItems: [
-        { label: 'Envíos Express', href: '/servicios/envios-express', description: 'Rápido, en 2 horas' },
-        { label: 'Envíos LowCost', href: '/servicios/envios-lowcost', description: 'Económico e inteligente' },
-        { label: 'Envíos Flex (MeLi)', href: '/servicios/enviosflex', description: 'Socio MercadoLibre Flex' },
-        { label: 'E-Commerce & 3PL', href: '/servicios/plan-emprendedores', description: 'Logística para PyMEs' },
+        { label: 'Envíos Express', href: '/servicios/envios-express', description: 'Rápido, en 2 horas', icon: Zap },
+        { label: 'Envíos LowCost', href: '/servicios/envios-lowcost', description: 'Económico e inteligente', icon: TrendingDown },
+        { label: 'Envíos Flex (MeLi)', href: '/servicios/enviosflex', description: 'Socio MercadoLibre Flex', icon: Clock },
+        { label: 'E-Commerce & 3PL', href: '/servicios/plan-emprendedores', description: 'Logística para PyMEs', icon: ShoppingBag },
       ],
     },
     {
       label: 'Nosotros',
+      icon: Info,
       dropdownItems: [
-        { label: 'Sobre Nosotros', href: '/nosotros/sobre-nosotros', description: 'Quiénes somos' },
-        { label: 'Preguntas Frecuentes', href: '/nosotros/preguntas-frecuentes', description: 'Todas tus dudas resueltas' },
-        { label: 'Nuestras Redes', href: '/nosotros/nuestras-redes', description: 'Comunidad en movimiento' },
+        { label: 'Sobre Nosotros', href: '/nosotros/sobre-nosotros', description: 'Quiénes somos', icon: Info },
+        { label: 'Preguntas Frecuentes', href: '/nosotros/preguntas-frecuentes', description: 'Todas tus dudas resueltas', icon: HelpCircle },
+        { label: 'Nuestras Redes', href: '/nosotros/nuestras-redes', description: 'Comunidad en movimiento', icon: Share2 },
       ],
     },
-    { label: 'Contacto', href: '/contacto' },
+    { label: 'Contacto', href: '/contacto', icon: Mail },
   ];
 
   const handleDropdownToggle = (label: string) => {
@@ -107,20 +113,22 @@ export default function OptimizedHeader() {
                 {item.href ? (
                   <Link
                     href={item.href}
-                    className={`px-4 py-2 text-sm font-subheading tracking-wider uppercase rounded-xl transition-all ${
+                    className={`px-4 py-2 text-sm font-subheading tracking-wider uppercase rounded-xl transition-all flex items-center gap-2 ${
                       pathname === item.href
                         ? 'text-brand-yellow bg-white/10'
                         : 'text-white hover:text-brand-yellow hover:bg-white/5'
                     }`}
                   >
-                    {item.label}
+                    {item.icon && <item.icon className="h-4 w-4 shrink-0" />}
+                    <span>{item.label}</span>
                   </Link>
                 ) : (
                   <button
                     onClick={() => handleDropdownToggle(item.label)}
-                    className="px-4 py-2 text-sm font-subheading tracking-wider uppercase rounded-xl transition-all flex items-center gap-1.5 text-white hover:text-brand-yellow hover:bg-white/5"
+                    className="px-4 py-2 text-sm font-subheading tracking-wider uppercase rounded-xl transition-all flex items-center gap-1.5 text-white hover:text-brand-yellow hover:bg-white/5 font-medium"
                   >
-                    {item.label}
+                    {item.icon && <item.icon className="h-4 w-4 shrink-0" />}
+                    <span>{item.label}</span>
                     <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${
                       activeDropdown === item.label ? 'rotate-180 text-brand-yellow' : ''
                     }`} />
@@ -138,23 +146,26 @@ export default function OptimizedHeader() {
                       className="absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-gray-100 py-3 text-slate-800 overflow-hidden z-50"
                     >
                       <div className="grid gap-1 px-2">
-                        {item.dropdownItems.map((subItem) => (
-                          <Link
-                            key={subItem.href}
-                            href={subItem.href}
-                            className="flex items-start gap-3 p-2.5 rounded-xl transition-all hover:bg-slate-50 text-slate-700 hover:text-brand-blue"
-                          >
-                            <div className="p-1.5 rounded-lg bg-slate-100 text-slate-500">
-                              <ChevronRight className="h-4 w-4" />
-                            </div>
-                            <div>
-                              <p className="text-xs font-semibold uppercase font-subheading tracking-wide leading-tight">{subItem.label}</p>
-                              {subItem.description && (
-                                <p className="text-[10px] text-gray-500 font-sans mt-0.5">{subItem.description}</p>
-                              )}
-                            </div>
-                          </Link>
-                        ))}
+                        {item.dropdownItems.map((subItem) => {
+                          const SubIcon = subItem.icon || ChevronRight;
+                          return (
+                            <Link
+                              key={subItem.href}
+                              href={subItem.href}
+                              className="flex items-start gap-3 p-2.5 rounded-xl transition-all hover:bg-slate-50 text-slate-700 hover:text-brand-blue group"
+                            >
+                              <div className="p-1.5 rounded-lg bg-slate-100 text-slate-500 group-hover:bg-brand-blue/10 group-hover:text-brand-blue transition-colors">
+                                <SubIcon className="h-4 w-4 shrink-0" />
+                              </div>
+                              <div>
+                                <p className="text-xs font-semibold uppercase font-subheading tracking-wide leading-tight">{subItem.label}</p>
+                                {subItem.description && (
+                                  <p className="text-[10px] text-gray-500 font-sans mt-0.5">{subItem.description}</p>
+                                )}
+                              </div>
+                            </Link>
+                          );
+                        })}
                       </div>
                     </motion.div>
                   )}
@@ -220,9 +231,10 @@ export default function OptimizedHeader() {
                   {item.href ? (
                     <Link
                       href={item.href}
-                      className="block py-2 text-base font-subheading tracking-wide uppercase text-white hover:text-brand-yellow"
+                      className="flex items-center gap-2 py-2 text-base font-subheading tracking-wide uppercase text-white hover:text-brand-yellow"
                     >
-                      {item.label}
+                      {item.icon && <item.icon className="h-5 w-5 text-brand-yellow" />}
+                      <span>{item.label}</span>
                     </Link>
                   ) : (
                     <div>
@@ -230,7 +242,10 @@ export default function OptimizedHeader() {
                         onClick={() => handleDropdownToggle(item.label)}
                         className="w-full text-left py-2 text-base font-subheading tracking-wide uppercase flex items-center justify-between text-white"
                       >
-                        <span>{item.label}</span>
+                        <span className="flex items-center gap-2">
+                          {item.icon && <item.icon className="h-5 w-5 text-blue-300" />}
+                          <span>{item.label}</span>
+                        </span>
                         <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${
                           activeDropdown === item.label ? 'rotate-180 text-brand-yellow' : 'text-blue-300'
                         }`} />
@@ -242,17 +257,21 @@ export default function OptimizedHeader() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="pl-4 mt-1 grid gap-2 overflow-hidden"
+                            className="pl-6 mt-1 grid gap-2 overflow-hidden"
                           >
-                            {item.dropdownItems.map((subItem) => (
-                              <Link
-                                key={subItem.href}
-                                href={subItem.href}
-                                className="block py-1.5 text-xs text-blue-200 hover:text-white"
-                              >
-                                {subItem.label}
-                              </Link>
-                            ))}
+                            {item.dropdownItems.map((subItem) => {
+                              const SubIcon = subItem.icon || ChevronRight;
+                              return (
+                                <Link
+                                  key={subItem.href}
+                                  href={subItem.href}
+                                  className="flex items-center gap-2 py-1.5 text-xs text-blue-200 hover:text-white"
+                                >
+                                  <SubIcon className="h-4 w-4 text-brand-yellow/75 shrink-0" />
+                                  <span>{subItem.label}</span>
+                                </Link>
+                              );
+                            })}
                           </motion.div>
                         )}
                       </AnimatePresence>

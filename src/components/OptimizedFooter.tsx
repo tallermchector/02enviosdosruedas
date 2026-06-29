@@ -2,7 +2,10 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Bike, Phone, MapPin, Mail, Clock, Instagram, Facebook, Award, ArrowUpRight } from 'lucide-react';
+import { 
+  Bike, Phone, MapPin, Mail, Clock, Instagram, Facebook, Award, ArrowUpRight,
+  Zap, TrendingDown, ShoppingBag
+} from 'lucide-react';
 
 export default function OptimizedFooter() {
   const currentYear = new Date().getFullYear();
@@ -73,8 +76,9 @@ export default function OptimizedFooter() {
               <li>
                 <Link 
                   href="/servicios/envios-express" 
-                  className="text-blue-100 hover:text-brand-yellow flex items-center gap-1 group"
+                  className="text-blue-100 hover:text-brand-yellow flex items-center gap-2 group transition-colors"
                 >
+                  <Zap className="h-4 w-4 text-brand-yellow shrink-0" />
                   <span>Envíos Express</span>
                   <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
@@ -82,8 +86,9 @@ export default function OptimizedFooter() {
               <li>
                 <Link 
                   href="/servicios/envios-lowcost" 
-                  className="text-blue-100 hover:text-brand-yellow flex items-center gap-1 group"
+                  className="text-blue-100 hover:text-brand-yellow flex items-center gap-2 group transition-colors"
                 >
+                  <TrendingDown className="h-4 w-4 text-brand-yellow shrink-0" />
                   <span>Envíos LowCost</span>
                   <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
@@ -91,8 +96,9 @@ export default function OptimizedFooter() {
               <li>
                 <Link 
                   href="/servicios/enviosflex" 
-                  className="text-blue-100 hover:text-brand-yellow flex items-center gap-1 group"
+                  className="text-blue-100 hover:text-brand-yellow flex items-center gap-2 group transition-colors"
                 >
+                  <Clock className="h-4 w-4 text-brand-yellow shrink-0" />
                   <span>Envíos Flex (MeLi)</span>
                   <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
@@ -100,8 +106,9 @@ export default function OptimizedFooter() {
               <li>
                 <Link 
                   href="/servicios/plan-emprendedores" 
-                  className="text-blue-100 hover:text-brand-yellow flex items-center gap-1 group"
+                  className="text-blue-100 hover:text-brand-yellow flex items-center gap-2 group transition-colors"
                 >
+                  <ShoppingBag className="h-4 w-4 text-brand-yellow shrink-0" />
                   <span>E-Commerce & 3PL</span>
                   <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>

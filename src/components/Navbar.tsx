@@ -4,12 +4,16 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, ChevronDown, Bike, ChevronRight, Calculator, MapPin, Shield } from 'lucide-react';
+import { 
+  Menu, X, ChevronDown, Bike, ChevronRight, Calculator, MapPin, Shield,
+  Home, Zap, TrendingDown, Clock, ShoppingBag, Info, HelpCircle, Share2, Mail, FileText
+} from 'lucide-react';
 
 interface NavItem {
   label: string;
   href?: string;
-  dropdownItems?: { label: string; href: string; description?: string }[];
+  icon?: React.ComponentType<{ className?: string }>;
+  dropdownItems?: { label: string; href: string; description?: string; icon?: React.ComponentType<{ className?: string }> }[];
 }
 
 export default function Navbar() {
@@ -41,32 +45,35 @@ export default function Navbar() {
   }, [pathname]);
 
   const navItems: NavItem[] = [
-    { label: 'Inicio', href: '/' },
+    { label: 'Inicio', href: '/', icon: Home },
     {
       label: 'Servicios',
+      icon: Bike,
       dropdownItems: [
-        { label: 'Envíos Express', href: '/servicios/envios-express', description: 'Mensajería súper rápida' },
-        { label: 'Envíos LowCost', href: '/servicios/envios-lowcost', description: 'Logística programada económica' },
-        { label: 'Envíos Flex', href: '/servicios/enviosflex', description: 'Última milla MercadoLibre' },
-        { label: 'Plan Emprendedores', href: '/servicios/plan-emprendedores', description: 'Tarifas especiales para e-commerce' },
+        { label: 'Envíos Express', href: '/servicios/envios-express', description: 'Mensajería súper rápida', icon: Zap },
+        { label: 'Envíos LowCost', href: '/servicios/envios-lowcost', description: 'Logística programada económica', icon: TrendingDown },
+        { label: 'Envíos Flex', href: '/servicios/enviosflex', description: 'Última milla MercadoLibre', icon: Clock },
+        { label: 'Plan Emprendedores', href: '/servicios/plan-emprendedores', description: 'Tarifas especiales para e-commerce', icon: ShoppingBag },
       ],
     },
     {
       label: 'Cotizar',
+      icon: Calculator,
       dropdownItems: [
-        { label: 'Cotizar Express', href: '/cotizar/express', description: 'Envíos urgentes en el día' },
-        { label: 'Cotizar LowCost', href: '/cotizar/lowcost', description: 'Planificá con la mejor tarifa' },
+        { label: 'Cotizar Express', href: '/cotizar/express', description: 'Envíos urgentes en el día', icon: Zap },
+        { label: 'Cotizar LowCost', href: '/cotizar/lowcost', description: 'Planificá con la mejor tarifa', icon: TrendingDown },
       ],
     },
     {
       label: 'Nosotros',
+      icon: Info,
       dropdownItems: [
-        { label: 'Sobre Nosotros', href: '/nosotros/sobre-nosotros', description: 'Trayectoria y valores' },
-        { label: 'Preguntas Frecuentes', href: '/nosotros/preguntas-frecuentes', description: 'Tiempos de corte y zonas' },
-        { label: 'Nuestras Redes', href: '/nosotros/nuestras-redes', description: 'Comunidad DosRuedas' },
+        { label: 'Sobre Nosotros', href: '/nosotros/sobre-nosotros', description: 'Trayectoria y valores', icon: Info },
+        { label: 'Preguntas Frecuentes', href: '/nosotros/preguntas-frecuentes', description: 'Tiempos de corte y zonas', icon: HelpCircle },
+        { label: 'Nuestras Redes', href: '/nosotros/nuestras-redes', description: 'Comunidad DosRuedas', icon: Share2 },
       ],
     },
-    { label: 'Contacto', href: '/contacto' },
+    { label: 'Contacto', href: '/contacto', icon: Mail },
   ];
 
   const handleDropdownToggle = (label: string) => {
@@ -130,13 +137,14 @@ export default function Navbar() {
                 {item.href ? (
                   <Link
                     href={item.href}
-                    className={`px-4 py-2 text-sm font-subheading tracking-wider uppercase rounded-xl transition-all ${
+                    className={`px-4 py-2 text-sm font-subheading tracking-wider uppercase rounded-xl transition-all flex items-center gap-2 ${
                       isLinkActive(item.href)
                         ? 'text-brand-yellow bg-white/10'
                         : 'text-white hover:text-brand-yellow hover:bg-white/5'
                     }`}
                   >
-                    {item.label}
+                    {item.icon && <item.icon className="h-4 w-4 shrink-0" />}
+                    <span>{item.label}</span>
                   </Link>
                 ) : (
                   <button
@@ -147,7 +155,8 @@ export default function Navbar() {
                         : 'text-white hover:text-brand-yellow hover:bg-white/5'
                     }`}
                   >
-                    {item.label}
+                    {item.icon && <item.icon className="h-4 w-4 shrink-0" />}
+                    <span>{item.label}</span>
                     <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${
                       activeDropdown === item.label ? 'rotate-180 text-brand-yellow' : ''
                     }`} />
@@ -170,27 +179,34 @@ export default function Navbar() {
                         </span>
                       </div>
                       <div className="grid gap-1 px-2">
-                        {item.dropdownItems.map((subItem) => (
-                          <Link
-                            key={subItem.href}
-                            href={subItem.href}
-                            className={`flex items-start gap-3 p-2.5 rounded-xl transition-all ${
-                              pathname === subItem.href
-                                ? 'bg-blue-50 text-brand-blue'
-                                : 'hover:bg-slate-50 text-slate-700 hover:text-brand-blue'
-                            }`}
-                          >
-                            <div className={`p-1.5 rounded-lg ${pathname === subItem.href ? 'bg-brand-blue/10 text-brand-blue' : 'bg-slate-100 text-slate-500'}`}>
-                              <ChevronRight className="h-4 w-4" />
-                            </div>
-                            <div>
-                              <p className="text-xs font-semibold uppercase font-subheading tracking-wide leading-tight">{subItem.label}</p>
-                              {subItem.description && (
-                                <p className="text-[10px] text-gray-500 font-sans mt-0.5">{subItem.description}</p>
-                              )}
-                            </div>
-                          </Link>
-                        ))}
+                        {item.dropdownItems.map((subItem) => {
+                          const SubIcon = subItem.icon || ChevronRight;
+                          return (
+                            <Link
+                              key={subItem.href}
+                              href={subItem.href}
+                              className={`flex items-start gap-3 p-2.5 rounded-xl transition-all group ${
+                                pathname === subItem.href
+                                  ? 'bg-blue-50 text-brand-blue'
+                                  : 'hover:bg-slate-50 text-slate-700 hover:text-brand-blue'
+                              }`}
+                            >
+                              <div className={`p-1.5 rounded-lg transition-colors ${
+                                pathname === subItem.href 
+                                  ? 'bg-brand-blue/10 text-brand-blue' 
+                                  : 'bg-slate-100 text-slate-500 group-hover:bg-brand-blue/10 group-hover:text-brand-blue'
+                              }`}>
+                                <SubIcon className="h-4 w-4 shrink-0" />
+                              </div>
+                              <div>
+                                <p className="text-xs font-semibold uppercase font-subheading tracking-wide leading-tight">{subItem.label}</p>
+                                {subItem.description && (
+                                  <p className="text-[10px] text-gray-500 font-sans mt-0.5">{subItem.description}</p>
+                                )}
+                              </div>
+                            </Link>
+                          );
+                        })}
                       </div>
                     </motion.div>
                   )}
@@ -241,11 +257,12 @@ export default function Navbar() {
                   {item.href ? (
                     <Link
                       href={item.href}
-                      className={`block py-2 text-base font-subheading tracking-wide uppercase ${
+                      className={`flex items-center gap-2 py-2 text-base font-subheading tracking-wide uppercase ${
                         isLinkActive(item.href) ? 'text-brand-yellow font-bold' : 'text-white'
                       }`}
                     >
-                      {item.label}
+                      {item.icon && <item.icon className="h-5 w-5 text-brand-yellow shrink-0" />}
+                      <span>{item.label}</span>
                     </Link>
                   ) : (
                     <div>
@@ -255,12 +272,15 @@ export default function Navbar() {
                           isDropdownActive(item.dropdownItems) ? 'text-brand-yellow' : 'text-white'
                         }`}
                       >
-                        <span>{item.label}</span>
+                        <span className="flex items-center gap-2">
+                          {item.icon && <item.icon className="h-5 w-5 text-blue-300 shrink-0" />}
+                          <span>{item.label}</span>
+                        </span>
                         <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${
                           activeDropdown === item.label ? 'rotate-180 text-brand-yellow' : 'text-blue-300'
                         }`} />
                       </button>
-
+ 
                       {/* Dropdown items */}
                       <AnimatePresence>
                         {item.dropdownItems && activeDropdown === item.label && (
@@ -268,21 +288,25 @@ export default function Navbar() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="pl-4 mt-1 grid gap-2 overflow-hidden"
+                            className="pl-6 mt-1 grid gap-2 overflow-hidden"
                           >
-                            {item.dropdownItems.map((subItem) => (
-                              <Link
-                                key={subItem.href}
-                                href={subItem.href}
-                                className={`block py-1.5 text-xs font-sans tracking-wide ${
-                                  pathname === subItem.href 
-                                    ? 'text-brand-yellow font-bold' 
-                                    : 'text-blue-200 hover:text-white'
-                                }`}
-                              >
-                                {subItem.label}
-                              </Link>
-                            ))}
+                            {item.dropdownItems.map((subItem) => {
+                              const SubIcon = subItem.icon || ChevronRight;
+                              return (
+                                <Link
+                                  key={subItem.href}
+                                  href={subItem.href}
+                                  className={`flex items-center gap-2 py-1.5 text-xs font-sans tracking-wide ${
+                                    pathname === subItem.href 
+                                      ? 'text-brand-yellow font-bold' 
+                                      : 'text-blue-200 hover:text-white'
+                                  }`}
+                                >
+                                  <SubIcon className="h-4 w-4 text-brand-yellow/75 shrink-0" />
+                                  <span>{subItem.label}</span>
+                                </Link>
+                              );
+                            })}
                           </motion.div>
                         )}
                       </AnimatePresence>
