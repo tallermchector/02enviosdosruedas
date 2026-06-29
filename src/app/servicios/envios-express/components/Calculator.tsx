@@ -33,6 +33,10 @@ const serviceModes = [
   { id: 'express', name: 'Envío Express 2H', desc: 'Asignación exclusiva, entrega menor a 120 minutos', priceMod: 1800, badge: 'Prioritario' },
 ];
 
+function formatNumber(num: number): string {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 interface CalculatorProps {
   onQuoteChange?: (quote: any) => void;
 }
@@ -92,8 +96,8 @@ export default function Calculator({ onQuoteChange }: CalculatorProps) {
 🏁 *Destino:* ${destinationName}
 📦 *Tipo de Paquete:* ${pTypeName}
 ⚡ *Modalidad:* ${sModeName}
-🔒 *Seguro:* ${insuranceEnabled ? `Habilitado (Declarado por $${declaredValue})` : 'No'}
-💵 *Total Estimado:* $${totalCost.toLocaleString('es-AR')} ARS
+🔒 *Seguro:* ${insuranceEnabled ? `Habilitado (Declarado por $${formatNumber(declaredValue)})` : 'No'}
+💵 *Total Estimado:* $${formatNumber(totalCost)} ARS
 
 ¿Tienen cadetes disponibles para realizar este despacho en este momento?`;
     
@@ -243,7 +247,7 @@ export default function Calculator({ onQuoteChange }: CalculatorProps) {
                 <div className="pt-2 border-t border-gray-100 space-y-2">
                   <div className="flex justify-between items-center text-xs">
                     <span className="text-gray-600">Valor de Mercadería Declarado ($ ARS):</span>
-                    <span className="font-bold text-brand-blue font-mono">${declaredValue.toLocaleString()}</span>
+                    <span className="font-bold text-brand-blue font-mono">${formatNumber(declaredValue)}</span>
                   </div>
                   <input 
                     type="range" 
@@ -278,27 +282,27 @@ export default function Calculator({ onQuoteChange }: CalculatorProps) {
               <div className="p-6 space-y-4">
                 <div className="flex justify-between text-xs pb-1.5 border-b border-blue-800/60">
                   <span className="text-blue-200">Tarifa Base (Logística):</span>
-                  <span className="font-medium text-white font-mono">${baseRate.toLocaleString()} ARS</span>
+                  <span className="font-medium text-white font-mono">${formatNumber(baseRate)} ARS</span>
                 </div>
                 <div className="flex justify-between text-xs pb-1.5 border-b border-blue-800/60">
                   <span className="text-blue-200">Distribución de Rango Geográfico:</span>
-                  <span className="font-medium text-white font-mono">+${distanceFactor.toLocaleString()} ARS</span>
+                  <span className="font-medium text-white font-mono">+${formatNumber(distanceFactor)} ARS</span>
                 </div>
                 <div className="flex justify-between text-xs pb-1.5 border-b border-blue-800/60">
                   <span className="text-blue-200">Adicional Categoría Medición Paquete:</span>
-                  <span className="font-medium text-white font-mono">+${typeMod.toLocaleString()} ARS</span>
+                  <span className="font-medium text-white font-mono">+${formatNumber(typeMod)} ARS</span>
                 </div>
                 <div className="flex justify-between text-xs pb-1.5 border-b border-blue-800/60">
                   <span className="text-blue-200">Variación por Velocidad / SLA:</span>
                   <span className={`${serviceMod < 0 ? 'text-green-300' : 'text-white'} font-medium font-mono`}>
-                    {serviceMod >= 0 ? '+' : '-'}${Math.abs(serviceMod).toLocaleString()} ARS
+                    {serviceMod >= 0 ? '+' : '-'}${formatNumber(Math.abs(serviceMod))} ARS
                   </span>
                 </div>
                 
                 {insuranceEnabled && (
                   <div className="flex justify-between text-xs pb-1.5 border-b border-blue-800/60 text-brand-yellow font-bold">
                     <span>Prima Adicional Seguros (1.5%):</span>
-                    <span className="font-mono">+${insurancePremium.toLocaleString()} ARS</span>
+                    <span className="font-mono">+${formatNumber(insurancePremium)} ARS</span>
                   </div>
                 )}
 
@@ -308,7 +312,7 @@ export default function Calculator({ onQuoteChange }: CalculatorProps) {
                     MONTO TOTAL ESTIMADO (NETO)
                   </span>
                   <div className="text-4xl sm:text-5xl font-black text-center text-brand-yellow font-mono">
-                    ${totalCost.toLocaleString('es-AR')}{' '}
+                    ${formatNumber(totalCost)}{' '}
                     <span className="text-xs uppercase text-blue-200 font-sans tracking-wide">ars</span>
                   </div>
                 </div>

@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import Header from '@/components/Header';
-import Hero from '@/components/Hero';
-import Services from '@/components/Services';
-import Calculator from '@/components/Calculator';
-import DispatchConsole from '@/components/DispatchConsole';
-import AIChatbot from '@/components/AIChatbot';
-import WarehouseMap from '@/components/WarehouseMap';
-import ContactPyME from '@/components/ContactPyME';
-import FaqSection from '@/components/FaqSection';
+import Header from './Header';
+import Hero from './Hero';
+import Services from './Services';
+import Calculator from './Calculator';
+import DispatchConsole from './DispatchConsole';
+import AIChatbot from './AIChatbot';
+import WarehouseMap from './WarehouseMap';
+import ContactPyME from './ContactPyME';
+import FaqSection from './FaqSection';
 import { Mail, Phone, MapPin, Bike, Heart } from 'lucide-react';
 
 export default function Home() {

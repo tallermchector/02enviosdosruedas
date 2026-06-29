@@ -42,9 +42,30 @@ export default function AIChatbot({ activeQuote }: AIChatbotProps) {
       id: 'init-msg',
       sender: 'assistant',
       text: '¡Hola! Soy DosRuedas Bot 🚴, tu asesor de logística inteligente en Mar del Plata. ¿Querés cotizar un envío, entender las zonas de entrega, conocer nuestro depósito en Friuli 1972 o abrir una cuenta corriente PyME? ¡Escribime!',
-      timestamp: getFormattedTime(),
+      timestamp: '', // Empty initially to avoid server-client hydration mismatch
     }
   ]);
+  const [mounted, setMounted] = useState(false);
+
+  // Set mounted on client and update initial message timestamp if desired
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+      setMessages(prev => {
+        if (prev.length > 0 && prev[0].id === 'init-msg' && !prev[0].timestamp) {
+          return [
+            {
+              ...prev[0],
+              timestamp: getFormattedTime()
+            },
+            ...prev.slice(1)
+          ];
+        }
+        return prev;
+      });
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
   const [inputMessage, setInputMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false); // Floating drawer state
@@ -234,11 +255,13 @@ export default function AIChatbot({ activeQuote }: AIChatbotProps) {
                         : 'bg-blue-900/40 border border-blue-900/50 text-blue-50 rounded-tl-none font-medium leading-relaxed'
                     }`}>
                       <p className="whitespace-pre-line font-sans">{msg.text}</p>
-                      <span className={`block text-[8px] text-right font-mono ${
-                        msg.sender === 'user' ? 'text-brand-blue/60' : 'text-blue-300/50'
-                      }`}>
-                        {msg.timestamp}
-                      </span>
+                      {msg.timestamp && (
+                        <span className={`block text-[8px] text-right font-mono ${
+                          msg.sender === 'user' ? 'text-brand-blue/60' : 'text-blue-300/50'
+                        }`}>
+                          {msg.timestamp}
+                        </span>
+                      )}
                     </div>
                   </div>
                 ))}
