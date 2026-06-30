@@ -42,7 +42,7 @@ export default function ServicesOverview() {
   ];
 
   return (
-    <section id="services-overview" className="py-24 bg-blue-100 border-y border-blue-200/60 relative overflow-hidden">
+    <section id="services-overview" className="py-24 bg-brand-blue border-y border-blue-900/40 relative overflow-hidden">
       <motion.div 
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         initial="hidden"
@@ -56,10 +56,10 @@ export default function ServicesOverview() {
         
         {/* Header Block */}
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-          <span className="px-3 py-1 bg-brand-blue/10 text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block">
+          <span className="px-3 py-1 bg-brand-yellow text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block shadow-sm">
             Nuestros Servicios
           </span>
-          <h2 className="text-slate-900 text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight">
+          <h2 className="text-white text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight">
             Soluciones Logísticas
           </h2>
           <div className="h-1 w-16 bg-brand-yellow mx-auto rounded-full" />

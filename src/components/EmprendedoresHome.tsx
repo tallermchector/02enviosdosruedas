@@ -31,7 +31,7 @@ export default function EmprendedoresHome() {
   ];
 
   return (
-    <section id="emprendedores-home" className="py-24 bg-blue-100 border-y border-blue-200/60 relative overflow-hidden">
+    <section id="emprendedores-home" className="py-24 bg-brand-blue border-y border-blue-900/40 relative overflow-hidden">
       <motion.div 
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         initial="hidden"
@@ -45,10 +45,10 @@ export default function EmprendedoresHome() {
         
         {/* Section Title */}
         <div className="max-w-3xl mb-16 space-y-4">
-          <span className="px-3 py-1 bg-brand-blue/10 text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block">
+          <span className="px-3 py-1 bg-brand-yellow text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block shadow-sm">
             Socio Estratégico Local
           </span>
-          <h2 className="text-slate-900 text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight">
+          <h2 className="text-white text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight">
             Potencia tu Logística con DosRuedas
           </h2>
           <div className="h-1 w-20 bg-brand-yellow rounded-full" />
