@@ -7,12 +7,21 @@ import { MessageSquare, FileText, ArrowRight } from 'lucide-react';
 
 export default function CtaSection() {
   return (
-    <section id="cta-section" className="py-24 relative overflow-hidden bg-white text-slate-900 border-y border-slate-100">
+    <section id="cta-section" className="py-24 bg-white text-slate-900 relative z-10 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] overflow-hidden">
       {/* Background Graphic Accents */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(255,236,1,0.12),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(6,54,165,0.04),transparent_40%)]" />
       
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-8">
+      <motion.div 
+        className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-8"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={{
+          hidden: { opacity: 0, y: 40 },
+          visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+        }}
+      >
         
         {/* Animated Badge */}
         <div className="inline-flex">
@@ -59,7 +68,7 @@ export default function CtaSection() {
           Atención comercial inmediata para PyMEs y Emprendedores en Mar del Plata.
         </p>
 
-      </div>
+      </motion.div>
     </section>
   );
 }

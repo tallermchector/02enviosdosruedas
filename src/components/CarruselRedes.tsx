@@ -12,8 +12,9 @@ export default function CarruselRedes() {
       desc: 'Novedades diarias',
       url: '/nosotros/nuestras-redes',
       icon: Instagram,
-      color: 'bg-[#E1306C]/10 text-white hover:bg-[#E1306C]/20 border-[#E1306C]/30',
+      color: 'bg-white text-slate-800 hover:border-[#E1306C]/50 border-slate-100 shadow-sm',
       iconColor: 'text-[#E1306C]',
+      iconBg: 'bg-[#E1306C]/10',
     },
     {
       name: 'Facebook',
@@ -21,8 +22,9 @@ export default function CarruselRedes() {
       desc: 'Comunidad activa',
       url: '/nosotros/nuestras-redes',
       icon: Facebook,
-      color: 'bg-[#1877F2]/10 text-white hover:bg-[#1877F2]/20 border-[#1877F2]/30',
+      color: 'bg-white text-slate-800 hover:border-[#1877F2]/50 border-slate-100 shadow-sm',
       iconColor: 'text-[#1877F2]',
+      iconBg: 'bg-[#1877F2]/10',
     },
     {
       name: 'WhatsApp',
@@ -30,25 +32,35 @@ export default function CarruselRedes() {
       desc: 'Atención inmediata',
       url: 'https://wa.me/542236602699',
       icon: MessageSquare,
-      color: 'bg-[#25D366]/10 text-white hover:bg-[#25D366]/20 border-[#25D366]/30',
+      color: 'bg-white text-slate-800 hover:border-[#25D366]/50 border-slate-100 shadow-sm',
       iconColor: 'text-[#25D366]',
+      iconBg: 'bg-[#25D366]/10',
     },
   ];
 
   return (
-    <section id="carrusel-redes" className="py-24 gradient-blue relative overflow-hidden text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="carrusel-redes" className="py-24 bg-blue-100 border-y border-blue-200/60 relative overflow-hidden">
+      <motion.div 
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={{
+          hidden: { opacity: 0, y: 40 },
+          visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+        }}
+      >
         
         {/* Header Segment */}
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-          <span className="px-3 py-1 bg-white/10 text-brand-yellow rounded-full text-xs font-bold uppercase tracking-widest inline-block border border-white/10">
+          <span className="px-3 py-1 bg-brand-blue/10 text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block">
             Nuestra Comunidad
           </span>
-          <h2 className="text-white text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight">
+          <h2 className="text-slate-900 text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight">
             SIGUE NUESTRO MOVIMIENTO
           </h2>
-          <p className="text-blue-100 text-sm sm:text-base leading-relaxed font-sans">
-            Únete a nuestra comunidad digital y mantente al día con las últimas noticias de logística en Mar del Plata.
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-sans">
+            Únete a nuestra community digital y mantente al día con las últimas noticias de logística en Mar del Plata.
           </p>
           <div className="h-1 w-12 bg-brand-yellow mx-auto rounded-full" />
         </div>
@@ -72,29 +84,29 @@ export default function CarruselRedes() {
               >
                 <div className="space-y-6">
                   <div className="flex justify-between items-center">
-                    <div className={`p-4 rounded-2xl bg-white/10 ${net.iconColor}`}>
+                    <div className={`p-4 rounded-2xl ${net.iconBg} ${net.iconColor}`}>
                       <Icon className="h-6 w-6" />
                     </div>
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-blue-200 group-hover:text-brand-yellow transition-colors">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 group-hover:text-brand-blue transition-colors">
                       {net.desc}
                     </span>
                   </div>
                   
                   <div>
-                    <h3 className="text-2xl font-display uppercase tracking-tight text-white group-hover:text-brand-yellow transition-colors">
+                    <h3 className="text-2xl font-display uppercase tracking-tight text-slate-900 group-hover:text-brand-blue transition-colors">
                       {net.name}
                     </h3>
-                    <p className="text-blue-200 font-mono text-xs mt-1">
+                    <p className="text-slate-500 font-mono text-xs mt-1">
                       {net.handle}
                     </p>
                   </div>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between text-white">
-                  <span className="text-xs font-sans font-semibold group-hover:text-brand-yellow transition-colors">
+                <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between text-slate-800">
+                  <span className="text-xs font-sans font-semibold group-hover:text-brand-blue transition-colors">
                     {isExternal ? 'Contactar ahora' : 'Ver perfil'}
                   </span>
-                  <div className="h-9 w-9 rounded-xl bg-white/10 text-white group-hover:bg-brand-yellow group-hover:text-brand-blue flex items-center justify-center transition-all">
+                  <div className="h-9 w-9 rounded-xl bg-slate-100 text-slate-700 group-hover:bg-brand-blue group-hover:text-white flex items-center justify-center transition-all">
                     <ArrowUpRight className="h-4 w-4" />
                   </div>
                 </div>
@@ -103,7 +115,7 @@ export default function CarruselRedes() {
           })}
         </div>
 
-      </div>
+      </motion.div>
     </section>
   );
 }

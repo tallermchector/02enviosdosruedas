@@ -52,12 +52,21 @@ export default function SliderServicios() {
   const ActiveIcon = slides[current].icon;
 
   return (
-    <section id="slider-servicios" className="py-24 bg-white text-slate-900 relative overflow-hidden">
+    <section id="slider-servicios" className="py-24 bg-white text-slate-900 relative z-10 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] overflow-hidden">
       {/* Background patterns */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(6,54,165,0.05),transparent_40%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(255,236,1,0.1),transparent_50%)]" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <motion.div 
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={{
+          hidden: { opacity: 0, y: 40 },
+          visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+        }}
+      >
         
         {/* Header Block */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-16">
@@ -137,7 +146,7 @@ export default function SliderServicios() {
           ))}
         </div>
 
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -12,8 +12,17 @@ export default function VisionSection() {
   ];
 
   return (
-    <section id="vision-section" className="py-24 bg-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="vision-section" className="py-24 bg-white relative z-10 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] overflow-hidden">
+      <motion.div 
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={{
+          hidden: { opacity: 0, y: 40 },
+          visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+        }}
+      >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           {/* Information Block */}
@@ -97,7 +106,7 @@ export default function VisionSection() {
           </div>
 
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
