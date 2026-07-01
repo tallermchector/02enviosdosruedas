@@ -7,3 +7,5 @@ coverage/
 !.env.example
 docs/prompts/*
 docs/datos/*
+.agents/*
+.hermes/*

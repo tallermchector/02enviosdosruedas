@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -88,8 +89,15 @@ export default function OptimizedHeader() {
             id="nav-logo-opt" 
             className="flex items-center gap-2 group focus:outline-none"
           >
-            <div className="bg-brand-yellow text-brand-blue p-2 rounded-xl group-hover:scale-105 transition-transform duration-200 shadow-sm">
-              <Bike className="h-6 w-6" />
+            <div className="relative w-10 h-10 group-hover:scale-105 transition-transform duration-200 shrink-0">
+              <Image
+                src="https://i.postimg.cc/RF6MBw2d/logo-envios.webp"
+                alt="Logo Envíos Dos Ruedas simplificado"
+                fill
+                sizes="40px"
+                className="object-contain"
+                priority
+              />
             </div>
             <div>
               <span className="font-display text-2xl tracking-wider text-white flex items-center gap-1">

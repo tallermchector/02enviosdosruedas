@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Bike, Phone, MapPin, Mail, Clock, Instagram, Facebook, Award, ArrowUpRight,
   Zap, TrendingDown, ShoppingBag
@@ -16,20 +17,29 @@ export default function OptimizedFooter() {
       {/* Decorative top yellow accent bar */}
       <div className="h-1 bg-brand-yellow w-full" />
 
+      {/* Subtle top-centered radial gradient highlight */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,236,1,0.06),transparent_50%)] pointer-events-none" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 items-start">
           
           {/* COLUMN 1: Brand details & Socials (4 Cols) */}
           <div className="lg:col-span-4 space-y-6">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="bg-brand-yellow text-brand-blue p-2.5 rounded-xl group-hover:scale-105 transition-transform duration-200 shadow-sm">
-                <Bike className="h-6 w-6" />
+              <div className="relative w-10 h-10 group-hover:scale-105 transition-transform duration-200 shrink-0">
+                <Image
+                  src="https://i.postimg.cc/RF6MBw2d/logo-envios.webp"
+                  alt="Logo Envíos Dos Ruedas simplificado"
+                  fill
+                  sizes="40px"
+                  className="object-contain"
+                />
               </div>
               <div>
-                <span className="font-display text-2xl tracking-wider text-white">
-                  DOS<span className="text-brand-yellow">RUEDAS</span>
+                <span className="font-display text-2xl tracking-wider text-white flex items-center gap-1">
+                  Envíos <span className="text-brand-yellow">Dosruedas</span>
                 </span>
-                <span className="block text-[10px] font-sans tracking-widest text-blue-200 uppercase leading-none">
+                <span className="block text-[9px] font-sans tracking-widest text-blue-200 uppercase leading-none">
                   tu solución confiable
                 </span>
               </div>
