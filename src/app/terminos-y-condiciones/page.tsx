@@ -1,10 +1,21 @@
 import React from 'react';
+import { Metadata } from 'next';
+import TermsContent from './TermsContent';
+import CarruselRedes from '@/src/components/layout/CarruselRedes';
 
-export default function Page() {
+export const metadata: Metadata = {
+  title: 'Términos y Condiciones | Envíos DosRuedas Mar del Plata',
+  description: 'Leé detenidamente las pautas operativas, obligaciones del usuario, tarifas, formas de pago y limitaciones de responsabilidad de Envíos DosRuedas.',
+};
+
+export default function TerminosCondicionesPage() {
   return (
-    <div className="p-8 text-center max-w-md mx-auto mt-20">
-      <h1 className="text-3xl font-display uppercase text-brand-blue">Términos y Condiciones</h1>
-      <p className="text-gray-500 mt-2 font-sans">Próximamente...</p>
-    </div>
+    <main className="min-h-screen bg-slate-50">
+      {/* Interactive terms and conditions reader */}
+      <TermsContent />
+
+      {/* Unified social networking carousel loop */}
+      <CarruselRedes />
+    </main>
   );
 }
