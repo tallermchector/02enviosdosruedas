@@ -1,10 +1,37 @@
 import React from 'react';
+import { Metadata } from 'next';
+import LowCostHero from '@/src/components/servicios/lowcost/LowCostHero';
+import LowCostFeatures from '@/src/components/servicios/lowcost/LowCostFeatures';
+import LowCostPricing from '@/src/components/servicios/lowcost/LowCostPricing';
+import LowCostBenefits from '@/src/components/servicios/lowcost/LowCostBenefits';
+import LowCostHowItWorks from '@/src/components/servicios/lowcost/LowCostHowItWorks';
+import CarruselRedes from '@/src/components/layout/CarruselRedes';
 
-export default function Page() {
+export const metadata: Metadata = {
+  title: 'Envíos LowCost Rentables | Envíos DosRuedas Mar del Plata',
+  description: 'Optimizá tus ruteos urbanos diarios en Mar del Plata. Envíos LowCost económicos, con entrega garantizada en el día y tarifas altamente competitivas para PyMEs.',
+};
+
+export default function EnviosLowCostPage() {
   return (
-    <div className="p-8 text-center max-w-md mx-auto mt-20">
-      <h1 className="text-3xl font-display uppercase text-brand-blue">Envíos LowCost</h1>
-      <p className="text-gray-500 mt-2 font-sans">Próximamente...</p>
-    </div>
+    <main className="min-h-screen bg-slate-50">
+      {/* Hero Header Block */}
+      <LowCostHero />
+
+      {/* Ruteo masivo features */}
+      <LowCostFeatures />
+
+      {/* 2026 Zone Pricing rates table */}
+      <LowCostPricing />
+
+      {/* Structured logistics benefits grid */}
+      <LowCostBenefits />
+
+      {/* Step by step operation diagram */}
+      <LowCostHowItWorks />
+
+      {/* Unified social network community channel loop */}
+      <CarruselRedes />
+    </main>
   );
 }
