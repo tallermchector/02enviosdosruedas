@@ -47,8 +47,8 @@ export default function HeroAnimado() {
       {/* Background illustration overlay */}
       <div className="absolute inset-0 opacity-15 mix-blend-overlay">
         <Image
-          src="https://picsum.photos/seed/delivery/1920/1080"
-          alt="Logística Urbana Mar del Plata"
+          src="https://i.postimg.cc/bvdPxQYr/hero-background.jpg"
+          alt="Fondo de la sección principal"
           fill
           priority
           referrerPolicy="no-referrer"
@@ -149,8 +149,8 @@ export default function HeroAnimado() {
             >
               <div className="relative rounded-2xl overflow-hidden shadow-xl border border-white/15 bg-white p-3">
                 <Image
-                  src="https://picsum.photos/seed/map/400/300"
-                  alt="Ruteo Inteligente"
+                  src="https://i.postimg.cc/nL5J0CMm/card-mapa.webp"
+                  alt="Mapa de Cobertura de Mar del Plata"
                   width={400}
                   height={300}
                   referrerPolicy="no-referrer"

@@ -43,8 +43,8 @@ export default function ExpressHero() {
       {/* Background illustration overlay */}
       <div className="absolute inset-0 opacity-15 mix-blend-overlay">
         <Image
-          src="https://picsum.photos/seed/express-delivery/1920/1080"
-          alt="Logística de Envíos Express Mar del Plata"
+          src="https://i.postimg.cc/nLMx4vVc/delivery-background.jpg"
+          alt="Fondo de reparto urbano"
           fill
           priority
           referrerPolicy="no-referrer"
@@ -150,8 +150,8 @@ export default function ExpressHero() {
               <div className="relative rounded-3xl overflow-hidden shadow-xl border border-white/10 bg-white p-3.5">
                 <div className="relative h-44 w-full rounded-2xl overflow-hidden mb-3.5 bg-slate-100">
                   <Image
-                    src="https://picsum.photos/seed/card-map/400/300"
-                    alt="Mapa de ruteo express"
+                    src="https://i.postimg.cc/nL5J0CMm/card-mapa.webp"
+                    alt="Mapa de Cobertura de Mar del Plata"
                     fill
                     referrerPolicy="no-referrer"
                     className="object-cover"

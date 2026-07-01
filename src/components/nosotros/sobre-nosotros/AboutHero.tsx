@@ -88,8 +88,8 @@ export default function AboutHero() {
             {/* Main Picture */}
             <div className="relative h-[380px] sm:h-[450px] rounded-3xl overflow-hidden shadow-lg border border-slate-200/60 bg-white">
               <Image
-                src="https://picsum.photos/seed/about-delivery/800/1000"
-                alt="Envíos DosRuedas Mar del Plata"
+                src="https://i.postimg.cc/hGwBpfhx/card-moto01.webp"
+                alt="Repartidor en moto de Envíos Dos Ruedas"
                 fill
                 referrerPolicy="no-referrer"
                 className="object-cover"

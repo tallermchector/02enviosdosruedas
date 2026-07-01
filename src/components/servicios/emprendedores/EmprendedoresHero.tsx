@@ -43,8 +43,8 @@ export default function EmprendedoresHero() {
       {/* Background illustration overlay */}
       <div className="absolute inset-0 opacity-10 mix-blend-overlay">
         <Image
-          src="https://picsum.photos/seed/3pl-warehouse/1920/1080"
-          alt="Servicio Logístico 3PL Mar del Plata"
+          src="https://i.postimg.cc/nLMx4vVc/delivery-background.jpg"
+          alt="Fondo de reparto urbano"
           fill
           priority
           referrerPolicy="no-referrer"

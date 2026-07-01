@@ -12,7 +12,8 @@ export default function RecentPosts() {
       platformIcon: Facebook,
       date: '21 Jun',
       avatar: 'https://picsum.photos/seed/avatar1/100/100',
-      image: 'https://picsum.photos/seed/redes-fac2/600/600', // Safe remote fallback
+      image: 'https://i.postimg.cc/TYqTfdNk/fac2.jpg', // facebook_post_2 from docs/imagenes.json
+      alt: 'Publicación de Facebook - Solución para tus envíos',
       text: '📦 MENSAJERÍA ENVÍOS DOSRUEDAS 🚀 ~ ¡Somos la solución para tus envíos en Mar del Plata! ~ Confianza y responsabilidad son nuestros pilares.',
       likes: 12,
       comments: 10,
@@ -23,7 +24,8 @@ export default function RecentPosts() {
       platformIcon: Instagram,
       date: '21 Jun',
       avatar: 'https://picsum.photos/seed/avatar2/100/100',
-      image: 'https://picsum.photos/seed/redes-ig4/600/600', // Safe remote fallback
+      image: 'https://i.postimg.cc/Hs4TdYvN/ig4.jpg', // instagram_post_4 from docs/imagenes.json
+      alt: 'Publicación de Instagram - Servicio confiable en Mar del Plata',
       text: '📦 MENSAJERÍA ENVÍOS DOSRUEDAS 🚀 ~ ¡Somos la solución para tus envíos en Mar del Plata! ~ Te ofrecemos un servicio confiable...',
       likes: 14,
       comments: 2,
@@ -34,7 +36,8 @@ export default function RecentPosts() {
       platformIcon: Facebook,
       date: '21 Jun',
       avatar: 'https://picsum.photos/seed/avatar1/100/100',
-      image: 'https://picsum.photos/seed/redes-fac1/600/600', // Safe remote fallback
+      image: 'https://i.postimg.cc/9FtcCmgg/fac1.jpg', // facebook_post_1 from docs/imagenes.json
+      alt: 'Publicación de Facebook - Confianza y responsabilidad',
       text: 'Para vos, que vendés en Mar del Plata y hacés envíos... ¿Soles usar las apps para tus envíos? Pero no te generan confianza?',
       likes: 19,
       comments: 7,
@@ -45,7 +48,8 @@ export default function RecentPosts() {
       platformIcon: Instagram,
       date: '21 Jun',
       avatar: 'https://picsum.photos/seed/avatar2/100/100',
-      image: 'https://picsum.photos/seed/redes-ig1/600/600', // Safe remote fallback
+      image: 'https://i.postimg.cc/TYXTzLQv/ig1.webp', // instagram_post_1 from docs/imagenes.json
+      alt: 'Publicación de Instagram - Pilares fundamentales',
       text: 'En Envíos DosRuedas, nuestro servicio se construye sobre tres pilares fundamentales: Responsabilidad, Eficiencia y Confianza...',
       likes: 24,
       comments: 4,
@@ -56,7 +60,8 @@ export default function RecentPosts() {
       platformIcon: Instagram,
       date: '21 Jun',
       avatar: 'https://picsum.photos/seed/avatar2/100/100',
-      image: 'https://picsum.photos/seed/redes-ig3/600/600', // Safe remote fallback
+      image: 'https://i.postimg.cc/15cysm7C/ig3.webp', // instagram_post_3 from docs/imagenes.json
+      alt: 'Publicación de Instagram - Tu confianza es nuestro motor',
       text: 'En cada envío, nos das tu confianza. Con cada entrega, te demostramos por qué vale la pena. 🤝 En Envíos Dos Ruedas, la responsabilidad es nuestro motor...',
       likes: 31,
       comments: 6,
@@ -132,7 +137,7 @@ export default function RecentPosts() {
                   <div className="relative h-64 w-full overflow-hidden bg-slate-100">
                     <Image
                       src={post.image}
-                      alt="Envíos DosRuedas Social Post"
+                      alt={post.alt || "Envíos DosRuedas Social Post"}
                       fill
                       referrerPolicy="no-referrer"
                       className="object-cover group-hover:scale-103 transition-transform duration-500"

@@ -3,7 +3,7 @@
 import React from "react";
 import { Book, Sunset, Trees, Zap, Bike, TrendingDown, Clock, ShoppingBag, Info, HelpCircle, Share2, Mail, Calculator } from "lucide-react";
 
-import { Navbar1 } from "@/components/ui/shadcnblocks-com-navbar1"
+import { Navbar1 } from "@/src/components/ui/shadcnblocks-com-navbar1"
 
 const demoData = {
   logo: {

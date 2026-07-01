@@ -8,8 +8,8 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
+} from "@/src/components/ui/accordion";
+import { Button } from "@/src/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -17,15 +17,15 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+} from "@/src/components/ui/navigation-menu";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
+} from "@/src/components/ui/sheet";
+import { cn } from "@/src/lib/utils";
 
 interface MenuItem {
   title: string;

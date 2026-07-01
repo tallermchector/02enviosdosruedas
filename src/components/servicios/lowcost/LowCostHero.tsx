@@ -51,8 +51,8 @@ export default function LowCostHero() {
       {/* Background image overlay */}
       <div className="absolute inset-0 opacity-10 mix-blend-overlay">
         <Image
-          src="https://picsum.photos/seed/lowcost-delivery/1920/1080"
-          alt="Logística de Envíos LowCost"
+          src="https://i.postimg.cc/QMVDQpNM/abstracto-background.jpg"
+          alt="Fondo abstracto azul y amarillo"
           fill
           priority
           referrerPolicy="no-referrer"
