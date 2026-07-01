@@ -1,0 +1,188 @@
+'use client';
+
+import React from 'react';
+import Image from 'next/image';
+import { motion } from 'motion/react';
+import { Heart, MessageCircle, Share2, Facebook, Instagram, ExternalLink } from 'lucide-react';
+
+export default function RecentPosts() {
+  const posts = [
+    {
+      platform: 'Facebook',
+      platformIcon: Facebook,
+      date: '21 Jun',
+      avatar: 'https://picsum.photos/seed/avatar1/100/100',
+      image: 'https://picsum.photos/seed/redes-fac2/600/600', // Safe remote fallback
+      text: '📦 MENSAJERÍA ENVÍOS DOSRUEDAS 🚀 ~ ¡Somos la solución para tus envíos en Mar del Plata! ~ Confianza y responsabilidad son nuestros pilares.',
+      likes: 12,
+      comments: 10,
+      url: 'https://www.facebook.com/enviosdosruedas/posts/pfbid03WPv5ZE93ZNwL5PMRwuTpJxGaGSBzLigJqDSyzATNcSkRT3xBMZz7GKbhPv1mC53l',
+    },
+    {
+      platform: 'Instagram',
+      platformIcon: Instagram,
+      date: '21 Jun',
+      avatar: 'https://picsum.photos/seed/avatar2/100/100',
+      image: 'https://picsum.photos/seed/redes-ig4/600/600', // Safe remote fallback
+      text: '📦 MENSAJERÍA ENVÍOS DOSRUEDAS 🚀 ~ ¡Somos la solución para tus envíos en Mar del Plata! ~ Te ofrecemos un servicio confiable...',
+      likes: 14,
+      comments: 2,
+      url: 'https://www.instagram.com/enviosdosruedas/p/DEaAGAmRMKj/',
+    },
+    {
+      platform: 'Facebook',
+      platformIcon: Facebook,
+      date: '21 Jun',
+      avatar: 'https://picsum.photos/seed/avatar1/100/100',
+      image: 'https://picsum.photos/seed/redes-fac1/600/600', // Safe remote fallback
+      text: 'Para vos, que vendés en Mar del Plata y hacés envíos... ¿Soles usar las apps para tus envíos? Pero no te generan confianza?',
+      likes: 19,
+      comments: 7,
+      url: 'https://www.facebook.com/enviosdosruedas/posts/pfbid0a1i4tygsZQjwp9bsvS9xSHApJqMe5JkeoJbqx12Qvas18nSojtGhj6U9cFn3m5hDl',
+    },
+    {
+      platform: 'Instagram',
+      platformIcon: Instagram,
+      date: '21 Jun',
+      avatar: 'https://picsum.photos/seed/avatar2/100/100',
+      image: 'https://picsum.photos/seed/redes-ig1/600/600', // Safe remote fallback
+      text: 'En Envíos DosRuedas, nuestro servicio se construye sobre tres pilares fundamentales: Responsabilidad, Eficiencia y Confianza...',
+      likes: 24,
+      comments: 4,
+      url: 'https://www.instagram.com/enviosdosruedas/p/DJhlS5xOrTb/',
+    },
+    {
+      platform: 'Instagram',
+      platformIcon: Instagram,
+      date: '21 Jun',
+      avatar: 'https://picsum.photos/seed/avatar2/100/100',
+      image: 'https://picsum.photos/seed/redes-ig3/600/600', // Safe remote fallback
+      text: 'En cada envío, nos das tu confianza. Con cada entrega, te demostramos por qué vale la pena. 🤝 En Envíos Dos Ruedas, la responsabilidad es nuestro motor...',
+      likes: 31,
+      comments: 6,
+      url: 'https://www.instagram.com/enviosdosruedas/p/DK12WIDslKW/',
+    },
+  ];
+
+  return (
+    <section 
+      id="recent-posts" 
+      className="py-24 bg-slate-50 relative overflow-hidden border-t border-b border-slate-100"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Header Block */}
+        <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
+          <span className="px-3.5 py-1.5 bg-brand-yellow text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block shadow-accent-sm">
+            En Vivo
+          </span>
+          <h2 className="text-slate-900 text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight">
+            Publicaciones Recientes
+          </h2>
+          <p className="text-slate-500 font-sans text-sm sm:text-base max-w-lg mx-auto">
+            Lo que está pasando ahora mismo en nuestras redes sociales oficiales. Seguinos para no perderte nada.
+          </p>
+          <div className="h-1.5 w-12 bg-brand-yellow mx-auto rounded-full" />
+        </div>
+
+        {/* Masonry/Grid of 5 posts */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post, idx) => {
+            const SocialIcon = post.platformIcon;
+            return (
+              <motion.div
+                key={post.url}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-lg hover:border-brand-blue/10 transition-all duration-300 flex flex-col justify-between group"
+              >
+                <div>
+                  {/* Post Profile Header */}
+                  <div className="p-5 flex items-center justify-between border-b border-slate-50">
+                    <div className="flex items-center gap-3">
+                      <div className="relative h-9 w-9 rounded-full overflow-hidden border border-slate-100 shrink-0">
+                        <Image
+                          src={post.avatar}
+                          alt="Envíos DosRuedas Avatar"
+                          fill
+                          referrerPolicy="no-referrer"
+                          className="object-cover"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                          Envíos DosRuedas
+                        </h4>
+                        <span className="text-[10px] text-slate-400 font-mono">
+                          {post.date}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className={`p-1.5 rounded-lg ${
+                      post.platform === 'Facebook' ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600'
+                    }`}>
+                      <SocialIcon className="h-4 w-4" />
+                    </div>
+                  </div>
+
+                  {/* Post Simulated Image */}
+                  <div className="relative h-64 w-full overflow-hidden bg-slate-100">
+                    <Image
+                      src={post.image}
+                      alt="Envíos DosRuedas Social Post"
+                      fill
+                      referrerPolicy="no-referrer"
+                      className="object-cover group-hover:scale-103 transition-transform duration-500"
+                    />
+                  </div>
+
+                  {/* Post Text Description */}
+                  <div className="p-5">
+                    <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed line-clamp-3">
+                      {post.text}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Simulated Interactions Footer & Original Post Link */}
+                <div className="p-5 pt-0">
+                  <div className="pt-4 border-t border-slate-50 flex items-center justify-between">
+                    
+                    {/* Likes & Comments mockup */}
+                    <div className="flex items-center gap-4 text-xs text-slate-400 font-mono">
+                      <span className="flex items-center gap-1 group-hover/likes:text-red-500 transition-colors cursor-pointer">
+                        <Heart className="h-4 w-4 text-slate-400" />
+                        <span>{post.likes}</span>
+                      </span>
+                      <span className="flex items-center gap-1 cursor-pointer">
+                        <MessageCircle className="h-4 w-4" />
+                        <span>{post.comments}</span>
+                      </span>
+                    </div>
+
+                    {/* Button link */}
+                    <a
+                      href={post.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] font-bold uppercase tracking-widest text-brand-blue hover:text-brand-blue/80 inline-flex items-center gap-1"
+                    >
+                      <span>Ver original</span>
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+
+                  </div>
+                </div>
+
+              </motion.div>
+            );
+          })}
+        </div>
+
+      </div>
+    </section>
+  );
+}
