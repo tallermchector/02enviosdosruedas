@@ -1,18 +1,10 @@
 allowBuilds:
   '@google/genai': true
+  "@prisma/engines": true
   '@tailwindcss/oxide': true
+  esbuild: true
+  prisma: true
   protobufjs: true
   re2: true
   sharp: true
   unrs-resolver: true
-minimumReleaseAgeExclude:
-  - '@radix-ui/react-accordion@1.2.15'
-  - '@radix-ui/react-collapsible@1.1.15'
-  - '@radix-ui/react-collection@1.1.11'
-  - '@radix-ui/react-dialog@1.1.18'
-  - '@radix-ui/react-dismissable-layer@1.1.14'
-  - '@radix-ui/react-focus-scope@1.1.11'
-  - '@radix-ui/react-navigation-menu@1.2.17'
-  - '@radix-ui/react-portal@1.1.13'
-  - '@radix-ui/react-primitive@2.1.7'
-  - '@radix-ui/react-visually-hidden@1.2.7'

@@ -9,3 +9,5 @@ docs/prompts/*
 docs/datos/*
 .agents/*
 .hermes/*
+.claude/*
+.prisma/
