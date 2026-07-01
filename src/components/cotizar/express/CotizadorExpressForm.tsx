@@ -4,7 +4,16 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MapPin, Bike, Calculator, ArrowRight, CheckCircle2, Navigation, AlertTriangle, PhoneCall } from 'lucide-react';
 
-export default function CotizadorExpressForm() {
+interface PriceRangeProp {
+  id: number;
+  serviceType: string;
+  distanciaMinKm: number;
+  distanciaMaxKm: number;
+  precioRango: number;
+  descripcion: string;
+}
+
+export default function CotizadorExpressForm({ priceRanges = [] }: { priceRanges?: PriceRangeProp[] }) {
   const [origen, setOrigen] = useState('');
   const [destino, setDestino] = useState('');
   const [isCalculating, setIsCalculating] = useState(false);
@@ -28,14 +37,32 @@ export default function CotizadorExpressForm() {
       const distance = Math.round((Math.random() * 15 + 1.5) * 10) / 10; // 1.5 to 16.5 km
       const time = Math.round(distance * 2.5 + 5); // 2.5 min per km + 5 min base traffic
       
-      let price: number | 'consultar' = 3600; // Base Express includes first 3 km
-      if (distance > 3) {
-        price += Math.round((distance - 3) * 350);
-      }
-      
-      // If distance exceeds typical express motorcycle range in MDP
-      if (distance > 20) {
-        price = 'consultar';
+      let price: number | 'consultar' = 'consultar';
+
+      if (distance <= 20) {
+        const expressRanges = priceRanges.filter(r => r.serviceType === 'EXPRESS');
+        if (expressRanges.length > 0) {
+          const matchingRange = expressRanges.find(
+            r => distance >= r.distanciaMinKm && distance < r.distanciaMaxKm
+          );
+          
+          if (matchingRange) {
+            if (matchingRange.distanciaMaxKm === 9999) {
+              const baseRange = expressRanges.find(r => r.distanciaMinKm === 7 && r.distanciaMaxKm === 10);
+              const basePrice = baseRange ? baseRange.precioRango : 8200;
+              const extraKm = distance - 10;
+              price = basePrice + Math.round(extraKm * matchingRange.precioRango);
+            } else {
+              price = matchingRange.precioRango;
+            }
+          }
+        } else {
+          // Fallback if DB is empty
+          price = 3700;
+          if (distance > 3) {
+            price += Math.round((distance - 3) * 450);
+          }
+        }
       }
 
       setResult({
@@ -47,6 +74,7 @@ export default function CotizadorExpressForm() {
       setCalculated(true);
     }, 1800);
   };
+
 
   const getWhatsAppLink = () => {
     if (!result) return '#';

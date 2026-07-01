@@ -2,6 +2,8 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Zap } from 'lucide-react';
+import { prisma } from '@/src/lib/prisma';
+import { PriceRange } from '@/generated/prisma';
 import CotizadorExpressForm from '@/src/components/cotizar/express/CotizadorExpressForm';
 import CotizadorExpressDetails from '@/src/components/cotizar/express/CotizadorExpressDetails';
 import CotizadorExpressHelp from '@/src/components/cotizar/express/CotizadorExpressHelp';
@@ -12,7 +14,15 @@ export const metadata: Metadata = {
   description: 'Calculá el costo y tiempo estimado de tu envío prioritario al instante. Alta precisión de tarifa y entrega en el día en Mar del Plata.',
 };
 
-export default function Page() {
+export default async function Page() {
+  // Fetch price ranges from database (RSC)
+  let priceRanges: PriceRange[] = [];
+  try {
+    priceRanges = await prisma.priceRange.findMany();
+  } catch (error) {
+    console.error('Error fetching price ranges from Prisma Postgres:', error);
+  }
+
   return (
     <div id="cotizar-express-page" className="w-full bg-slate-50/50 min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
@@ -42,7 +52,7 @@ export default function Page() {
 
         {/* 1. Main Quote Form */}
         <main className="w-full">
-          <CotizadorExpressForm />
+          <CotizadorExpressForm priceRanges={priceRanges} />
         </main>
 
         {/* 2. Detail Guidelines */}
