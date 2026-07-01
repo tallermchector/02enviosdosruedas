@@ -19,11 +19,14 @@ L.Icon.Default.mergeOptions({
 export default function LeafletMap() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<L.Map | null>(null);
+  
+  // State for rendering metric updates in React
   const [pointA, setPointA] = useState<L.LatLng | null>(null);
   const [pointB, setPointB] = useState<L.LatLng | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
 
-  // Markers and line layers
+  // Refs to avoid React closure issues inside Leaflet event listener
+  const pointsRef = useRef<{ a: L.LatLng | null; b: L.LatLng | null }>({ a: null, b: null });
   const markerAInstance = useRef<L.Marker | null>(null);
   const markerBInstance = useRef<L.Marker | null>(null);
   const polylineInstance = useRef<L.Polyline | null>(null);
@@ -53,13 +56,16 @@ export default function LeafletMap() {
 
     mapInstance.current = map;
 
-    // Click handler
+    // Click handler utilizing ref to access fresh state
     map.on('click', (e: L.LeafletMouseEvent) => {
       const clickedLatLng = e.latlng;
+      const { a, b } = pointsRef.current;
 
-      if (!pointA) {
+      if (!a) {
         // Set Point A
+        pointsRef.current.a = clickedLatLng;
         setPointA(clickedLatLng);
+        
         const marker = L.marker(clickedLatLng, {
           icon: L.divIcon({
             html: `<div class="bg-emerald-500 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center border-2 border-white shadow-md">A</div>`,
@@ -69,9 +75,11 @@ export default function LeafletMap() {
           })
         }).addTo(map);
         markerAInstance.current = marker;
-      } else if (!pointB) {
+      } else if (!b) {
         // Set Point B
+        pointsRef.current.b = clickedLatLng;
         setPointB(clickedLatLng);
+        
         const marker = L.marker(clickedLatLng, {
           icon: L.divIcon({
             html: `<div class="bg-brand-yellow text-brand-blue font-bold rounded-full w-8 h-8 flex items-center justify-center border-2 border-white shadow-md">B</div>`,
@@ -83,11 +91,11 @@ export default function LeafletMap() {
         markerBInstance.current = marker;
 
         // Calculate distance
-        const distMeters = pointA.distanceTo(clickedLatLng);
+        const distMeters = a.distanceTo(clickedLatLng);
         setDistance(distMeters);
 
         // Draw Polyline (Tailwind blue-600 color #2563eb)
-        const line = L.polyline([pointA, clickedLatLng], {
+        const line = L.polyline([a, clickedLatLng], {
           color: '#2563eb',
           weight: 4,
           dashArray: '8, 8',
@@ -102,7 +110,7 @@ export default function LeafletMap() {
         mapInstance.current = null;
       }
     };
-  }, [pointA, pointB]);
+  }, []); // Run only once on mount to prevent map destruction on state changes
 
   const handleReset = () => {
     if (mapInstance.current) {
@@ -113,6 +121,8 @@ export default function LeafletMap() {
     markerAInstance.current = null;
     markerBInstance.current = null;
     polylineInstance.current = null;
+    
+    pointsRef.current = { a: null, b: null };
     setPointA(null);
     setPointB(null);
     setDistance(null);
