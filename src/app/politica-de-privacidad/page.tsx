@@ -1,10 +1,21 @@
 import React from 'react';
+import { Metadata } from 'next';
+import PrivacyContent from './PrivacyContent';
+import CarruselRedes from '@/src/components/layout/CarruselRedes';
 
-export default function Page() {
+export const metadata: Metadata = {
+  title: 'Política de Privacidad | Envíos DosRuedas Mar del Plata',
+  description: 'Conocé cómo protegemos, procesamos y resguardamos tu información personal y los datos logísticos de tus despachos en Envíos DosRuedas.',
+};
+
+export default function PoliticaPrivacidadPage() {
   return (
-    <div className="p-8 text-center max-w-md mx-auto mt-20">
-      <h1 className="text-3xl font-display uppercase text-brand-blue">Política de Privacidad</h1>
-      <p className="text-gray-500 mt-2 font-sans">Próximamente...</p>
-    </div>
+    <main className="min-h-screen bg-slate-50">
+      {/* Interactive privacy policy reader */}
+      <PrivacyContent />
+
+      {/* Unified social networking carousel loop */}
+      <CarruselRedes />
+    </main>
   );
 }
