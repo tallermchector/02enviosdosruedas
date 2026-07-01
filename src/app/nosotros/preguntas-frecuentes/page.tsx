@@ -1,10 +1,25 @@
 import React from 'react';
+import { Metadata } from 'next';
+import FaqAccordion from '@/src/components/nosotros/preguntas-frecuentes/FaqAccordion';
+import FaqCta from '@/src/components/nosotros/preguntas-frecuentes/FaqCta';
+import CarruselRedes from '@/src/components/layout/CarruselRedes';
 
-export default function Page() {
+export const metadata: Metadata = {
+  title: 'Preguntas Frecuentes (FAQ) | Envíos DosRuedas Mar del Plata',
+  description: 'Todo lo que necesitás saber sobre nuestros servicios de mensajería, delivery, tarifas zonificadas, límites de bulto y logística en Mar del Plata.',
+};
+
+export default function PreguntasFrecuentesPage() {
   return (
-    <div className="p-8 text-center max-w-md mx-auto mt-20">
-      <h1 className="text-3xl font-display uppercase text-brand-blue">Preguntas Frecuentes</h1>
-      <p className="text-gray-500 mt-2 font-sans">Próximamente...</p>
-    </div>
+    <main className="min-h-screen bg-slate-50">
+      {/* Interactive FAQ accordion block */}
+      <FaqAccordion />
+
+      {/* Dynamic contact and support CTA block */}
+      <FaqCta />
+
+      {/* Unified social network media slider loop */}
+      <CarruselRedes />
+    </main>
   );
 }
