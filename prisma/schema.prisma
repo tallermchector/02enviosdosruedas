@@ -21,3 +21,17 @@ model Post {
   authorId Int
   author   User   @relation(fields: [authorId], references: [id])
 }
+
+enum ServiceType {
+  LOW_COST
+  EXPRESS
+}
+
+model PriceRange {
+  id             Int         @id @default(autoincrement())
+  serviceType    ServiceType
+  distanciaMinKm Float
+  distanciaMaxKm Float
+  precioRango    Float
+  descripcion    String
+}
