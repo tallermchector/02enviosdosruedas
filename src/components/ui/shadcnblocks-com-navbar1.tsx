@@ -25,7 +25,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/src/components/ui/sheet";
-import { cn } from "@/src/lib/utils";
+import { cn } from "@/lib/utils";
 
 interface MenuItem {
   title: string;
