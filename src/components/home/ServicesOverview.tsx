@@ -42,27 +42,34 @@ export default function ServicesOverview() {
   ];
 
   return (
-    <section id="services-overview" className="py-24 bg-brand-blue border-y border-blue-900/40 relative overflow-hidden">
+    <section 
+      id="services-overview" 
+      className="py-24 bg-brand-blue border-y border-blue-200/60 relative overflow-hidden text-white"
+    >
+      {/* Subtle background decoration */}
+      <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-blue-900/20 blur-3xl -z-10" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-blue-950/30 blur-3xl -z-10" />
+
       <motion.div 
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={{
-          hidden: { opacity: 0, y: 40 },
+          hidden: { opacity: 0, y: 45 },
           visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
         }}
       >
         
         {/* Header Block */}
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-          <span className="px-3 py-1 bg-brand-yellow text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block shadow-sm">
+          <span className="px-3.5 py-1.5 bg-brand-yellow text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block shadow-accent-sm">
             Nuestros Servicios
           </span>
-          <h2 className="text-white text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight text-white">
             Soluciones Logísticas
           </h2>
-          <div className="h-1 w-16 bg-brand-yellow mx-auto rounded-full" />
+          <div className="h-1.5 w-16 bg-brand-yellow mx-auto rounded-full" />
         </div>
 
         {/* Services Grid */}
@@ -72,18 +79,18 @@ export default function ServicesOverview() {
             return (
               <motion.div
                 key={service.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 35 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:border-brand-blue/20 transition-all duration-300 flex flex-col justify-between group"
+                transition={{ duration: 0.6, delay: index * 0.12, ease: "easeOut" }}
+                className="bg-white rounded-3xl p-8 border border-slate-100 shadow-md hover:shadow-xl hover:border-brand-blue/20 transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex justify-between items-start mb-6">
-                    <div className="p-4 rounded-2xl bg-slate-50 text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all duration-300">
+                    <div className="p-4 rounded-2xl bg-slate-50 text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all duration-350">
                       <Icon className="h-6 w-6" />
                     </div>
-                    <span className="px-2.5 py-1 rounded-md text-[10px] font-bold tracking-widest uppercase bg-slate-100 text-slate-500 border border-slate-200/50">
+                    <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-slate-100 text-slate-500 border border-slate-200/30 font-mono">
                       {service.badge}
                     </span>
                   </div>
@@ -103,7 +110,7 @@ export default function ServicesOverview() {
                   </span>
                   <Link 
                     href={service.href}
-                    className="h-11 w-11 rounded-xl bg-slate-50 text-slate-700 hover:text-white hover:bg-brand-blue flex items-center justify-center transition-all group-hover:translate-x-1"
+                    className="h-12 w-12 rounded-xl bg-slate-50 text-slate-700 hover:text-white hover:bg-brand-blue flex items-center justify-center transition-all group-hover:translate-x-1 shadow-sm"
                   >
                     <ArrowUpRight className="h-5 w-5" />
                   </Link>

@@ -39,30 +39,35 @@ export default function CarruselRedes() {
   ];
 
   return (
-    <section id="carrusel-redes" className="py-24 bg-brand-blue border-y border-blue-900/40 relative overflow-hidden">
+    <section 
+      id="carrusel-redes" 
+      className="py-24 bg-brand-blue border-y border-blue-200/60 relative overflow-hidden"
+    >
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_10%,rgba(255,236,1,0.03),transparent_35%)]" />
+
       <motion.div 
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={{
-          hidden: { opacity: 0, y: 40 },
+          hidden: { opacity: 0, y: 45 },
           visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
         }}
       >
         
         {/* Header Segment */}
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-          <span className="px-3 py-1 bg-brand-yellow text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block shadow-sm">
+          <span className="px-3 py-1.5 bg-brand-yellow text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block shadow-accent-sm">
             Nuestra Comunidad
           </span>
           <h2 className="text-white text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight">
             SIGUE NUESTRO MOVIMIENTO
           </h2>
           <p className="text-blue-100 text-sm sm:text-base leading-relaxed font-sans">
-            Únete a nuestra community digital y mantente al día con las últimas noticias de logística en Mar del Plata.
+            Únete a nuestra comunidad digital y mantente al día con las últimas noticias de logística en Mar del Plata.
           </p>
-          <div className="h-1 w-12 bg-brand-yellow mx-auto rounded-full" />
+          <div className="h-1.5 w-12 bg-brand-yellow mx-auto rounded-full" />
         </div>
 
         {/* Networks Grid/Cards */}
@@ -79,7 +84,7 @@ export default function CarruselRedes() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
+                transition={{ duration: 0.45, delay: index * 0.12, ease: "easeOut" }}
                 className={`p-8 rounded-3xl border flex flex-col justify-between hover:shadow-xl transition-all duration-300 group ${net.color}`}
               >
                 <div className="space-y-6">

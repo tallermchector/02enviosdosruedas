@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Bike, Shield, Eye, Smartphone, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -52,10 +52,13 @@ export default function SliderServicios() {
   const ActiveIcon = slides[current].icon;
 
   return (
-    <section id="slider-servicios" className="py-24 bg-white text-slate-900 relative z-10 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] overflow-hidden">
+    <section 
+      id="slider-servicios" 
+      className="py-24 bg-white text-slate-900 relative z-10 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] overflow-hidden"
+    >
       {/* Background patterns */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(6,54,165,0.05),transparent_40%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(255,236,1,0.1),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(6,54,165,0.04),transparent_40%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(255,236,1,0.07),transparent_50%)]" />
 
       <motion.div 
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
@@ -63,7 +66,7 @@ export default function SliderServicios() {
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={{
-          hidden: { opacity: 0, y: 40 },
+          hidden: { opacity: 0, y: 45 },
           visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
         }}
       >
@@ -71,7 +74,7 @@ export default function SliderServicios() {
         {/* Header Block */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-16">
           <div className="lg:col-span-8 space-y-4">
-            <span className="px-3 py-1 bg-brand-blue/10 text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block">
+            <span className="px-3 py-1.5 bg-brand-blue/10 text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block border border-brand-blue/10">
               Innovación en Distribución
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight text-slate-900">
@@ -101,19 +104,20 @@ export default function SliderServicios() {
         </div>
 
         {/* Dynamic Interactive Slide Showcase */}
-        <div className="bg-slate-50 border border-slate-100 rounded-3xl p-8 sm:p-12 min-h-[300px] flex items-center relative overflow-hidden shadow-sm">
+        <div className="bg-slate-50 border border-slate-100/80 rounded-3xl p-8 sm:p-12 min-h-[320px] flex items-center relative overflow-hidden shadow-sm">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 25 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.4 }}
+              exit={{ opacity: 0, x: -25 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
               className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full"
             >
               <div className="md:col-span-4 flex justify-center">
-                <div className="h-24 w-24 rounded-2xl bg-brand-blue text-brand-yellow flex items-center justify-center shadow-lg">
-                  <ActiveIcon className="h-12 w-12" />
+                <div className="h-28 w-28 rounded-2xl bg-brand-blue text-brand-yellow flex items-center justify-center shadow-lg relative group">
+                  <div className="absolute inset-0 bg-brand-yellow rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity" />
+                  <ActiveIcon className="h-14 w-14 animate-pulse" />
                 </div>
               </div>
               
@@ -121,7 +125,7 @@ export default function SliderServicios() {
                 <span className="text-xs font-bold uppercase tracking-widest text-brand-blue font-mono">
                   {slides[current].subtitle}
                 </span>
-                <h3 className="text-3xl font-display uppercase tracking-wider text-slate-900">
+                <h3 className="text-3xl font-display uppercase tracking-wider text-slate-900 leading-none">
                   {slides[current].title}
                 </h3>
                 <p className="text-slate-600 font-sans text-sm sm:text-base leading-relaxed max-w-xl">
@@ -138,8 +142,8 @@ export default function SliderServicios() {
             <button
               key={idx}
               onClick={() => setCurrent(idx)}
-              className={`h-2.5 rounded-full transition-all duration-300 focus:outline-none ${
-                idx === current ? 'w-8 bg-brand-blue' : 'w-2.5 bg-slate-200 hover:bg-slate-350'
+              className={`h-2.5 rounded-full transition-all duration-350 focus:outline-none ${
+                idx === current ? 'w-10 bg-brand-blue' : 'w-2.5 bg-slate-200 hover:bg-slate-300'
               }`}
               title={`Ir a slide ${idx + 1}`}
             />

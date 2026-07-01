@@ -3,11 +3,14 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'motion/react';
-import { MessageSquare, FileText, ArrowRight } from 'lucide-react';
+import { MessageSquare, FileText } from 'lucide-react';
 
 export default function CtaSection() {
   return (
-    <section id="cta-section" className="py-24 bg-white text-slate-900 relative z-10 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] overflow-hidden">
+    <section 
+      id="cta-section" 
+      className="py-24 bg-white text-slate-900 relative z-10 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] overflow-hidden"
+    >
       {/* Background Graphic Accents */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(255,236,1,0.12),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(6,54,165,0.04),transparent_40%)]" />
@@ -18,14 +21,14 @@ export default function CtaSection() {
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={{
-          hidden: { opacity: 0, y: 40 },
+          hidden: { opacity: 0, y: 45 },
           visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
         }}
       >
         
         {/* Animated Badge */}
         <div className="inline-flex">
-          <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest bg-brand-blue text-white shadow-md">
+          <span className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest bg-brand-blue text-white shadow-md">
             SOLUCIONES ESCALABLES 2026
           </span>
         </div>
@@ -64,7 +67,7 @@ export default function CtaSection() {
         </div>
 
         {/* Highlight footer stat line */}
-        <p className="text-[10px] font-mono tracking-widest text-brand-blue font-bold uppercase pt-4">
+        <p className="text-[11px] font-mono tracking-widest text-brand-blue font-bold uppercase pt-4">
           Atención comercial inmediata para PyMEs y Emprendedores en Mar del Plata.
         </p>
 

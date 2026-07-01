@@ -11,7 +11,7 @@ export default function OptimizedFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer id="optimized-footer" className="gradient-blue text-white border-t border-white/10 relative overflow-hidden">
+    <footer id="optimized-footer" className="bg-brand-blue text-white border-t border-white/10 relative overflow-hidden">
       
       {/* Decorative top yellow accent bar */}
       <div className="h-1 bg-brand-yellow w-full" />
@@ -22,7 +22,7 @@ export default function OptimizedFooter() {
           {/* COLUMN 1: Brand details & Socials (4 Cols) */}
           <div className="lg:col-span-4 space-y-6">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="bg-brand-yellow text-brand-blue p-2.5 rounded-xl group-hover:scale-105 transition-transform duration-200">
+              <div className="bg-brand-yellow text-brand-blue p-2.5 rounded-xl group-hover:scale-105 transition-transform duration-200 shadow-sm">
                 <Bike className="h-6 w-6" />
               </div>
               <div>
@@ -41,7 +41,7 @@ export default function OptimizedFooter() {
 
             {/* Social handles */}
             <div className="space-y-3">
-              <span className="block text-xs font-bold text-brand-yellow uppercase tracking-wider">
+              <span className="block text-xs font-bold text-brand-yellow uppercase tracking-wider font-sans">
                 Seguinos en nuestras redes
               </span>
               <div className="flex items-center gap-3">
@@ -127,7 +127,7 @@ export default function OptimizedFooter() {
               <div className="flex gap-3 items-start">
                 <MapPin className="h-4.5 w-4.5 text-brand-yellow shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-bold text-white uppercase">Ubicación</p>
+                  <p className="font-bold text-white uppercase font-sans">Ubicación</p>
                   <p className="font-sans">Friuli 1972, Mar del Plata</p>
                 </div>
               </div>
@@ -135,7 +135,7 @@ export default function OptimizedFooter() {
               <div className="flex gap-3 items-start">
                 <Phone className="h-4.5 w-4.5 text-brand-yellow shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-bold text-white uppercase">Teléfono</p>
+                  <p className="font-bold text-white uppercase font-sans">Teléfono</p>
                   <p className="font-mono">+54 223 660-2699</p>
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default function OptimizedFooter() {
               <div className="flex gap-3 items-start">
                 <Mail className="h-4.5 w-4.5 text-brand-yellow shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-bold text-white uppercase">Email</p>
+                  <p className="font-bold text-white uppercase font-sans">Email</p>
                   <p className="font-sans underline decoration-white/20">matiascejas@enviosdosruedas.com</p>
                 </div>
               </div>
@@ -151,7 +151,7 @@ export default function OptimizedFooter() {
               <div className="flex gap-3 items-start">
                 <Clock className="h-4.5 w-4.5 text-brand-yellow shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-bold text-white uppercase">Horarios de Recepción</p>
+                  <p className="font-bold text-white uppercase font-sans">Horarios de Recepción</p>
                   <p className="font-sans">Lunes a Sábado: 08:00 a 20:00 hs</p>
                 </div>
               </div>

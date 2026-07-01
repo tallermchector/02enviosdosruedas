@@ -12,22 +12,25 @@ export default function VisionSection() {
   ];
 
   return (
-    <section id="vision-section" className="py-24 bg-white relative z-10 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] overflow-hidden">
+    <section 
+      id="vision-section" 
+      className="py-24 bg-white relative z-10 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] overflow-hidden"
+    >
       <motion.div 
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={{
-          hidden: { opacity: 0, y: 40 },
+          hidden: { opacity: 0, y: 45 },
           visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
         }}
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           {/* Information Block */}
-          <div className="lg:col-span-6 space-y-6">
-            <span className="px-3 py-1 bg-blue-50 text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block">
+          <div className="lg:col-span-6 space-y-8">
+            <span className="px-3 py-1.5 bg-blue-100 text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block border border-blue-200/50">
               Partner Logístico Especializado
             </span>
             
@@ -36,36 +39,36 @@ export default function VisionSection() {
             </h2>
             
             <p className="text-slate-600 text-lg leading-relaxed font-sans max-w-xl">
-              Transformamos tus costos fijos en solutions flexibles que acompañan el crecimiento de tu negocio.
+              Transformamos tus costos fijos en soluciones flexibles que acompañan el crecimiento de tu negocio, con ruteos eficientes y una red totalmente integrada.
             </p>
 
-            <div className="space-y-4 pt-4">
+            <div className="space-y-5 pt-4">
               {/* Feature 1 */}
-              <div className="flex gap-4 items-start p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+              <div className="flex gap-4 items-start p-4 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
                 <div className="p-3 bg-brand-blue/10 text-brand-blue rounded-xl shrink-0">
                   <Clock className="h-6 w-6" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-subheading uppercase tracking-wider text-slate-900 leading-none mb-1">
+                  <h4 className="text-sm font-subheading uppercase tracking-wider text-slate-900 leading-none mb-1.5">
                     Entregas a Tiempo
                   </h4>
-                  <p className="text-sm text-slate-500 font-sans">
-                    Puntualidad garantizada en cada envío.
+                  <p className="text-sm text-slate-500 font-sans leading-relaxed">
+                    Puntualidad garantizada en cada envío. Optimizamos cada ruta mediante geolocalización avanzada.
                   </p>
                 </div>
               </div>
 
               {/* Feature 2 */}
-              <div className="flex gap-4 items-start p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+              <div className="flex gap-4 items-start p-4 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
                 <div className="p-3 bg-brand-blue/10 text-brand-blue rounded-xl shrink-0">
                   <ShieldCheck className="h-6 w-6" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-subheading uppercase tracking-wider text-slate-900 leading-none mb-1">
+                  <h4 className="text-sm font-subheading uppercase tracking-wider text-slate-900 leading-none mb-1.5">
                     Envíos Seguros
                   </h4>
-                  <p className="text-sm text-slate-500 font-sans">
-                    Protección total de tus paquetes.
+                  <p className="text-sm text-slate-500 font-sans leading-relaxed">
+                    Protección total de tus paquetes. Despachos con custodia digital y firmas de entrega seguras.
                   </p>
                 </div>
               </div>
@@ -79,21 +82,21 @@ export default function VisionSection() {
               return (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 35 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
-                  className={`p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all flex flex-col justify-between ${
-                    i === 2 ? 'sm:col-span-2 bg-slate-50' : 'bg-white'
+                  transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
+                  className={`p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between ${
+                    i === 2 ? 'sm:col-span-2 bg-slate-50 hover:bg-slate-100/50' : 'bg-white hover:border-brand-blue/10'
                   }`}
                 >
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="p-3 rounded-xl bg-brand-blue/5 text-brand-blue">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="p-3.5 rounded-2xl bg-brand-blue/5 text-brand-blue">
                       <Icon className="h-6 w-6" />
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-3xl lg:text-4xl font-display text-brand-blue uppercase leading-none mb-1">
+                    <h3 className="text-3xl lg:text-4xl font-display text-brand-blue uppercase leading-none mb-2">
                       {stat.value}
                     </h3>
                     <p className="text-xs text-slate-500 font-sans uppercase tracking-wider leading-relaxed">

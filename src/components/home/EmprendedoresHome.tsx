@@ -31,27 +31,32 @@ export default function EmprendedoresHome() {
   ];
 
   return (
-    <section id="emprendedores-home" className="py-24 bg-brand-blue border-y border-blue-900/40 relative overflow-hidden">
+    <section 
+      id="emprendedores-home" 
+      className="py-24 bg-brand-blue border-y border-blue-200/60 relative overflow-hidden"
+    >
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_90%,rgba(255,236,1,0.04),transparent_35%)]" />
+      
       <motion.div 
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={{
-          hidden: { opacity: 0, y: 40 },
+          hidden: { opacity: 0, y: 45 },
           visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
         }}
       >
         
         {/* Section Title */}
         <div className="max-w-3xl mb-16 space-y-4">
-          <span className="px-3 py-1 bg-brand-yellow text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block shadow-sm">
+          <span className="px-3 py-1.5 bg-brand-yellow text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block shadow-accent-sm">
             Socio Estratégico Local
           </span>
           <h2 className="text-white text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight">
             Potencia tu Logística con DosRuedas
           </h2>
-          <div className="h-1 w-20 bg-brand-yellow rounded-full" />
+          <div className="h-1.5 w-20 bg-brand-yellow rounded-full" />
         </div>
 
         {/* Solutions Cards Grid */}
@@ -61,18 +66,18 @@ export default function EmprendedoresHome() {
             return (
               <motion.div
                 key={solution.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 35 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.15 }}
+                transition={{ duration: 0.6, delay: idx * 0.15, ease: "easeOut" }}
                 className="bg-white rounded-3xl p-8 border border-slate-100 flex flex-col justify-between hover:shadow-xl hover:border-brand-blue/20 transition-all duration-300 group"
               >
                 <div className="space-y-6">
                   <div className="flex justify-between items-start">
-                    <div className="p-3.5 bg-brand-yellow text-brand-blue rounded-2xl shadow-md">
+                    <div className="p-3.5 bg-brand-yellow text-brand-blue rounded-2xl shadow-accent-sm">
                       <Icon className="h-6 w-6" />
                     </div>
-                    <span className="text-[9px] font-bold tracking-widest bg-brand-yellow text-brand-blue px-2.5 py-1 rounded-full uppercase">
+                    <span className="text-[10px] font-bold tracking-widest bg-brand-yellow text-brand-blue px-3 py-1 rounded-full uppercase font-mono">
                       {solution.tag}
                     </span>
                   </div>

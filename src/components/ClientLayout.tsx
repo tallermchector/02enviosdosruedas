@@ -4,8 +4,8 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import OptimizedHeader from './OptimizedHeader';
-import OptimizedFooter from './OptimizedFooter';
+import OptimizedHeader from './layout/OptimizedHeader';
+import OptimizedFooter from './layout/OptimizedFooter';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
