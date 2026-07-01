@@ -7,6 +7,7 @@ import { PriceRange } from '@/generated/prisma';
 import CotizadorLowCostForm from '@/src/components/cotizar/lowcost/CotizadorLowCostForm';
 import CotizadorLowCostDetails from '@/src/components/cotizar/lowcost/CotizadorLowCostDetails';
 import CotizadorLowCostHelp from '@/src/components/cotizar/lowcost/CotizadorLowCostHelp';
+import DistanceMap from '@/src/components/ui/DistanceMap';
 import CarruselRedes from '@/src/components/layout/CarruselRedes';
 
 export const metadata: Metadata = {
@@ -55,15 +56,18 @@ export default async function Page() {
           <CotizadorLowCostForm priceRanges={priceRanges} />
         </main>
 
-        {/* 2. Detail Guidelines */}
+        {/* 2. Interactive Distance Map Tool */}
+        <DistanceMap />
+
+        {/* 3. Detail Guidelines */}
         <CotizadorLowCostDetails />
 
-        {/* 3. Help Contact Banner */}
+        {/* 4. Help Contact Banner */}
         <CotizadorLowCostHelp />
 
       </div>
 
-      {/* 4. Social networks community ticker */}
+      {/* 5. Social networks community ticker */}
       <div className="mt-16">
         <CarruselRedes />
       </div>
