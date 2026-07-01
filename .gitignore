@@ -11,3 +11,4 @@ docs/datos/*
 .hermes/*
 .claude/*
 .prisma/
+generated/*
