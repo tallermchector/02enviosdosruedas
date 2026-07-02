@@ -12,3 +12,4 @@ docs/datos/*
 .claude/*
 .prisma/
 generated/*
+.vercel
