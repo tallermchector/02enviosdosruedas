@@ -2,7 +2,9 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MapPin, Bike, Calculator, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { Bike, Calculator, CheckCircle2, AlertTriangle } from 'lucide-react';
+import AddressAutocomplete from '../../ui/AddressAutocomplete';
+import DynamicRouteMap from '../../ui/DynamicRouteMap';
 
 interface PriceRangeProp {
   id: number;
@@ -13,30 +15,58 @@ interface PriceRangeProp {
   descripcion: string;
 }
 
+interface Coordinate {
+  lat: number;
+  lng: number;
+}
+
 export default function CotizadorLowCostForm({ priceRanges = [] }: { priceRanges?: PriceRangeProp[] }) {
   const [origen, setOrigen] = useState('');
   const [destino, setDestino] = useState('');
+  const [origenCoords, setOrigenCoords] = useState<Coordinate | null>(null);
+  const [destinoCoords, setDestinoCoords] = useState<Coordinate | null>(null);
+  const [routeCoords, setRouteCoords] = useState<[number, number][]>([]);
+  
   const [isCalculating, setIsCalculating] = useState(false);
   const [calculated, setCalculated] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{
     distancia: number;
     tiempo: number;
     precio: number | 'consultar';
   } | null>(null);
 
-  const handleCalculate = (e: React.FormEvent) => {
+  const handleCalculate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!origen.trim() || !destino.trim()) return;
+    if (!origenCoords || !destinoCoords) {
+      setError('Por favor, selecciona direcciones válidas de la lista de sugerencias.');
+      return;
+    }
 
     setIsCalculating(true);
     setCalculated(false);
+    setError(null);
 
-    // Simulate routing calculations
-    setTimeout(() => {
-      // Mocked realistic Mar del Plata distances
-      const distance = Math.round((Math.random() * 15 + 1.5) * 10) / 10; // 1.5 to 16.5 km
-      const time = Math.round(distance * 2.8 + 8); // Slightly slower for low cost batch routing
+    try {
+      // Call OSRM API for driving routing
+      const url = `https://router.project-osrm.org/route/v1/driving/${origenCoords.lng},${origenCoords.lat};${destinoCoords.lng},${destinoCoords.lat}?overview=full&geometries=geojson`;
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error('Error al obtener la ruta de OSRM');
+      }
+      const data = await res.json();
+
+      if (!data.routes || data.routes.length === 0) {
+        throw new Error('No se encontró una ruta vial entre los puntos indicados.');
+      }
+
+      const route = data.routes[0];
+      const distance = Math.round((route.distance / 1000) * 10) / 10; // in km, 1 decimal
+      const time = Math.round(route.duration / 60); // in minutes
       
+      // Save coordinates for the polyline route path
+      setRouteCoords(route.geometry.coordinates || []);
+
       let price: number | 'consultar' = 'consultar';
 
       if (distance <= 20) {
@@ -70,9 +100,13 @@ export default function CotizadorLowCostForm({ priceRanges = [] }: { priceRanges
         tiempo: time,
         precio: price,
       });
-      setIsCalculating(false);
       setCalculated(true);
-    }, 1800);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || 'No se pudo calcular la ruta. Inténtalo más tarde.');
+    } finally {
+      setIsCalculating(false);
+    }
   };
 
   const getWhatsAppLink = () => {
@@ -110,18 +144,15 @@ export default function CotizadorLowCostForm({ priceRanges = [] }: { priceRanges
               <label htmlFor="origen-input" className="text-xs font-bold text-slate-700 uppercase tracking-wider block font-sans">
                 Dirección de Origen
               </label>
-              <div className="relative">
-                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-emerald-500" />
-                <input
-                  type="text"
-                  id="origen-input"
-                  required
-                  placeholder="Ej: Mitre 1820 o Centro"
-                  value={origen}
-                  onChange={(e) => setOrigen(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-100 focus:border-brand-blue/40 focus:bg-white rounded-2xl pl-12 pr-4 py-3.5 text-sm outline-none transition-all text-slate-800 placeholder:text-slate-400 font-sans"
-                />
-              </div>
+              <AddressAutocomplete
+                id="origen-input"
+                placeholder="Ej: Av. Colón 1234, Mar del Plata"
+                value={origen}
+                onChange={setOrigen}
+                onSelectCoordinate={setOrigenCoords}
+                required
+                className="w-full bg-slate-50 border border-slate-100 focus:border-brand-blue/40 focus:bg-white rounded-2xl pl-4 pr-10 py-3.5 text-sm outline-none transition-all text-slate-800 placeholder:text-slate-400 font-sans"
+              />
             </div>
 
             {/* Input Destino */}
@@ -129,19 +160,23 @@ export default function CotizadorLowCostForm({ priceRanges = [] }: { priceRanges
               <label htmlFor="destino-input" className="text-xs font-bold text-slate-700 uppercase tracking-wider block font-sans">
                 Dirección de Destino
               </label>
-              <div className="relative">
-                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-brand-yellow" />
-                <input
-                  type="text"
-                  id="destino-input"
-                  required
-                  placeholder="Ej: San Martín 2600 o Constitución"
-                  value={destino}
-                  onChange={(e) => setDestino(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-100 focus:border-brand-blue/40 focus:bg-white rounded-2xl pl-12 pr-4 py-3.5 text-sm outline-none transition-all text-slate-800 placeholder:text-slate-400 font-sans"
-                />
-              </div>
+              <AddressAutocomplete
+                id="destino-input"
+                placeholder="Ej: Juan B. Justo 5678, Mar del Plata"
+                value={destino}
+                onChange={setDestino}
+                onSelectCoordinate={setDestinoCoords}
+                required
+                className="w-full bg-slate-50 border border-slate-100 focus:border-brand-blue/40 focus:bg-white rounded-2xl pl-4 pr-10 py-3.5 text-sm outline-none transition-all text-slate-800 placeholder:text-slate-400 font-sans"
+              />
             </div>
+
+            {error && (
+              <div className="bg-red-50 text-red-600 text-xs px-4 py-3 rounded-xl flex items-center gap-2 font-sans">
+                <AlertTriangle className="h-4 w-4 shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
 
             <button
               type="submit"
@@ -242,16 +277,13 @@ export default function CotizadorLowCostForm({ priceRanges = [] }: { priceRanges
         </div>
       </div>
 
-      {/* SVG Interactive Map Mockup Panel */}
+      {/* Real Interactive Map Panel */}
       <div className="lg:col-span-6 min-h-[350px] lg:min-h-full bg-slate-900 border border-slate-800 rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between text-white">
-        {/* Map backgrounds grid */}
+        {/* Map backgrounds grid overlay */}
         <div className="absolute inset-0 opacity-15 bg-[linear-gradient(to_right,#334155_1px,transparent_1px),linear-gradient(to_bottom,#334155_1px,transparent_1px)] bg-[size:32px_32px]" />
         
-        {/* Glowing aura */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(234,179,8,0.06),transparent_60%)] pointer-events-none" />
-
         {/* Header Map */}
-        <div className="relative z-10 flex justify-between items-center border-b border-white/10 pb-4">
+        <div className="relative z-10 flex justify-between items-center border-b border-white/10 pb-4 mb-4">
           <div className="flex items-center gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
             <span className="text-xs font-mono text-amber-400 uppercase tracking-widest font-semibold">
@@ -259,68 +291,21 @@ export default function CotizadorLowCostForm({ priceRanges = [] }: { priceRanges
             </span>
           </div>
           <span className="text-[10px] font-mono text-slate-400">
-            Escala: 1:50000
+            Real-time Routing
           </span>
         </div>
 
-        {/* Dynamic Route Map Simulation */}
-        <div className="relative flex-grow flex items-center justify-center my-6 min-h-[220px]">
-          <svg className="w-full h-full max-w-[360px] max-h-[260px] relative z-10 overflow-visible" viewBox="0 0 100 100">
-            {/* Grid street mocks */}
-            <path d="M10,20 L90,20 M10,50 L90,50 M10,80 L90,80 M20,10 L20,90 M50,10 L50,90 M80,10 L80,90" stroke="rgba(255,255,255,0.04)" strokeWidth="1.5" strokeDasharray="3 3" />
-            
-            {/* Base main coastal road */}
-            <path d="M 15 85 C 30 75, 45 45, 85 25" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="3" />
-
-            {/* Calculated active route */}
-            {calculated && (
-              <>
-                <motion.path
-                  d="M 20 80 Q 40 40, 80 20"
-                  fill="none"
-                  stroke="#FFEC01"
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1.5, ease: "easeInOut" }}
-                />
-                
-                {/* Delivery Bike moving along the path */}
-                <motion.g
-                  initial={{ offsetDistance: "0%" }}
-                  animate={{ offsetDistance: "100%" }}
-                  transition={{ duration: 4.5, repeat: Infinity, ease: "linear" }}
-                  style={{
-                    motionPath: "path('M 20 80 Q 40 40, 80 20')",
-                  }}
-                >
-                  <circle r="5" fill="#FFEC01" className="animate-pulse" />
-                  <g transform="translate(-6, -6) scale(0.6)">
-                    <Bike className="h-5 w-5 text-brand-blue" />
-                  </g>
-                </motion.g>
-              </>
-            )}
-
-            {/* Origin Pin */}
-            <g transform="translate(20, 80)">
-              <circle r="3" fill="#10B981" />
-              <circle r="7" fill="none" stroke="#10B981" strokeWidth="1.5" className="animate-ping" />
-              <text y="-6" textAnchor="middle" fill="#10B981" fontSize="5" fontWeight="bold" fontFamily="sans-serif">ORIGEN</text>
-            </g>
-
-            {/* Destination Pin */}
-            <g transform="translate(80, 20)">
-              <circle r="3" fill="#FFEC01" />
-              <circle r="7" fill="none" stroke="#FFEC01" strokeWidth="1.5" className="animate-ping" style={{ animationDelay: '0.8s' }} />
-              <text y="-6" textAnchor="middle" fill="#FFEC01" fontSize="5" fontWeight="bold" fontFamily="sans-serif">DESTINO</text>
-            </g>
-          </svg>
+        {/* Leaflet Map Loader */}
+        <div className="relative flex-grow min-h-[260px] rounded-2xl overflow-hidden border border-white/5 shadow-inner">
+          <DynamicRouteMap
+            origin={origenCoords}
+            destination={destinoCoords}
+            routeCoords={routeCoords}
+          />
         </div>
 
         {/* Footer map details */}
-        <div className="relative z-10 text-[10px] font-mono text-slate-400 space-y-1.5 border-t border-white/10 pt-4">
+        <div className="relative z-10 text-[10px] font-mono text-slate-400 space-y-1.5 border-t border-white/10 pt-4 mt-4">
           <div className="flex justify-between">
             <span>Servicio:</span>
             <span className="text-brand-yellow font-bold uppercase">Envío Low Cost</span>

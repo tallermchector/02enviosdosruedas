@@ -7,7 +7,6 @@ import { PriceRange } from '@/generated/prisma';
 import CotizadorExpressForm from '@/src/components/cotizar/express/CotizadorExpressForm';
 import CotizadorExpressDetails from '@/src/components/cotizar/express/CotizadorExpressDetails';
 import CotizadorExpressHelp from '@/src/components/cotizar/express/CotizadorExpressHelp';
-import DistanceMap from '@/src/components/ui/DistanceMap';
 import CarruselRedes from '@/src/components/layout/CarruselRedes';
 
 export const metadata: Metadata = {
@@ -56,10 +55,7 @@ export default async function Page() {
           <CotizadorExpressForm priceRanges={priceRanges} />
         </main>
 
-        {/* 2. Interactive Distance Map Tool */}
-        <DistanceMap />
-
-        {/* 3. Detail Guidelines */}
+        {/* 2. Detail Guidelines */}
         <CotizadorExpressDetails />
 
         {/* 4. Help Contact Banner */}
