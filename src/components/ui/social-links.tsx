@@ -1,8 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { cn } from "@/lib/utils"
+import { motion, AnimatePresence } from "motion/react"
+import { cn } from "@/src/lib/utils"
 
 interface Social {
     name: string
