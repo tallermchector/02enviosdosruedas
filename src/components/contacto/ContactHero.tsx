@@ -3,9 +3,9 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'motion/react';
-import { HelpCircle, Sparkles, MessageSquare, ShieldCheck, Clock } from 'lucide-react';
+import { MailOpen, Sparkles, MapPin, Phone, Mail } from 'lucide-react';
 
-export default function FaqHero() {
+export default function ContactHero() {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -32,14 +32,14 @@ export default function FaqHero() {
 
   return (
     <section 
-      id="faq-hero" 
-      className="relative min-h-[75vh] flex items-center justify-center pt-32 pb-20 overflow-hidden bg-gradient-to-b from-slate-800 to-slate-950 text-white border-b border-slate-800"
+      id="contacto-hero" 
+      className="relative min-h-[75vh] flex items-center justify-center pt-32 pb-20 overflow-hidden bg-gradient-to-b from-amber-950 to-amber-900 text-white border-b border-amber-800"
     >
       {/* Ambient background glows */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(148,163,184,0.12),transparent_40%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(251,191,36,0.15),transparent_40%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_75%,rgba(255,255,255,0.04),transparent_50%)]" />
 
-      {/* Background illustration overlay */}
+      {/* Background image overlay */}
       <div className="absolute inset-0 opacity-10 mix-blend-overlay">
         <Image
           src="https://i.postimg.cc/nLMx4vVc/delivery-background.jpg"
@@ -63,9 +63,9 @@ export default function FaqHero() {
             
             {/* Badge */}
             <motion.div variants={itemVariants} className="inline-flex justify-center lg:justify-start">
-              <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest bg-slate-700/60 border border-slate-600/50 text-slate-200 flex items-center gap-1.5 shadow-md">
-                <HelpCircle className="h-4 w-4 text-slate-300 animate-pulse" />
-                Centro de Soporte
+              <span className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest bg-amber-500/20 text-brand-yellow border border-amber-500/30 flex items-center gap-1.5 shadow-sm">
+                <MailOpen className="h-4 w-4 text-brand-yellow animate-pulse" />
+                Asistencia Personalizada
               </span>
             </motion.div>
 
@@ -74,16 +74,16 @@ export default function FaqHero() {
               variants={itemVariants}
               className="text-4xl sm:text-5xl lg:text-6xl font-display uppercase tracking-tight leading-none text-white"
             >
-              Preguntas <br />
-              <span className="text-slate-400">Frecuentes</span>
+              Contacto <br />
+              <span className="text-brand-yellow">Comercial</span>
             </motion.h1>
 
             {/* Description */}
             <motion.p 
               variants={itemVariants}
-              className="text-base sm:text-lg lg:text-xl font-sans text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+              className="text-base sm:text-lg lg:text-xl font-sans text-amber-100/90 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
             >
-              Todo lo que necesitás saber sobre nuestra operativa de calle, tarifas zonificadas y SLAs de entrega garantizada. Transparencia total.
+              ¿Listo para escalar tu negocio? Hablá con un asesor logístico y diseñemos un esquema tarifario a tu medida.
             </motion.p>
 
             {/* Special Callout Panel */}
@@ -94,17 +94,17 @@ export default function FaqHero() {
               <div className="flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-brand-yellow" />
                 <h3 className="text-xs uppercase tracking-widest text-brand-yellow font-bold leading-none">
-                  Límites de Carga y Seguridad
+                  Propuesta Personalizada
                 </h3>
               </div>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans text-center lg:text-left">
-                Transportamos paquetes ligeros de hasta 5 kg con medidas de 40x40x30 cm. Esto garantiza la agilidad del tránsito y resguarda la seguridad vial del repartidor.
+              <p className="text-xs sm:text-sm text-amber-100/90 leading-relaxed font-sans text-center lg:text-left">
+                Analizamos tu volumen de envíos para diseñar un plan 3PL, e-commerce o ruteo masivo con tarifas preferenciales y facturación mensual consolidada.
               </p>
             </motion.div>
 
           </div>
 
-          {/* Right Column: Floating FAQ Widget Card */}
+          {/* Right Column: Floating Contact Widget Card */}
           <div className="lg:col-span-5 relative hidden lg:block h-[400px]">
             <motion.div 
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] z-20"
@@ -113,37 +113,32 @@ export default function FaqHero() {
               whileHover={{ scale: 1.02 }}
             >
               <div className="rounded-3xl border border-white/10 bg-white p-8 text-slate-800 shadow-2xl relative overflow-hidden">
-                <div className="space-y-6 relative z-10">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 bg-slate-100 text-slate-700 rounded-xl flex items-center justify-center">
-                      <Clock className="h-5 w-5" />
+                <div className="space-y-5 relative z-10">
+                  <div>
+                    <h4 className="text-sm font-subheading uppercase font-bold text-slate-900 leading-none">
+                      Información de Contacto
+                    </h4>
+                    <p className="text-[10px] text-slate-400 font-sans tracking-wider uppercase mt-1">Respuestas en el día</p>
+                  </div>
+
+                  <div className="space-y-3.5 text-xs text-slate-600 font-sans">
+                    <div className="flex items-center gap-3">
+                      <Phone className="h-4 w-4 text-brand-blue" />
+                      <span>+54 223 660-2699</span>
                     </div>
-                    <div>
-                      <h4 className="text-sm font-subheading uppercase font-bold text-slate-900 leading-none">
-                        Horario de Atención
-                      </h4>
-                      <p className="text-[10px] text-slate-400 font-sans tracking-wider uppercase mt-1">Operativa de calle</p>
+                    <div className="flex items-center gap-3">
+                      <Mail className="h-4 w-4 text-brand-blue" />
+                      <span className="break-all">matiascejas@enviosdosruedas.com</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <MapPin className="h-4 w-4 text-brand-blue" />
+                      <span>Friuli 1972, Mar del Plata</span>
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-500 font-sans leading-relaxed">
-                    Lunes a Viernes de 9:00 a 18:00 hs y Sábados de 10:00 a 15:00 hs. Podés realizar tus consultas y coordinar despachos directamente.
-                  </p>
-
-                  <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
-                    <span className="text-xs font-mono text-slate-500 font-bold flex items-center gap-1">
-                      <ShieldCheck className="h-4 w-4 text-emerald-500" />
-                      Soporte en Vivo
-                    </span>
-                    <a 
-                      href="https://wa.me/542236602699"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-bold uppercase tracking-wider text-brand-blue hover:text-brand-blue/80 inline-flex items-center gap-1 group"
-                    >
-                      <MessageSquare className="h-3.5 w-3.5 text-brand-blue" />
-                      <span>WhatsApp</span>
-                    </a>
+                  <div className="pt-4 border-t border-slate-100 flex justify-between items-center text-[10px] font-mono text-slate-400">
+                    <span>Atención Comercial</span>
+                    <span className="text-emerald-600 font-bold uppercase">Disponible</span>
                   </div>
                 </div>
               </div>
