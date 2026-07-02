@@ -5,7 +5,6 @@ import ServicesOverview from '@/src/components/home/ServicesOverview';
 import SliderServicios from '@/src/components/home/SliderServicios';
 import EmprendedoresHome from '@/src/components/home/EmprendedoresHome';
 import CtaSection from '@/src/components/home/CtaSection';
-import CarruselRedes from '@/src/components/layout/CarruselRedes';
 
 export const metadata: Metadata = {
   title: 'Mensajería y Logística E-commerce en Mar del Plata | Envíos DosRuedas',
@@ -32,9 +31,6 @@ export default function Home() {
 
       {/* 6. Call to Action High Conversion Segment */}
       <CtaSection />
-
-      {/* 7. Social Community Integration */}
-      <CarruselRedes />
     </div>
   );
 }

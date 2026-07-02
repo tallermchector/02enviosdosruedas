@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import OptimizedHeader from './layout/OptimizedHeader';
 import OptimizedFooter from './layout/OptimizedFooter';
 import { CinematicHero } from './ui/cinematic-hero';
+import { CarruselRedes } from './layout/Carrusel-Redes';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const [showPreloader, setShowPreloader] = useState(false);
@@ -30,6 +31,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       <main className="flex-grow pt-[72px]">
         {children}
       </main>
+      <CarruselRedes />
       <OptimizedFooter />
     </>
   );
