@@ -4,22 +4,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Fix Leaflet marker icons in Next.js
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconUrl: markerIcon.src,
-  iconRetinaUrl: markerIcon2x.src,
-  shadowUrl: markerShadow.src,
-});
+// Se eliminaron las importaciones de imágenes .png que causaban el error TS2307
 
 export default function LeafletMap() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<L.Map | null>(null);
-  
+
   // State for rendering metric updates in React
   const [pointA, setPointA] = useState<L.LatLng | null>(null);
   const [pointB, setPointB] = useState<L.LatLng | null>(null);
@@ -65,7 +55,7 @@ export default function LeafletMap() {
         // Set Point A
         pointsRef.current.a = clickedLatLng;
         setPointA(clickedLatLng);
-        
+
         const marker = L.marker(clickedLatLng, {
           icon: L.divIcon({
             html: `<div class="bg-emerald-500 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center border-2 border-white shadow-md">A</div>`,
@@ -79,7 +69,7 @@ export default function LeafletMap() {
         // Set Point B
         pointsRef.current.b = clickedLatLng;
         setPointB(clickedLatLng);
-        
+
         const marker = L.marker(clickedLatLng, {
           icon: L.divIcon({
             html: `<div class="bg-brand-yellow text-brand-blue font-bold rounded-full w-8 h-8 flex items-center justify-center border-2 border-white shadow-md">B</div>`,
@@ -121,7 +111,7 @@ export default function LeafletMap() {
     markerAInstance.current = null;
     markerBInstance.current = null;
     polylineInstance.current = null;
-    
+
     pointsRef.current = { a: null, b: null };
     setPointA(null);
     setPointB(null);
@@ -154,7 +144,7 @@ export default function LeafletMap() {
               </span>
             </div>
           )}
-          
+
           <button
             onClick={handleReset}
             disabled={!pointA}

@@ -8,6 +8,7 @@ interface TimelineContentProps extends HTMLMotionProps<any> {
   timelineRef?: React.RefObject<any>;
   customVariants?: any;
   as?: React.ElementType;
+  children?: React.ReactNode;
 }
 
 export function TimelineContent({
