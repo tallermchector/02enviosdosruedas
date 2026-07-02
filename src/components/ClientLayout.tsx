@@ -27,7 +27,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         <CinematicHero onComplete={handleComplete} />
       )}
       <OptimizedHeader />
-      <main className="flex-grow pt-20">
+      <main className="flex-grow pt-[72px]">
         {children}
       </main>
       <OptimizedFooter />
