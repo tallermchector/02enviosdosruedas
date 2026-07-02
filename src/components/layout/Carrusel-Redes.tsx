@@ -136,30 +136,30 @@ export const CarruselRedes = () => {
                                     aria-label={`Ver publicación ${item.id} en ${item.type === 'ig' ? 'Instagram' : 'Facebook'}`}
                                 >
                                     <img src={item.image} alt={`Publicación de ${item.type === 'ig' ? 'Instagram' : 'Facebook'}`} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" />
-                                    <div className="absolute inset-0 bg-surface-light/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-6 p-8">
-                                        <div className="w-16 h-16 rounded-2xl bg-primary/20 backdrop-blur-md border border-primary/30 flex items-center justify-center text-slate-900 relative">
+                                    <div className="absolute inset-0 bg-brand-blue/90 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-6 p-8">
+                                        <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center relative shrink-0">
                                             {item.type === 'ig' && (
                                                 <Image
                                                     src="/iconos/instagram.svg"
                                                     alt="Instagram"
-                                                    width={32}
-                                                    height={32}
-                                                    className="object-contain"
+                                                    width={28}
+                                                    height={28}
+                                                    className="object-contain filter invert"
                                                 />
                                             )}
                                             {item.type === 'fb' && (
                                                 <Image
                                                     src="/iconos/facebook.svg"
                                                     alt="Facebook"
-                                                    width={32}
-                                                    height={32}
-                                                    className="object-contain"
+                                                    width={28}
+                                                    height={28}
+                                                    className="object-contain filter invert"
                                                 />
                                             )}
                                         </div>
                                         <div className="text-center">
-                                            <div className="text-slate-900 font-[family-name:var(--font-orbitron)] font-bold uppercase tracking-tight mb-2">VER POST</div>
-                                            <ExternalLink size={20} className="text-secondary mx-auto" />
+                                            <div className="text-white font-display font-bold uppercase tracking-widest text-sm mb-2">VER PUBLICACIÓN</div>
+                                            <ExternalLink size={18} className="text-brand-yellow mx-auto" />
                                         </div>
                                     </div>
                                 </a>
