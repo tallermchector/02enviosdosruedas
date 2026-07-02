@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Zap } from 'lucide-react';
 import { prisma } from '@/src/lib/prisma';
-import { PriceRange } from '@/generated/prisma';
+import { PriceRange } from '@/generated/prisma/client';
 import CotizadorExpressForm from '@/src/components/cotizar/express/CotizadorExpressForm';
 import CotizadorExpressDetails from '@/src/components/cotizar/express/CotizadorExpressDetails';
 import CotizadorExpressHelp from '@/src/components/cotizar/express/CotizadorExpressHelp';

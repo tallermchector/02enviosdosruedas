@@ -1,5 +1,5 @@
 import { prisma } from '../src/lib/prisma'
-import { ServiceType } from '../generated/prisma'
+import { ServiceType } from '../generated/prisma/client'
 
 async function main() {
   // Clear existing
