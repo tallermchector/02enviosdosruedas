@@ -11,14 +11,22 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     // Only show preloader once per user session
-    const hasVisited = sessionStorage.getItem('visited-cinematic');
-    if (!hasVisited) {
-      setShowPreloader(true);
+    try {
+      const hasVisited = sessionStorage.getItem('visited-cinematic');
+      if (!hasVisited) {
+        setShowPreloader(true);
+      }
+    } catch (e) {
+      console.warn('sessionStorage not available:', e);
     }
   }, []);
 
   const handleComplete = () => {
-    sessionStorage.setItem('visited-cinematic', 'true');
+    try {
+      sessionStorage.setItem('visited-cinematic', 'true');
+    } catch (e) {
+      console.warn('sessionStorage not available:', e);
+    }
     setShowPreloader(false);
   };
 

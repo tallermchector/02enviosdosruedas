@@ -39,7 +39,12 @@ export default function DispatchConsole() {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (typeof window !== 'undefined') {
-        const saved = localStorage.getItem('dosruedas_shipments');
+        let saved = null;
+        try {
+          saved = localStorage.getItem('dosruedas_shipments');
+        } catch (e) {
+          console.warn('localStorage not available:', e);
+        }
         if (saved) {
           try {
             const parsed = JSON.parse(saved);
@@ -88,7 +93,11 @@ export default function DispatchConsole() {
           }
         ];
         setShipments(defaultMock);
-        localStorage.setItem('dosruedas_shipments', JSON.stringify(defaultMock));
+        try {
+          localStorage.setItem('dosruedas_shipments', JSON.stringify(defaultMock));
+        } catch (e) {
+          console.warn('localStorage not available:', e);
+        }
       }
     }, 0);
 
@@ -119,7 +128,11 @@ export default function DispatchConsole() {
   const saveShipments = (newShipments: Shipment[]) => {
     setShipments(newShipments);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('dosruedas_shipments', JSON.stringify(newShipments));
+      try {
+        localStorage.setItem('dosruedas_shipments', JSON.stringify(newShipments));
+      } catch (e) {
+        console.warn('localStorage not available:', e);
+      }
     }
   };
 
