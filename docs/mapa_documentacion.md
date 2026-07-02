@@ -73,7 +73,7 @@ Información institucional, preguntas frecuentes y canales de comunicación soci
 
 *   **Sobre Nosotros:**
     *   **Archivo:** [nosotros_sobre_nosotros.md](file:///e:/proyectos/02enviosdosruedashector/docs/nosotros_sobre_nosotros.md)
-    *   **Información clave:** Historia y trayectoria de la empresa (fundada en 2017, transformación digital en 2021, 4.9 estrellas en Google Reviews), pilares fundamentales (atención personalizada, cero tercerización, flota exclusiva), misión, visión y estructura del equipo directivo y de soporte.
+    *   **Información clave:** Historia y trayectoria de la empresa (fundada en 2017, transformación digital en 2021, 5.0 estrellas en Google Reviews), pilares fundamentales (atención personalizada, cero tercerización, flota exclusiva), misión, visión y estructura del equipo directivo y de soporte.
 *   **Preguntas Frecuentes:**
     *   **Archivo:** [nosotros_preguntas_frecuentes.md](file:///e:/proyectos/02enviosdosruedashector/docs/nosotros_preguntas_frecuentes.md)
     *   **Información clave:** FAQs agrupadas sobre tipos de envío realizables en moto, zonas de cobertura de Mar del Plata, política de contrareembolsos, límites de peso/bulto y cómo solicitar mensajerías rápidas.

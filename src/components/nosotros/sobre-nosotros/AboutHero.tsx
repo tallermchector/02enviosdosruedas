@@ -122,7 +122,7 @@ export default function AboutHero() {
                       <Star className="h-4.5 w-4.5 fill-current" />
                       <Star className="h-4.5 w-4.5 fill-current" />
                     </div>
-                    <span className="text-sm font-bold font-mono text-slate-800">4.9 / 5</span>
+                    <span className="text-xs font-bold font-mono text-slate-800">5.0 / 5</span>
                   </div>
 
                   <div>

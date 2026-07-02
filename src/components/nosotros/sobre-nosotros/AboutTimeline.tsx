@@ -21,7 +21,7 @@ export default function AboutTimeline() {
     {
       year: '2023',
       title: 'Consolidación de Calidad',
-      desc: 'Alcanzamos la calificación unánime de 4.9 estrellas en Google Reviews. Cientos de clientes locales validaron oficialmente nuestra incansable búsqueda de la excelencia.',
+      desc: 'Alcanzamos la calificación de 5.0 estrellas en Google Reviews. Cientos de clientes locales validaron oficialmente nuestra búsqueda de la excelencia.',
       icon: Award,
     },
     {

@@ -20,7 +20,7 @@ Somos Envíos DosRuedas, tu solución confiable. Más de 7 años revolucionando 
 
 "Tu aliado confiable en mensajería y delivery en Mar del Plata"
 
-4.9 estrellas en Google Reviews
+5.0 estrellas en Google Reviews
 
 Basado en la confianza de cientos de clientes locales
 
@@ -76,7 +76,7 @@ Evolucionamos hacia el E-commerce moderno en Mar del Plata, optimizando procesos
 
 ### Consolidación
 
-Alcanzamos los 4.9 estrellas en Google Reviews, validando nuestro compromiso con la excelencia.
+Alcanzamos las 5.0 estrellas en Google Reviews, validando nuestro compromiso con la excelencia.
 
 2024
 
