@@ -142,11 +142,17 @@ export interface CinematicHeroProps extends React.HTMLAttributes<HTMLDivElement>
 }
 
 export function CinematicHero({
-    brandName = "DosRuedas",
-    tagline1 = "Entregas en el día,",
-    tagline2 = "en toda la ciudad.",
+    brandName = "Envios DosRuedas",
+    tagline1 = "Tu solucion confiable,",
+    tagline2 = "para todo mar del plata.",
     cardHeading = "Logística Inteligente y Rápida.",
-    cardDescription = <><span className="text-white font-semibold">DosRuedas</span> conecta a comercios, plataformas de e-commerce y clientes particulares en Mar del Plata con ruteos automáticos optimizados, despachos express y servicios 3PL dedicados.</>,
+    cardDescription = (
+        <>
+            <span className="text-white font-semibold block leading-tight">Envios</span>
+            <span className="text-white font-semibold block leading-tight mb-2">DosRuedas</span>
+            conecta a comercios, plataformas de e-commerce y clientes particulares en Mar del Plata con ruteos automáticos optimizados, despachos express y servicios 3PL dedicados.
+        </>
+    ),
     metricValue = 7,
     metricLabel = "Años de Trayectoria",
     onComplete,
@@ -289,91 +295,41 @@ export function CinematicHero({
                             </h2>
                         </div>
 
-                        {/* 2. MIDDLE (Mobile) / CENTER (Desktop): IPHONE MOCKUP */}
+                        {/* 2. MIDDLE (Mobile) / CENTER (Desktop): BRAND LOGO */}
                         <div className="mockup-scroll-wrapper order-2 lg:order-2 relative w-full h-[380px] lg:h-[600px] flex items-center justify-center z-10" style={{ perspective: "1000px" }}>
 
                             {/* Inner wrapper for safe CSS scaling that doesn't conflict with GSAP */}
-                            <div className="relative w-full h-full flex items-center justify-center transform scale-[0.65] md:scale-85 lg:scale-100">
+                            <div className="relative w-full h-full flex items-center justify-center transform scale-[0.75] md:scale-90 lg:scale-100">
 
-                                {/* The iPhone Bezel */}
+                                {/* The Premium Logo Display */}
                                 <div
                                     ref={mockupRef}
-                                    className="relative w-[280px] h-[580px] rounded-[3rem] iphone-bezel flex flex-col will-change-transform transform-style-3d"
+                                    className="relative w-[320px] h-[320px] rounded-full flex items-center justify-center bg-gradient-to-b from-brand-blue/20 to-brand-blue/30 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.1)] will-change-transform transform-style-3d p-8"
                                 >
-                                    {/* Physical Hardware Buttons */}
-                                    <div className="absolute top-[120px] -left-[3px] w-[3px] h-[25px] hardware-btn rounded-l-md z-0" aria-hidden="true" />
-                                    <div className="absolute top-[160px] -left-[3px] w-[3px] h-[45px] hardware-btn rounded-l-md z-0" aria-hidden="true" />
-                                    <div className="absolute top-[220px] -left-[3px] w-[3px] h-[45px] hardware-btn rounded-l-md z-0" aria-hidden="true" />
-                                    <div className="absolute top-[170px] -right-[3px] w-[3px] h-[70px] hardware-btn rounded-r-md z-0 scale-x-[-1]" aria-hidden="true" />
-
-                                    {/* Inner Screen Container */}
-                                    <div className="absolute inset-[7px] bg-[#050914] rounded-[2.5rem] overflow-hidden shadow-[inset_0_0_15px_rgba(0,0,0,1)] text-white z-10">
-                                        <div className="absolute inset-0 screen-glare z-40 pointer-events-none" aria-hidden="true" />
-
-                                        {/* Dynamic Island Notch */}
-                                        <div className="absolute top-[5px] left-1/2 -translate-x-1/2 w-[100px] h-[28px] bg-black rounded-full z-50 flex items-center justify-end px-3 shadow-[inset_0_-1px_2px_rgba(255,255,255,0.1)]">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)] animate-pulse" />
-                                        </div>
-
-                                        {/* App Interface */}
-                                        <div className="relative w-full h-full pt-12 px-5 pb-8 flex flex-col justify-between">
-                                            <div className="phone-widget flex justify-between items-center">
-                                                <div className="flex flex-col text-left">
-                                                    <span className="text-[10px] text-neutral-400 uppercase tracking-widest font-bold mb-1">Operando</span>
-                                                    <span className="text-lg font-bold tracking-tight text-white drop-shadow-md">DosRuedas App</span>
-                                                </div>
-                                                <div className="w-8 h-8 rounded-full bg-brand-yellow text-brand-blue flex items-center justify-center font-bold text-xs shadow-lg">DR</div>
-                                            </div>
-
-                                            <div className="phone-widget relative w-40 h-40 mx-auto flex items-center justify-center drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)]">
-                                                <svg className="absolute inset-0 w-full h-full" aria-hidden="true">
-                                                    <circle cx="80" cy="80" r="58" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="10" />
-                                                    <circle className="progress-ring" cx="80" cy="80" r="58" fill="none" stroke="#FFEC01" strokeWidth="10" />
-                                                </svg>
-                                                <div className="text-center z-10 flex flex-col items-center">
-                                                    <span className="counter-val text-3xl font-extrabold tracking-tighter text-white">0</span>
-                                                    <span className="text-[8px] text-blue-200/50 uppercase tracking-[0.1em] font-bold mt-0.5">{metricLabel}</span>
-                                                </div>
-                                            </div>
-
-                                            <div className="space-y-3 text-left">
-                                                <div className="phone-widget widget-depth rounded-xl p-2.5 flex items-center">
-                                                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center mr-2.5 border border-emerald-400/20 shrink-0">
-                                                        <Bike className="w-4 h-4 text-emerald-400" />
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-[10px] font-bold text-white truncate leading-none mb-1">Reparto en Curso</p>
-                                                        <p className="text-[8px] text-slate-400 leading-none">ID: MDQ-FLEX-26</p>
-                                                    </div>
-                                                </div>
-                                                <div className="phone-widget widget-depth rounded-xl p-2.5 flex items-center">
-                                                    <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center mr-2.5 border border-blue-400/20 shrink-0">
-                                                        <MapPin className="w-4 h-4 text-blue-400" />
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-[10px] font-bold text-white truncate leading-none mb-1">Centro de Distribución</p>
-                                                        <p className="text-[8px] text-slate-400 leading-none">Operando 3PL</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="w-[120px] h-[4px] bg-white/20 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.5)] mx-auto mt-2" />
-                                        </div>
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-brand-yellow/10 to-transparent rounded-full blur-2xl animate-pulse" />
+                                    <div className="relative w-full h-full">
+                                        <Image
+                                            src="https://i.postimg.cc/RF6MBw2d/logo-envios.webp"
+                                            alt="Envíos Dos Ruedas Logo"
+                                            fill
+                                            className="object-contain filter drop-shadow-[0_10px_20px_rgba(255,236,1,0.25)]"
+                                            priority
+                                        />
                                     </div>
                                 </div>
 
                                 {/* Floating Glass Badges */}
-                                <div className="floating-badge absolute flex top-6 lg:top-12 left-[-15px] lg:left-[-80px] floating-ui-badge rounded-xl lg:rounded-2xl p-3 lg:p-4 items-center gap-3 lg:gap-4 z-30 text-left">
+                                <div className="floating-badge absolute flex top-2 lg:top-8 left-[-10px] lg:left-[-60px] floating-ui-badge rounded-xl lg:rounded-2xl p-3 lg:p-4 items-center gap-3 lg:gap-4 z-30 text-left">
                                     <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gradient-to-b from-yellow-500/20 to-yellow-900/10 flex items-center justify-center border border-yellow-400/30 shadow-inner shrink-0">
                                         <Zap className="text-brand-yellow w-5 h-5" />
                                     </div>
                                     <div>
-                                        <p className="text-white text-xs lg:text-sm font-bold tracking-tight">Entrega 2HS</p>
-                                        <p className="text-blue-200/50 text-[10px] lg:text-xs font-medium">SLA Express</p>
+                                        <p className="text-white text-xs lg:text-sm font-bold tracking-tight">Entrega Express</p>
+                                        <p className="text-blue-200/50 text-[10px] lg:text-xs font-medium">Solucion a Emprendedores</p>
                                     </div>
                                 </div>
 
-                                <div className="floating-badge absolute flex bottom-12 lg:bottom-20 right-[-15px] lg:right-[-80px] floating-ui-badge rounded-xl lg:rounded-2xl p-3 lg:p-4 items-center gap-3 lg:gap-4 z-30 text-left">
+                                <div className="floating-badge absolute flex bottom-8 lg:bottom-16 right-[-10px] lg:right-[-60px] floating-ui-badge rounded-xl lg:rounded-2xl p-3 lg:p-4 items-center gap-3 lg:gap-4 z-30 text-left">
                                     <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gradient-to-b from-blue-500/20 to-blue-900/10 flex items-center justify-center border border-blue-400/30 shadow-inner shrink-0">
                                         <Shield className="text-blue-400 w-5 h-5" />
                                     </div>
