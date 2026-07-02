@@ -33,13 +33,26 @@ export default function AboutHero() {
   return (
     <section id="about-hero" className="relative min-h-[85vh] bg-slate-50 overflow-hidden">
       {/* Background patterns */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(10,50,150,0.03),transparent_30%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(14,165,233,0.04),transparent_30%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(255,236,1,0.04),transparent_40%)]" />
 
       {/* Hero Banner Section */}
-      <div className="bg-brand-blue text-white pt-32 pb-24 relative overflow-hidden">
-        {/* Abstract shape overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,255,255,0.05),transparent_50%)]" />
+      <div className="bg-gradient-to-b from-sky-900 to-sky-950 text-white pt-32 pb-24 relative overflow-hidden border-b border-sky-800/40">
+        {/* Ambient background glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(56,189,248,0.15),transparent_40%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.04),transparent_50%)]" />
+        
+        {/* Background image overlay */}
+        <div className="absolute inset-0 opacity-10 mix-blend-overlay">
+          <Image
+            src="https://i.postimg.cc/nLMx4vVc/delivery-background.jpg"
+            alt="Fondo de reparto urbano"
+            fill
+            priority
+            referrerPolicy="no-referrer"
+            className="object-cover"
+          />
+        </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div 
@@ -52,7 +65,7 @@ export default function AboutHero() {
               variants={itemVariants}
               className="px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest bg-brand-yellow text-brand-blue inline-flex items-center gap-1.5 shadow-accent-sm"
             >
-              <Award className="h-4 w-4" />
+              <Award className="h-4 w-4 text-brand-blue animate-pulse" />
               Nuestra Identidad
             </motion.span>
 
@@ -65,7 +78,7 @@ export default function AboutHero() {
 
             <motion.p 
               variants={itemVariants}
-              className="text-base sm:text-lg lg:text-xl font-sans text-blue-100 max-w-2xl mx-auto leading-relaxed"
+              className="text-base sm:text-lg lg:text-xl font-sans text-sky-100 max-w-2xl mx-auto leading-relaxed"
             >
               Somos <span className="text-brand-yellow font-semibold">Envíos DosRuedas</span>, tu solución confiable. Más de 7 años revolucionando la logística de última milla en Mar del Plata.
             </motion.p>

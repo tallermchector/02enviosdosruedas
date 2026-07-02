@@ -84,26 +84,12 @@ export default function FaqAccordion() {
   };
 
   return (
-    <section id="faq-accordion" className="py-24 bg-white relative overflow-hidden">
+    <section id="faq-accordion" className="py-16 bg-white relative overflow-hidden">
       {/* Dynamic Background */}
       <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-blue-50/40 blur-3xl -z-10" />
       <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-yellow-50/40 blur-3xl -z-10" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Header Block */}
-        <div className="text-center mb-16 space-y-4">
-          <span className="px-3.5 py-1.5 bg-blue-100 text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block border border-blue-200/50">
-            Centro de Soporte
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight text-slate-900 leading-none">
-            Preguntas Frecuentes
-          </h2>
-          <p className="text-slate-500 font-sans text-sm sm:text-base max-w-lg mx-auto">
-            Todo lo que necesitás saber sobre nuestra operativa de calle, tarifas zonificadas y SLAs de entrega garantizada. Transparencia total.
-          </p>
-          <div className="h-1.5 w-12 bg-brand-yellow mx-auto rounded-full" />
-        </div>
 
         {/* Tab Selection Filter */}
         <div className="flex flex-wrap justify-center gap-3 mb-12">

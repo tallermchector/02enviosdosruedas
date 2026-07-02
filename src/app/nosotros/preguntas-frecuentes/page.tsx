@@ -1,5 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
+import FaqHero from '@/src/components/nosotros/preguntas-frecuentes/FaqHero';
 import FaqAccordion from '@/src/components/nosotros/preguntas-frecuentes/FaqAccordion';
 import FaqCta from '@/src/components/nosotros/preguntas-frecuentes/FaqCta';
 import CarruselRedes from '@/src/components/layout/CarruselRedes';
@@ -12,6 +13,9 @@ export const metadata: Metadata = {
 export default function PreguntasFrecuentesPage() {
   return (
     <main className="min-h-screen bg-slate-50">
+      {/* Hero Header block */}
+      <FaqHero />
+
       {/* Interactive FAQ accordion block */}
       <FaqAccordion />
 

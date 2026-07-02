@@ -1,5 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
+import Image from 'next/image';
 import ContactForm from '@/src/components/contacto/ContactForm';
 import ContactInfo from '@/src/components/contacto/ContactInfo';
 import CarruselRedes from '@/src/components/layout/CarruselRedes';
@@ -16,24 +17,35 @@ export default function ContactoPage() {
       {/* Upper Hero Section */}
       <section 
         id="contacto-hero" 
-        className="relative bg-brand-blue text-white py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+        className="relative bg-gradient-to-b from-amber-950 to-amber-900 text-white py-24 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-amber-800"
       >
-        {/* Decorative background gradients */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,236,1,0.06),transparent_40%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(255,255,255,0.04),transparent_50%)]" />
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-brand-yellow" />
+        {/* Ambient background glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(251,191,36,0.15),transparent_40%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.04),transparent_50%)]" />
+        
+        {/* Background image overlay */}
+        <div className="absolute inset-0 opacity-10 mix-blend-overlay">
+          <Image
+            src="https://i.postimg.cc/nLMx4vVc/delivery-background.jpg"
+            alt="Fondo de reparto urbano"
+            fill
+            priority
+            referrerPolicy="no-referrer"
+            className="object-cover"
+          />
+        </div>
 
         <div className="max-w-7xl mx-auto text-center relative z-10 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-brand-yellow border border-white/10 text-xs font-bold uppercase tracking-widest mb-2 animate-pulse">
-            <MailOpen className="h-4 w-4" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 text-brand-yellow border border-amber-500/30 text-xs font-bold uppercase tracking-widest mb-2 shadow-sm">
+            <MailOpen className="h-4 w-4 text-brand-yellow animate-pulse" />
             Asistencia Personalizada
           </div>
           
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display uppercase tracking-tight max-w-4xl mx-auto leading-none">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display uppercase tracking-tight max-w-4xl mx-auto leading-none text-white">
             Contacto Comercial
           </h1>
           
-          <p className="text-base sm:text-lg lg:text-xl text-blue-100 max-w-2xl mx-auto font-sans leading-relaxed">
+          <p className="text-base sm:text-lg lg:text-xl text-amber-100/90 max-w-2xl mx-auto font-sans leading-relaxed">
             ¿Listo para escalar tu negocio? Hablá con un asesor logístico y diseñemos un esquema tarifario a tu medida.
           </p>
         </div>
