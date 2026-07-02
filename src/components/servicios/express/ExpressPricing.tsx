@@ -1,11 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
-import { motion } from 'motion/react';
-import { Check, ArrowRight, Calculator, HelpCircle } from 'lucide-react';
+import { Check, ArrowRight, Calculator } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '@/src/components/ui/card';
+import { Sparkles } from '@/src/components/ui/sparkles';
+import { TimelineContent } from '@/src/components/ui/timeline-animation';
+import { VerticalCutReveal } from '@/src/components/ui/vertical-cut-reveal';
+import NumberFlow from '@number-flow/react';
 
 export default function ExpressPricing() {
+  const pricingRef = useRef<HTMLDivElement>(null);
+
   const zones = [
     {
       name: 'Zona 1',
@@ -41,117 +47,176 @@ export default function ExpressPricing() {
     },
   ];
 
+  const revealVariants = {
+    visible: (i: number) => ({
+      y: 0,
+      opacity: 1,
+      filter: "blur(0px)",
+      transition: {
+        delay: i * 0.15,
+        duration: 0.5,
+      },
+    }),
+    hidden: {
+      filter: "blur(10px)",
+      y: -20,
+      opacity: 0,
+    },
+  };
+
   return (
     <section 
       id="express-pricing" 
-      className="py-24 bg-brand-blue relative overflow-hidden text-white"
+      className="py-24 bg-brand-blue relative overflow-hidden text-white border-b border-blue-900/60"
+      ref={pricingRef}
     >
-      {/* Background patterns */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(255,236,1,0.04),transparent_35%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_75%,rgba(255,255,255,0.03),transparent_40%)]" />
+      {/* Background Sparkles overlay */}
+      <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent_85%)] opacity-30">
+        <Sparkles
+          density={1200}
+          direction="bottom"
+          speed={0.8}
+          color="#FFFFFF"
+          className="absolute inset-0 h-full w-full"
+        />
+      </div>
 
-      <motion.div 
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={{
-          hidden: { opacity: 0, y: 40 },
-          visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
-        }}
-      >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         
         {/* Header Block */}
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-          <span className="px-3.5 py-1.5 bg-brand-yellow text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block shadow-accent-sm">
+          <TimelineContent
+            animationNum={0}
+            timelineRef={pricingRef}
+            customVariants={revealVariants}
+            as="span"
+            className="px-3.5 py-1.5 bg-brand-yellow text-brand-blue rounded-full text-xs font-bold uppercase tracking-widest inline-block shadow-accent-sm"
+          >
             Envíos Dos Ruedas
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight text-white">
-            Tarifas 2026 Envíos Express
+          </TimelineContent>
+
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight text-white flex justify-center">
+            <VerticalCutReveal
+              splitBy="words"
+              staggerDuration={0.1}
+              staggerFrom="first"
+              containerClassName="justify-center"
+            >
+              Tarifas 2026 Envíos Express
+            </VerticalCutReveal>
           </h2>
-          <p className="text-blue-100 font-sans text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
+
+          <TimelineContent
+            animationNum={1}
+            timelineRef={pricingRef}
+            customVariants={revealVariants}
+            as="p"
+            className="text-blue-100 font-sans text-sm sm:text-base max-w-lg mx-auto leading-relaxed"
+          >
             Consultá los precios actualizados para nuestro servicio premium con rango horario a elección.
-          </p>
+          </TimelineContent>
           <div className="h-1.5 w-16 bg-brand-yellow mx-auto rounded-full" />
         </div>
 
         {/* Pricing Cards Grid (4 columns) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-          {zones.map((zone, idx) => (
-            <motion.div
-              key={zone.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className={`rounded-3xl p-6 border flex flex-col justify-between transition-all duration-300 group ${
-                zone.highlight
-                  ? 'bg-white text-slate-900 border-brand-yellow shadow-xl lg:scale-[1.03] relative z-20'
-                  : 'bg-white/5 text-white border-white/10 hover:border-white/20 hover:bg-white/[0.08]'
-              }`}
-            >
-              {zone.highlight && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-yellow text-brand-blue font-bold text-[9px] tracking-widest uppercase px-3 py-1 rounded-full shadow-md">
-                  RECOMENDADO
-                </span>
-              )}
+          {zones.map((zone, idx) => {
+            const isNumericPrice = zone.price.startsWith('$');
+            const numericValue = isNumericPrice ? parseInt(zone.price.replace('$', '').replace('.', '')) : null;
 
-              <div className="space-y-6">
-                <div>
-                  <span className={`text-[10px] font-bold uppercase tracking-widest ${zone.highlight ? 'text-brand-blue' : 'text-brand-yellow'}`}>
-                    {zone.name}
-                  </span>
-                  <h3 className="text-lg font-display uppercase tracking-wider font-semibold mt-1">
-                    {zone.scope}
-                  </h3>
-                </div>
-
-                <div className="py-2">
-                  <span className={`text-4xl font-display uppercase font-bold tracking-tight ${zone.highlight ? 'text-brand-blue' : 'text-brand-yellow'}`}>
-                    {zone.price}
-                  </span>
-                  <span className="text-xs opacity-65 font-sans block mt-1">/ despacho final</span>
-                </div>
-
-                <p className="text-xs opacity-80 leading-relaxed font-sans min-h-[32px]">
-                  {zone.description}
-                </p>
-
-                {/* Bullets */}
-                <ul className="space-y-2.5 pt-4 border-t border-current/10">
-                  {zone.bullets.map((bullet) => (
-                    <li key={bullet} className="flex items-center gap-2 text-xs">
-                      <Check className={`h-4 w-4 shrink-0 ${zone.highlight ? 'text-brand-blue' : 'text-brand-yellow'}`} />
-                      <span className="font-sans opacity-90">{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="pt-6 mt-6 border-t border-current/10">
-                <Link
-                  href="/cotizar/express"
-                  className={`w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider font-subheading flex items-center justify-center gap-1.5 transition-all ${
+            return (
+              <TimelineContent
+                key={zone.name}
+                animationNum={2 + idx}
+                timelineRef={pricingRef}
+                customVariants={revealVariants}
+                as="div"
+              >
+                <Card
+                  className={`rounded-3xl border flex flex-col justify-between h-full transition-all duration-300 group ${
                     zone.highlight
-                      ? 'bg-brand-blue text-white hover:bg-brand-blue/90 shadow-sm'
-                      : 'bg-white/10 text-white hover:bg-white/15'
+                      ? 'bg-gradient-to-b from-white via-white to-amber-50 text-slate-900 border-brand-yellow shadow-xl lg:scale-[1.03] relative z-20'
+                      : 'bg-gradient-to-b from-white/5 to-white/[0.02] text-white border-white/10 hover:border-white/20 hover:bg-white/[0.08]'
                   }`}
                 >
-                  <span>Seleccionar {zone.name}</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
-              </div>
+                  <CardHeader className="p-6 pb-2 text-left relative">
+                    {zone.highlight && (
+                      <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-yellow text-brand-blue font-bold text-[9px] tracking-widest uppercase px-3 py-1 rounded-full shadow-md">
+                        RECOMENDADO
+                      </span>
+                    )}
+                    
+                    <div>
+                      <span className={`text-[10px] font-bold uppercase tracking-widest ${zone.highlight ? 'text-brand-blue' : 'text-brand-yellow'}`}>
+                        {zone.name}
+                      </span>
+                      <h3 className="text-lg font-display uppercase tracking-wider font-semibold mt-1">
+                        {zone.scope}
+                      </h3>
+                    </div>
 
-            </motion.div>
-          ))}
+                    <div className="py-2">
+                      {isNumericPrice && numericValue ? (
+                        <div className="flex items-baseline">
+                          <span className={`text-4xl font-display uppercase font-bold tracking-tight ${zone.highlight ? 'text-brand-blue' : 'text-brand-yellow'}`}>
+                            $
+                            <NumberFlow
+                              value={numericValue}
+                              format={{ minimumFractionDigits: 0 }}
+                              className="inline-block"
+                            />
+                          </span>
+                        </div>
+                      ) : (
+                        <span className={`text-4xl font-display uppercase font-bold tracking-tight ${zone.highlight ? 'text-brand-blue' : 'text-brand-yellow'}`}>
+                          {zone.price}
+                        </span>
+                      )}
+                      <span className={`text-xs opacity-65 font-sans block mt-1 ${zone.highlight ? 'text-slate-500' : 'text-blue-100'}`}>/ despacho final</span>
+                    </div>
+
+                    <p className={`text-xs opacity-80 leading-relaxed font-sans min-h-[32px] ${zone.highlight ? 'text-slate-600' : 'text-slate-200'}`}>
+                      {zone.description}
+                    </p>
+                  </CardHeader>
+
+                  <CardContent className="p-6 pt-0 flex flex-col justify-between flex-grow">
+                    {/* Bullets */}
+                    <ul className={`space-y-2.5 pt-4 border-t ${zone.highlight ? 'border-slate-200' : 'border-white/10'} mb-6`}>
+                      {zone.bullets.map((bullet) => (
+                        <li key={bullet} className="flex items-center gap-2 text-xs">
+                          <Check className={`h-4 w-4 shrink-0 ${zone.highlight ? 'text-brand-blue' : 'text-brand-yellow'}`} />
+                          <span className="font-sans opacity-95">{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div>
+                      <Link
+                        href="/cotizar/express"
+                        className={`w-full py-3 rounded-xl text-xs font-bold uppercase tracking-wider font-subheading flex items-center justify-center gap-1.5 transition-all ${
+                          zone.highlight
+                            ? 'bg-brand-blue text-white hover:bg-brand-blue/90 shadow-sm'
+                            : 'bg-white/10 text-white hover:bg-white/15'
+                        }`}
+                      >
+                        <span>Seleccionar {zone.name}</span>
+                        <ArrowRight className="h-3.5 w-3.5 animate-pulse" />
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TimelineContent>
+            );
+          })}
         </div>
 
         {/* Zona 5: Dynamic Quote Callout (Full width card) */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+        <TimelineContent
+          animationNum={6}
+          timelineRef={pricingRef}
+          customVariants={revealVariants}
+          as="div"
           className="bg-white text-slate-900 rounded-3xl p-8 border border-brand-yellow shadow-lg relative overflow-hidden"
         >
           {/* Subtle background highlight icon */}
@@ -161,7 +226,7 @@ export default function ExpressPricing() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
             
-            <div className="lg:col-span-8 space-y-4">
+            <div className="lg:col-span-8 space-y-4 text-left">
               <span className="px-3 py-1 bg-brand-blue/10 text-brand-blue rounded-full text-[10px] font-bold uppercase tracking-widest inline-block">
                 Zona 5 (Larga Distancia)
               </span>
@@ -185,9 +250,9 @@ export default function ExpressPricing() {
             </div>
 
           </div>
-        </motion.div>
+        </TimelineContent>
 
-      </motion.div>
+      </div>
     </section>
   );
 }

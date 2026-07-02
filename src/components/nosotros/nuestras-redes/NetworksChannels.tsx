@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'motion/react';
-import { Facebook, Instagram, MessageSquare, ArrowRight, Star } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export default function NetworksChannels() {
   const channels = [
@@ -11,7 +12,7 @@ export default function NetworksChannels() {
       handle: '@enviosdosruedas',
       stat: '2.5K+ Seguidores',
       desc: 'Seguinos en Facebook para enterarte de ofertas exclusivas quincenales y actualizaciones diarias de nuestros servicios de mensajería urbana en Mar del Plata.',
-      icon: Facebook,
+      iconPath: '/iconos/facebook.svg',
       btnLabel: 'Seguinos en Facebook',
       url: 'https://facebook.com/enviosdosruedas',
       color: 'hover:border-blue-500/30 text-blue-600',
@@ -22,7 +23,7 @@ export default function NetworksChannels() {
       handle: '@enviosdosruedas',
       stat: '3.2K+ Seguidores',
       desc: 'Mirá nuestro dinámico día a día en Instagram, fotos reales de las entregas diarias de nuestra flota y promociones relámpago súper especiales diseñadas para vos.',
-      icon: Instagram,
+      iconPath: '/iconos/instagram.svg',
       btnLabel: 'Seguinos en Instagram',
       url: 'https://instagram.com/enviosdosruedas',
       color: 'hover:border-pink-500/30 text-pink-600',
@@ -33,7 +34,7 @@ export default function NetworksChannels() {
       handle: '+54 223 660-2699',
       stat: 'Atención Directa',
       desc: 'Atención de consultas personalizada y sin fricciones por WhatsApp. El canal más ágil y directo para coordinar cotizaciones, retiros y pedidos inmediatos.',
-      icon: MessageSquare,
+      iconPath: '/iconos/whatapps.svg',
       btnLabel: 'Hablá con nosotros',
       url: 'https://wa.me/5492236602699?text=Hola%20Envios%20DosRuedas,%20vengo%20desde%20la%20web.',
       color: 'hover:border-emerald-500/30 text-emerald-600',
@@ -74,7 +75,6 @@ export default function NetworksChannels() {
         {/* Channels Grid (3 Columns) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {channels.map((channel, idx) => {
-            const Icon = channel.icon;
             return (
               <motion.div
                 key={channel.name}
@@ -87,8 +87,14 @@ export default function NetworksChannels() {
                 <div className="space-y-6">
                   {/* Icon & Badge Header */}
                   <div className="flex items-center justify-between">
-                    <div className="p-3 bg-brand-blue/10 text-brand-blue rounded-2xl">
-                      <Icon className="h-6 w-6" />
+                    <div className="p-3 bg-brand-blue/10 rounded-2xl relative w-12 h-12 flex items-center justify-center">
+                      <Image
+                        src={channel.iconPath}
+                        alt={channel.name}
+                        width={24}
+                        height={24}
+                        className="object-contain"
+                      />
                     </div>
                     
                     <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider ${channel.badgeBg}`}>

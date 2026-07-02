@@ -57,17 +57,31 @@ export default function OptimizedFooter() {
               <div className="flex items-center gap-3">
                 <Link
                   href="/nosotros/nuestras-redes"
-                  className="h-10 w-10 rounded-xl bg-white/5 hover:bg-brand-yellow hover:text-brand-blue text-white flex items-center justify-center transition-all duration-200 border border-white/10"
+                  className="h-10 w-10 rounded-xl bg-white/5 hover:bg-brand-yellow text-white flex items-center justify-center transition-all duration-200 border border-white/10 p-2"
                   title="Instagram"
                 >
-                  <Instagram className="h-5 w-5" />
+                  <div className="relative w-5 h-5 filter invert group-hover:invert-0">
+                    <Image
+                      src="/iconos/instagram.svg"
+                      alt="Instagram"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
                 </Link>
                 <Link
                   href="/nosotros/nuestras-redes"
-                  className="h-10 w-10 rounded-xl bg-white/5 hover:bg-brand-yellow hover:text-brand-blue text-white flex items-center justify-center transition-all duration-200 border border-white/10"
+                  className="h-10 w-10 rounded-xl bg-white/5 hover:bg-brand-yellow text-white flex items-center justify-center transition-all duration-200 border border-white/10 p-2"
                   title="Facebook"
                 >
-                  <Facebook className="h-5 w-5" />
+                  <div className="relative w-5 h-5 filter invert group-hover:invert-0">
+                    <Image
+                      src="/iconos/facebook.svg"
+                      alt="Facebook"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
                 </Link>
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs text-blue-200 font-mono">
                   <Award className="h-4 w-4 text-brand-yellow" />

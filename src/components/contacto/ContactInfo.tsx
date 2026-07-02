@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'motion/react';
 import { 
-  MessageSquare, Mail, Facebook, Instagram, Clock, MapPin, ShieldCheck 
+  Mail, Clock, MapPin, ShieldCheck 
 } from 'lucide-react';
 
 export default function ContactInfo() {
@@ -12,7 +13,7 @@ export default function ContactInfo() {
       label: 'WhatsApp',
       value: '223-660-2699',
       href: 'https://wa.me/542236602699',
-      icon: MessageSquare,
+      iconPath: '/iconos/whatapps.svg',
       color: 'hover:border-emerald-500 hover:text-emerald-600',
       iconBg: 'bg-emerald-50 text-emerald-600',
     },
@@ -20,6 +21,7 @@ export default function ContactInfo() {
       label: 'Email Principal',
       value: 'matiascejas@enviosdosruedas.com',
       href: 'mailto:matiascejas@enviosdosruedas.com',
+      isLucide: true,
       icon: Mail,
       color: 'hover:border-brand-blue hover:text-brand-blue',
       iconBg: 'bg-blue-50 text-brand-blue',
@@ -28,7 +30,7 @@ export default function ContactInfo() {
       label: 'Instagram',
       value: '@enviosdosruedas',
       href: 'https://instagram.com/enviosdosruedas',
-      icon: Instagram,
+      iconPath: '/iconos/instagram.svg',
       color: 'hover:border-pink-500 hover:text-pink-600',
       iconBg: 'bg-pink-50 text-pink-600',
     },
@@ -36,7 +38,7 @@ export default function ContactInfo() {
       label: 'Facebook',
       value: 'Envíos DosRuedas',
       href: 'https://facebook.com/enviosdosruedas',
-      icon: Facebook,
+      iconPath: '/iconos/facebook.svg',
       color: 'hover:border-blue-600 hover:text-blue-700',
       iconBg: 'bg-blue-50 text-blue-700',
     },
@@ -63,7 +65,6 @@ export default function ContactInfo() {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {contactChannels.map((chan) => {
-            const Icon = chan.icon;
             return (
               <a
                 key={chan.label}
@@ -72,8 +73,18 @@ export default function ContactInfo() {
                 rel="noopener noreferrer"
                 className={`p-4 border border-slate-100 rounded-2xl flex items-center gap-3 transition-all duration-300 group bg-slate-50/30 ${chan.color}`}
               >
-                <div className={`p-3 rounded-xl transition-colors ${chan.iconBg}`}>
-                  <Icon className="h-5 w-5" />
+                <div className={`p-3 rounded-xl transition-colors relative w-11 h-11 flex items-center justify-center ${chan.iconBg}`}>
+                  {chan.isLucide && chan.icon ? (
+                    <chan.icon className="h-5 w-5" />
+                  ) : (
+                    <Image
+                      src={chan.iconPath!}
+                      alt={chan.label}
+                      width={20}
+                      height={20}
+                      className="object-contain"
+                    />
+                  )}
                 </div>
                 <div className="min-w-0">
                   <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 font-sans leading-none mb-1">
