@@ -1,0 +1,74 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:cotizar-lowcost",
+      "url": "https://www.enviosdosruedas.com/cotizar/lowcost",
+      "name": "Cotizador de Envíos LowCost en Moto | Mar del Plata | Envíos DosRuedas",
+      "description": "Calculá tu tarifa de envío económico programado con entrega en el día en Mar del Plata (pedidos antes de las 13 hs). Ruteo optimizado para comercios y PyMEs.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:cotizar:lowcost:hero" },
+        { "@id": "urn:enviosdosruedas:component:cotizar:lowcost:form" },
+        { "@id": "urn:enviosdosruedas:component:cotizar:lowcost:batch-grid" },
+        { "@id": "urn:enviosdosruedas:component:cotizar:lowcost:details" },
+        { "@id": "urn:enviosdosruedas:component:cotizar:lowcost:help" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:cotizar:lowcost:hero",
+      "name": "CotizadorLowCostHero",
+      "filePath": "src/components/cotizar/lowcost/CotizadorLowCostHero.tsx",
+      "componentType": "React Server Component",
+      "requiresAsset": [
+        { "@id": "urn:enviosdosruedas:asset:hero-cotizar-lowcost" }
+      ]
+    },
+    {
+      "@type": "VisualAsset",
+      "@id": "urn:enviosdosruedas:asset:hero-cotizar-lowcost",
+      "name": "Hero Cotizar LowCost Image",
+      "url": "/assets/hero_cotizar_lowcost.png",
+      "fileFormat": "image/png",
+      "sectionId": "cotizador-lowcost-hero",
+      "typography": "font-display (Anton), font-subheading (Bebas Neue)",
+      "colorPalette": ["#0636A5", "#FFEC01", "#FFFFFF"],
+      "composition": "Gráfica ilustrativa sobre consolidación de paquetes y envíos económicos programados."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:cotizar:lowcost:form",
+      "name": "CotizadorLowCostForm",
+      "filePath": "src/components/cotizar/lowcost/CotizadorLowCostForm.tsx",
+      "componentType": "React Client Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:cotizar:lowcost:batch-grid",
+      "name": "BatchGrid",
+      "filePath": "src/components/cotizar/lowcost/BatchGrid.tsx",
+      "componentType": "React Client Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:cotizar:lowcost:details",
+      "name": "CotizadorLowCostDetails",
+      "filePath": "src/components/cotizar/lowcost/CotizadorLowCostDetails.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:cotizar:lowcost:help",
+      "name": "CotizadorLowCostHelp",
+      "filePath": "src/components/cotizar/lowcost/CotizadorLowCostHelp.tsx",
+      "componentType": "React Client Component"
+    }
+  ]
+}

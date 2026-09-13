@@ -1,0 +1,58 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:nosotros-nuestras-redes",
+      "url": "https://www.enviosdosruedas.com/nosotros/nuestras-redes",
+      "name": "Nuestras Redes y Comunidad | Envíos DosRuedas Mar del Plata",
+      "description": "Conectate con la mayor comunidad logística y de mensajería urbana en Mar del Plata. Seguí nuestras novedades operativas de calle, beneficios y promociones.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:nosotros:nuestras-redes:hero" },
+        { "@id": "urn:enviosdosruedas:component:nosotros:nuestras-redes:channels" },
+        { "@id": "urn:enviosdosruedas:component:nosotros:nuestras-redes:recent-posts" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:nosotros:nuestras-redes:hero",
+      "name": "NetworksHero",
+      "filePath": "src/components/nosotros/nuestras-redes/NetworksHero.tsx",
+      "componentType": "React Server Component",
+      "requiresAsset": [
+        { "@id": "urn:enviosdosruedas:asset:hero-nuestras-redes" }
+      ]
+    },
+    {
+      "@type": "VisualAsset",
+      "@id": "urn:enviosdosruedas:asset:hero-nuestras-redes",
+      "name": "Hero Nuestras Redes Image",
+      "url": "/assets/hero_nuestras_redes.png",
+      "fileFormat": "image/png",
+      "sectionId": "networks-hero",
+      "typography": "font-display (Anton), font-subheading (Bebas Neue)",
+      "colorPalette": ["#0636A5", "#FFEC01", "#FFFFFF"],
+      "composition": "Composición de interacción social y canales oficiales de comunicación corporativa."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:nosotros:nuestras-redes:channels",
+      "name": "NetworksChannels",
+      "filePath": "src/components/nosotros/nuestras-redes/NetworksChannels.tsx",
+      "componentType": "React Client Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:nosotros:nuestras-redes:recent-posts",
+      "name": "RecentPosts",
+      "filePath": "src/components/nosotros/nuestras-redes/RecentPosts.tsx",
+      "componentType": "React Client Component"
+    }
+  ]
+}

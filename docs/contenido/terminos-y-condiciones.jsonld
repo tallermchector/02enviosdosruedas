@@ -1,0 +1,30 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:terminos-y-condiciones",
+      "url": "https://www.enviosdosruedas.com/terminos-y-condiciones",
+      "name": "Términos y Condiciones | Envíos DosRuedas Mar del Plata",
+      "description": "Leé detenidamente las pautas operativas, obligaciones del usuario, tarifas, formas de pago y limitaciones de responsabilidad de Envíos DosRuedas.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:terminos-y-condiciones:terms-content" },
+        { "@id": "urn:enviosdosruedas:component:layout:carrusel-redes" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:terminos-y-condiciones:terms-content",
+      "name": "TermsContent",
+      "filePath": "src/app/terminos-y-condiciones/TermsContent.tsx",
+      "componentType": "React Client Component",
+      "description": "Lector interactivo con navegación lateral y desglose por artículos de los términos y condiciones del servicio."
+    }
+  ]
+}
