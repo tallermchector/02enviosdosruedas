@@ -1,0 +1,82 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:servicios-enviosflex",
+      "url": "https://www.enviosdosruedas.com/servicios/enviosflex",
+      "name": "Envíos Flex, Reparto MercadoLibre y Logística Flex Mar del Plata | Envíos DosRuedas",
+      "description": "Socio logístico especialista en envíos flex y reparto MercadoLibre en Mar del Plata. SLA 100% entregas en el día para proteger tu reputación MercadoLíder. Horario de corte 15:00 hs, entregas antes de las 20:00 hs, sin mínimo de paquetes.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:servicios:flex:hero" },
+        { "@id": "urn:enviosdosruedas:component:servicios:flex:features" },
+        { "@id": "urn:enviosdosruedas:component:servicios:flex:benefits" },
+        { "@id": "urn:enviosdosruedas:component:servicios:flex:pricing" },
+        { "@id": "urn:enviosdosruedas:component:servicios:flex:how-it-works" },
+        { "@id": "urn:enviosdosruedas:component:servicios:flex:requirements" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:flex:hero",
+      "name": "FlexHero",
+      "filePath": "src/components/servicios/flex/FlexHero.tsx",
+      "componentType": "React Server Component",
+      "requiresAsset": [
+        { "@id": "urn:enviosdosruedas:asset:hero-envios-flex" }
+      ]
+    },
+    {
+      "@type": "VisualAsset",
+      "@id": "urn:enviosdosruedas:asset:hero-envios-flex",
+      "name": "Hero Envíos Flex Image",
+      "url": "/assets/hero_envios_flex.png",
+      "fileFormat": "image/png",
+      "sectionId": "flex-hero",
+      "typography": "font-display (Anton), font-subheading (Bebas Neue)",
+      "colorPalette": ["#0636A5", "#FFEC01", "#FFFFFF"],
+      "composition": "Proceso logístico especializado en Mercado Envíos Flex Same-Day con entregas garantizadas en Mar del Plata."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:flex:features",
+      "name": "FlexFeatures",
+      "filePath": "src/components/servicios/flex/FlexFeatures.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:flex:benefits",
+      "name": "FlexBenefits",
+      "filePath": "src/components/servicios/flex/FlexBenefits.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:flex:pricing",
+      "name": "FlexPricing",
+      "filePath": "src/components/servicios/flex/FlexPricing.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:flex:how-it-works",
+      "name": "FlexHowItWorks",
+      "filePath": "src/components/servicios/flex/FlexHowItWorks.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:flex:requirements",
+      "name": "FlexRequirements",
+      "filePath": "src/components/servicios/flex/FlexRequirements.tsx",
+      "componentType": "React Server Component"
+    }
+  ]
+}
