@@ -10,23 +10,49 @@ import FlexRequirements from '@/src/components/servicios/flex/FlexRequirements';
 const baseUrl = 'https://www.enviosdosruedas.com';
 
 export const metadata: Metadata = {
-  title: 'Envíos Flex MercadoLibre | Envíos DosRuedas Mar del Plata',
-  description: 'Optimizá tus entregas Same-Day en Mar del Plata. Socios logísticos certificados para Mercado Envíos Flex. Medidor de reputación siempre en verde y envíos rápidos.',
+  title: 'Envíos Flex, Reparto MercadoLibre y Logística Flex Mar del Plata | Envíos DosRuedas',
+  description:
+    'Socio logístico especialista en envíos flex y reparto MercadoLibre en Mar del Plata. SLA 100% entregas en el día para proteger tu reputación MercadoLíder. Horario de corte 15:00 hs, entregas antes de las 20:00 hs, sin mínimo de paquetes.',
+  keywords: [
+    'envios flex',
+    'reparto mercadolibre',
+    'logistica flex',
+    'envios flex mar del plata',
+    'mercado envios flex mar del plata',
+  ],
   alternates: {
     canonical: `${baseUrl}/servicios/enviosflex`,
+  },
+  openGraph: {
+    title: 'Envíos Flex, Reparto MercadoLibre y Logística Flex | Envíos DosRuedas',
+    description:
+      'Logística flex y reparto MercadoLibre Same-Day en Mar del Plata. SLA 100% entregas garantizadas en el día, corte 15:00 hs y múltiples retiros sin mínimos.',
+    url: `${baseUrl}/servicios/enviosflex`,
+    type: 'website',
+    locale: 'es_AR',
   },
 };
 
 const jsonLdSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: 'Envíos Flex MercadoLibre',
-  description: 'Optimizá tus entregas Same-Day en Mar del Plata. Socios logísticos certificados para Mercado Envíos Flex. Medidor de reputación siempre en verde y envíos rápidos.',
+  name: 'Envíos Flex, Reparto MercadoLibre y Logística Flex en Mar del Plata',
+  description:
+    'Solución integral en envíos flex, reparto MercadoLibre y logística flex en Mar del Plata. SLA de 100% entregas en el día para proteger reputación MercadoLíder. Horario de corte 15:00 hs, entregas antes de las 20:00 hs, múltiples retiros diarios sin mínimo de envíos.',
   url: `${baseUrl}/servicios/enviosflex`,
   provider: {
     '@type': 'LocalBusiness',
     '@id': `${baseUrl}#localbusiness`,
     name: 'Envíos DosRuedas',
+    telephone: '+54-223-660-2699',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Friuli 1972',
+      addressLocality: 'Mar del Plata',
+      addressRegion: 'Buenos Aires',
+      postalCode: '7600',
+      addressCountry: 'AR',
+    },
   },
   areaServed: {
     '@type': 'City',
@@ -34,56 +60,63 @@ const jsonLdSchema = {
   },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Planes Flex para Vendedores',
+    name: 'Servicios Flex para Vendedores ML',
     itemListElement: [
-      { '@type': 'Offer', name: 'Flex Estándar', description: 'Hasta 50 envíos/día - ideal para vendedores en crecimiento', price: '0', priceCurrency: 'ARS', availability: 'https://schema.org/InStock' },
-      { '@type': 'Offer', name: 'Flex Pro', description: 'Hasta 200 envíos/día - para vendedores establecidos', price: '0', priceCurrency: 'ARS', availability: 'https://schema.org/InStock' },
-      { '@type': 'Offer', name: 'Flex Enterprise', description: 'Volumen ilimitado - integración API + gestor dedicado', price: '0', priceCurrency: 'ARS', availability: 'https://schema.org/InStock' },
+      {
+        '@type': 'Offer',
+        name: 'Logística Flex Emprendedor',
+        description: 'Retiros diarios sin mínimos y 100% de entregas Same-Day antes de las 20:00 hs',
+        priceCurrency: 'ARS',
+        availability: 'https://schema.org/InStock',
+      },
+      {
+        '@type': 'Offer',
+        name: 'Reparto MercadoLibre Alto Volumen',
+        description: 'Múltiples retiros diarios y soporte dedicado vía WhatsApp para MercadoLíderes',
+        priceCurrency: 'ARS',
+        availability: 'https://schema.org/InStock',
+      },
     ],
   },
 };
 
 export default function EnviosFlexPage() {
   return (
-    <main className="min-h-screen gradient-surface text-brand-blue-700 relative overflow-hidden">
+    <main className="min-h-screen bg-[#F8FAFC] text-brand-blue-700 relative overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
       />
-      {/* Ambient floating glow-orbs */}
-      <div className="absolute top-[20%] left-[-15%] w-[40vw] h-[40vw] bg-brand-blue/5 rounded-full blur-[130px] pointer-events-none animate-float-slow" />
-      <div className="absolute bottom-[20%] right-[-10%] w-[35vw] h-[35vw] bg-brand-yellow/3 rounded-full blur-[110px] pointer-events-none" style={{ animationDelay: '-3s' }} />
 
-      {/* Hero Header Block */}
-      <div className="relative z-10">
+      {/* Hero Header Block — Electric Speed Blue (#0950F6) */}
+      <section className="relative z-10 bg-[#0950F6]">
         <FlexHero />
-      </div>
+      </section>
 
-      {/* MercadoLibre expert key features */}
-      <div className="relative z-10 font-sans">
+      {/* MercadoLibre expert key features — Slate Canvas (#F8FAFC) */}
+      <section className="relative z-10 bg-[#F8FAFC] font-sans">
         <FlexFeatures />
-      </div>
+      </section>
 
-      {/* Seller value-added benefits grid */}
-      <div className="relative z-10 font-sans">
+      {/* Seller value-added benefits grid — Deep Midnight Navy (#052C87) */}
+      <section className="relative z-10 bg-[#052C87] font-sans">
         <FlexBenefits />
-      </div>
+      </section>
 
-      {/* Pricing levels and weather discounts */}
-      <div className="relative z-10">
+      {/* Pricing levels and weather discounts — Electric Speed Blue (#0950F6) */}
+      <section className="relative z-10 bg-[#0950F6]">
         <FlexPricing />
-      </div>
+      </section>
 
-      {/* Step by step streamlined workflow */}
-      <div className="relative z-10 font-sans">
+      {/* Step by step streamlined workflow — Slate Canvas (#F8FAFC) */}
+      <section className="relative z-10 bg-[#F8FAFC] font-sans">
         <FlexHowItWorks />
-      </div>
+      </section>
 
-      {/* Active prerequisites for starting */}
-      <div className="relative z-10 font-sans">
+      {/* Active prerequisites for starting — Slate Canvas (#F8FAFC) */}
+      <section className="relative z-10 bg-[#F8FAFC] font-sans">
         <FlexRequirements />
-      </div>
+      </section>
     </main>
   );
 }
-

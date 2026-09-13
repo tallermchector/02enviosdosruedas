@@ -1,22 +1,27 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  // Dominio oficial unificado CON www para consistencia SEO
-  const baseUrl = 'https://www.enviosdosruedas.com'
+  const baseUrl = 'https://www.enviosdosruedas.com';
 
   return {
     rules: [
       {
-        userAgent: '*', // Aplica la regla estricta de manera global para todos los buscadores
+        userAgent: '*',
         allow: '/',
-        disallow: [
-          '/admin',      // Bloquea la landing de login de administración
-          '/admin/',     // Bloquea cualquier subcarpeta interna del panel
-          '/ordenes',    // Bloquea el listado dinámico de paquetes
-          '/ordenes/',   // Bloquea datos privados de clientes/entregas
-        ],
+        disallow: ['/api/', '/admin/', '/revisar'],
+      },
+      {
+        userAgent: ['Googlebot', 'Googlebot-Smartphone', 'AdsBot-Google'],
+        allow: '/',
+        disallow: ['/api/', '/admin/', '/revisar'],
+      },
+      {
+        userAgent: ['GPTBot', 'ClaudeBot', 'PerplexityBot', 'Google-Extended'],
+        allow: '/',
+        disallow: ['/api/', '/admin/', '/revisar'],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
-  }
+    host: baseUrl,
+  };
 }

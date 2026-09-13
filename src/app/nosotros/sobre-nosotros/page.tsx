@@ -10,28 +10,48 @@ import AboutMissionVision from '@/src/components/nosotros/sobre-nosotros/AboutMi
 const baseUrl = 'https://www.enviosdosruedas.com';
 
 export const metadata: Metadata = {
-  title: 'Sobre Nosotros | Envíos DosRuedas Mar del Plata',
-  description: 'Conocé la historia, valores y equipo detrás de Envíos DosRuedas. Más de 7 años liderando la logística urbana y la última milla de e-commerce en Mar del Plata.',
+  title: 'Sobre Nosotros & Historia | Envíos DosRuedas Mar del Plata',
+  description:
+    'Conocé la historia, valores y equipo detrás de Envíos DosRuedas. Más de 7 años de trayectoria liderando la logística urbana, cadetería y última milla e-commerce en Mar del Plata.',
   alternates: {
     canonical: `${baseUrl}/nosotros/sobre-nosotros`,
+  },
+  openGraph: {
+    title: 'Sobre Nosotros & Historia | Envíos DosRuedas Mar del Plata',
+    description:
+      'Más de 7 años de trayectoria transformando la logística urbana y la última milla en Mar del Plata con flota propia.',
+    url: `${baseUrl}/nosotros/sobre-nosotros`,
+    type: 'website',
+    locale: 'es_AR',
   },
 };
 
 const jsonLdSchema = {
   '@context': 'https://schema.org',
   '@type': 'AboutPage',
-  name: 'Sobre Nosotros',
-  description: 'Conocé la historia, valores y equipo detrás de Envíos DosRuedas. Más de 7 años liderando la logística urbana y la última milla de e-commerce en Mar del Plata.',
+  name: 'Sobre Nosotros - Envíos DosRuedas',
+  description:
+    'Historia, valores y equipo de Envíos DosRuedas en Mar del Plata. Más de 7 años de trayectoria en logística urbana y última milla.',
   url: `${baseUrl}/nosotros/sobre-nosotros`,
   mainEntity: {
     '@type': 'LocalBusiness',
     '@id': `${baseUrl}#localbusiness`,
     name: 'Envíos DosRuedas',
-    description: 'Más de 7 años liderando la logística urbana y la última milla de e-commerce en Mar del Plata.',
-    foundingDate: '2017',
+    description:
+      'Somos tu aliado estratégico en logística urbana y mensajería de última milla. Con más de 7 años de trayectoria en Mar del Plata, transformamos el despacho de tus productos en un motor de crecimiento para emprendedores, PyMEs y comercios locales.',
+    telephone: '+54-223-660-2699',
+    email: 'matiascejas@enviosdosruedas.com',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Friuli 1972',
+      addressLocality: 'Mar del Plata',
+      addressRegion: 'Buenos Aires',
+      postalCode: '7600',
+      addressCountry: 'AR',
+    },
     numberOfEmployees: {
       '@type': 'QuantitativeValue',
-      minValue: 10,
+      minValue: 20,
       maxValue: 50,
     },
   },
@@ -39,42 +59,43 @@ const jsonLdSchema = {
 
 export default function SobreNosotrosPage() {
   return (
-    <main className="min-h-screen bg-brand-white-50 text-brand-blue-700 relative overflow-hidden">
+    <main className="min-h-screen bg-brand-white-50 text-brand-ink relative overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
       />
-      {/* 3D Ambient floating glow-orbs */}
-      <div className="absolute top-[15%] left-[-10%] w-[40vw] h-[40vw] bg-brand-blue-500/10 rounded-full blur-[120px] pointer-events-none animate-float-slow" />
-      <div className="absolute top-[50%] right-[-10%] w-[35vw] h-[35vw] bg-brand-yellow-500/5 rounded-full blur-[100px] pointer-events-none" style={{ animationDelay: '-2s' }} />
-      <div className="absolute bottom-[10%] left-[5%] w-[45vw] h-[45vw] bg-brand-blue-500/10 rounded-full blur-[130px] pointer-events-none" style={{ animationDelay: '-4s' }} />
 
-      {/* Hero Header & Quiénes Somos */}
+      {/* 3D Ambient floating glow-orbs */}
+      <div className="absolute top-[15%] left-[-10%] w-[40vw] h-[40vw] bg-brand-blue-500/5 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute top-[50%] right-[-10%] w-[35vw] h-[35vw] bg-brand-yellow-500/5 rounded-full blur-[110px] pointer-events-none" />
+      <div className="absolute bottom-[10%] left-[5%] w-[45vw] h-[45vw] bg-brand-blue-500/5 rounded-full blur-[130px] pointer-events-none" />
+
+      {/* Hero Header & Identidad */}
       <div className="relative z-10">
         <AboutHero />
       </div>
 
-      {/* Corporate Advantages (Nuestra ventaja injusta) */}
+      {/* Ventajas Territoriales */}
       <div className="relative z-10">
         <AboutAdvantages />
       </div>
 
-      {/* Core values block */}
+      {/* Valores Operativos */}
       <div className="relative z-10">
         <AboutValues />
       </div>
 
-      {/* Interactive historical milestones timeline */}
+      {/* Línea de Tiempo & Evolución Histórica */}
       <div className="relative z-10">
         <AboutTimeline />
       </div>
 
-      {/* Stats and organizational workforce teams */}
+      {/* Equipo & Fuerza Operativa */}
       <div className="relative z-10">
         <AboutTeam />
       </div>
 
-      {/* Comprehensive Mission, Vision, and Innovation pillars */}
+      {/* Misión, Visión & Cierre */}
       <div className="relative z-10 font-sans">
         <AboutMissionVision />
       </div>

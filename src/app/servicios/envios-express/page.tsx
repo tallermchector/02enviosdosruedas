@@ -8,23 +8,49 @@ import ExpressUseCases from '@/src/components/servicios/express/ExpressUseCases'
 const baseUrl = 'https://www.enviosdosruedas.com';
 
 export const metadata: Metadata = {
-  title: 'Envíos Express Inmediatos | Envíos DosRuedas Mar del Plata',
-  description: 'La solución premium para operaciones de alta criticidad horaria en Mar del Plata. Vos elegís el rango exacto de entrega con certeza absoluta en menos de 2 horas.',
+  title: 'Mensajería en Moto y Envíos Express | Entregas Inmediatas Mar del Plata | Envíos DosRuedas',
+  description:
+    'Servicio prioritario de mensajería en moto y envíos express en Mar del Plata. Entregas inmediatas con rango de 3 horas (solicitud con 2 hs de anticipación antes de las 15:00 hs). Bultos hasta 5 kg y 40x30 cm.',
+  keywords: [
+    'mensajeria en moto',
+    'envios express',
+    'entregas inmediatas',
+    'cadeteria express mar del plata',
+    'mensajeria urbana mar del plata',
+  ],
   alternates: {
     canonical: `${baseUrl}/servicios/envios-express`,
+  },
+  openGraph: {
+    title: 'Mensajería en Moto y Envíos Express en Mar del Plata | Envíos DosRuedas',
+    description:
+      'Cadetería prioritarias y entregas inmediatas en Mar del Plata. Rango de entrega de 3 horas, solicitud antes de las 15:00 hs. Hasta 5 kg y 40x30 cm.',
+    url: `${baseUrl}/servicios/envios-express`,
+    type: 'website',
+    locale: 'es_AR',
   },
 };
 
 const jsonLdSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: 'Envíos Express Inmediatos',
-  description: 'La solución premium para operaciones de alta criticidad horaria en Mar del Plata. Vos elegís el rango exacto de entrega con certeza absoluta en menos de 2 horas.',
+  name: 'Mensajería en Moto y Envíos Express con Entregas Inmediatas en Mar del Plata',
+  description:
+    'Servicio prioritario de mensajería en moto y envíos express con entregas inmediatas en rango de 3 horas en Mar del Plata. Solicita con 2 hs de anticipación antes de las 15:00 hs. Bultos de hasta 5 kg y 40x30 cm.',
   url: `${baseUrl}/servicios/envios-express`,
   provider: {
     '@type': 'LocalBusiness',
     '@id': `${baseUrl}#localbusiness`,
     name: 'Envíos DosRuedas',
+    telephone: '+54-223-660-2699',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Friuli 1972',
+      addressLocality: 'Mar del Plata',
+      addressRegion: 'Buenos Aires',
+      postalCode: '7600',
+      addressCountry: 'AR',
+    },
   },
   areaServed: {
     '@type': 'City',
@@ -32,47 +58,74 @@ const jsonLdSchema = {
   },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Tarifas Express por Zona',
+    name: 'Tarifas Express Vigentes 2026',
     itemListElement: [
-      { '@type': 'Offer', name: 'Express 0-3 km', price: '3700', priceCurrency: 'ARS', availability: 'https://schema.org/InStock' },
-      { '@type': 'Offer', name: 'Express 3-6 km', price: '4200', priceCurrency: 'ARS', availability: 'https://schema.org/InStock' },
-      { '@type': 'Offer', name: 'Express 6-10 km', price: '5200', priceCurrency: 'ARS', availability: 'https://schema.org/InStock' },
-      { '@type': 'Offer', name: 'Express 10-15 km', price: '6800', priceCurrency: 'ARS', availability: 'https://schema.org/InStock' },
+      {
+        '@type': 'Offer',
+        name: 'Express Zona 1 (0 a 3 km)',
+        price: '3700',
+        priceCurrency: 'ARS',
+        availability: 'https://schema.org/InStock',
+      },
+      {
+        '@type': 'Offer',
+        name: 'Express Zona 2 (3 a 5 km)',
+        price: '4600',
+        priceCurrency: 'ARS',
+        availability: 'https://schema.org/InStock',
+      },
+      {
+        '@type': 'Offer',
+        name: 'Express Zona 3 (5 a 7 km)',
+        price: '6100',
+        priceCurrency: 'ARS',
+        availability: 'https://schema.org/InStock',
+      },
+      {
+        '@type': 'Offer',
+        name: 'Express Zona 4 (7 a 10 km)',
+        price: '8200',
+        priceCurrency: 'ARS',
+        availability: 'https://schema.org/InStock',
+      },
+      {
+        '@type': 'Offer',
+        name: 'Express Zona 5 (+10 km)',
+        price: '8200',
+        priceCurrency: 'ARS',
+        availability: 'https://schema.org/InStock',
+        description: '$8.200 base más $1.000 por kilómetro adicional entero',
+      },
     ],
   },
 };
 
 export default function EnviosExpressPage() {
   return (
-    <main className="min-h-screen gradient-surface text-brand-blue-700 relative overflow-hidden">
+    <main className="min-h-screen bg-[#F8FAFC] text-brand-blue-700 relative overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
       />
-      {/* Ambient floating glow-orbs */}
-      <div className="absolute top-[20%] left-[-15%] w-[40vw] h-[40vw] bg-brand-blue/5 rounded-full blur-[130px] pointer-events-none animate-float-slow" />
-      <div className="absolute bottom-[20%] right-[-10%] w-[35vw] h-[35vw] bg-brand-yellow/3 rounded-full blur-[110px] pointer-events-none" style={{ animationDelay: '-3s' }} />
-
-      {/* Hero Header Segment */}
-      <div className="relative z-10">
+      {/* 1. Hero Presentation — Electric Speed Blue (#0950F6) */}
+      <section className="relative z-10 bg-[#0950F6]">
         <ExpressHero />
-      </div>
+      </section>
 
-      {/* Value Propositions / Features */}
-      <div className="relative z-10 font-sans">
+      {/* 2. Value Propositions & Key Features — Slate Canvas (#F8FAFC) */}
+      <section className="relative z-10 bg-[#F8FAFC] font-sans">
         <ExpressFeatures />
-      </div>
+      </section>
 
-      {/* 2026 Zone Pricing Rates & Dynamic Cotizador Hook */}
-      <div className="relative z-10">
+      {/* 3. 2026 Zone Pricing Rates & Dynamic Quote Hook — Electric Speed Blue (#0950F6) */}
+      <section className="relative z-10 bg-[#0950F6]">
         <ExpressPricing />
-      </div>
+      </section>
 
-      {/* Common Use Case Scenarios */}
-      <div className="relative z-10 font-sans">
+      {/* 4. Common Use Cases & Scenarios — Slate Canvas (#F8FAFC) */}
+      <section className="relative z-10 bg-[#F8FAFC] font-sans">
         <ExpressUseCases />
-      </div>
+      </section>
     </main>
   );
 }
-

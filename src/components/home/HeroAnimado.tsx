@@ -1,500 +1,298 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { motion, useMotionValue, useSpring, useTransform, useScroll, useReducedMotion, type Variants, type Transition } from 'motion/react';
-import { Bike, Shield, Zap, MapPin, ArrowRight } from 'lucide-react';
-import LogisticaNetworkCanvas from './LogisticaNetworkCanvas';
-import gsap from 'gsap';
-
-// Spring configuration following HyperFrames standard: stiffness: 100, damping: 20
-const springConfig: Transition = { type: 'spring', stiffness: 100, damping: 20 };
-const springConfigSnappy: Transition = { type: 'spring', stiffness: 300, damping: 25 };
-
-// Container variants with orchestrated stagger (capped at ~500ms total)
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.15,
-    },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: 'spring', stiffness: 100, damping: 20 },
-  },
-};
+import { motion, useReducedMotion, type Variants } from 'motion/react';
+import { Package, MapPin, FastForward, ShieldCheck, Zap, Sparkles } from 'lucide-react';
+import { CTANestedPill } from '@/src/components/ui';
+import HeroProceduralBackground from '@/src/components/ui/HeroProceduralBackground';
 
 export default function HeroAnimado() {
   const reduceMotion = useReducedMotion();
-  const counterRef = useRef<HTMLSpanElement>(null);
-  const hasAnimatedRef = useRef(false);
-  const mouseMoveRAF = useRef<number | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
 
-  // Mouse tracking for 3D tilt effect - simplified when reduceMotion
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  // Spring configurations following HyperFrames & Framer Motion skill standard
+  const springTransition = { type: 'spring' as const, stiffness: 100, damping: 20 };
+  const snappySpring = { type: 'spring' as const, stiffness: 300, damping: 25 };
 
-  // Apply spring physics to mouse tracking (HyperFrames standard: stiffness: 100, damping: 20)
-  const springOptions = { stiffness: 100, damping: 20 };
-
-  const rotateX = useSpring(
-    useTransform(mouseY, [-0.5, 0.5], [8, -8]),
-    springOptions
-  );
-  const rotateY = useSpring(
-    useTransform(mouseX, [-0.5, 0.5], [-8, 8]),
-    springOptions
-  );
-
-  // Float offsets for badges - only when not reduceMotion
-  const floatX = useSpring(
-    useTransform(mouseX, [-0.5, 0.5], [-12, 12]),
-    springOptions
-  );
-  const floatY = useSpring(
-    useTransform(mouseY, [-0.5, 0.5], [-12, 12]),
-    springOptions
-  );
-  const floatXInv = useSpring(
-    useTransform(mouseX, [-0.5, 0.5], [15, -15]),
-    springOptions
-  );
-  const floatYInv = useSpring(
-    useTransform(mouseY, [-0.5, 0.5], [15, -15]),
-    springOptions
-  );
-
-  // Debounced mouse move handler to reduce main thread work
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (reduceMotion) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clientX = e.clientX;
-    const clientY = e.clientY;
-
-    if (mouseMoveRAF.current) return;
-
-    mouseMoveRAF.current = requestAnimationFrame(() => {
-      const width = rect.width;
-      const height = rect.height;
-      if (width > 0 && height > 0) {
-        const x = (clientX - rect.left) / width - 0.5;
-        const y = (clientY - rect.top) / height - 0.5;
-        mouseX.set(x);
-        mouseY.set(y);
-      }
-      mouseMoveRAF.current = null;
-    });
+  // Orchestrated entrance animation variants for left column
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.05,
+      },
+    },
   };
 
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (reduceMotion || e.touches.length === 0) return;
-    const touch = e.touches[0];
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clientX = touch.clientX;
-    const clientY = touch.clientY;
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 25 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: reduceMotion ? { duration: 0.01 } : springTransition,
+    },
+  };
 
-    if (mouseMoveRAF.current) return;
-
-    mouseMoveRAF.current = requestAnimationFrame(() => {
-      const width = rect.width;
-      const height = rect.height;
-      if (width > 0 && height > 0) {
-        const x = (clientX - rect.left) / width - 0.5;
-        const y = (clientY - rect.top) / height - 0.5;
-        mouseX.set(x);
-        mouseY.set(y);
-      }
-      mouseMoveRAF.current = null;
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (reduceMotion || !cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    // Smooth 3D tilt calculation (±8deg)
+    setTilt({
+      rotateX: (-y / (rect.height / 2)) * 7,
+      rotateY: (x / (rect.width / 2)) * 7,
     });
   };
 
   const handleMouseLeave = () => {
-    if (reduceMotion) return;
-    if (mouseMoveRAF.current) {
-      cancelAnimationFrame(mouseMoveRAF.current);
-      mouseMoveRAF.current = null;
-    }
-    mouseX.set(0);
-    mouseY.set(0);
+    setTilt({ rotateX: 0, rotateY: 0 });
   };
-
-  // Parallax scroll using transform only
-  const { scrollY } = useScroll();
-  const parallaxY = useTransform(scrollY, [0, 1000], [0, 150]);
-
-  // Counter animation using GSAP (deterministic, seek-safe)
-  // Only run if not reduceMotion to avoid main thread work
-  useEffect(() => {
-    if (reduceMotion || !counterRef.current || hasAnimatedRef.current) return;
-    hasAnimatedRef.current = true;
-
-    gsap.to(counterRef.current, {
-      innerHTML: 5000,
-      duration: 2.5,
-      snap: { innerHTML: 1 },
-      ease: 'power3.out',
-      delay: 1.8,
-    });
-  }, [reduceMotion]);
-
-  // Reduced motion: reset mouse tracking
-  useEffect(() => {
-    if (reduceMotion) {
-      mouseX.set(0);
-      mouseY.set(0);
-      if (mouseMoveRAF.current) {
-        cancelAnimationFrame(mouseMoveRAF.current);
-        mouseMoveRAF.current = null;
-      }
-    }
-  }, [reduceMotion]);
 
   return (
     <section
       id="hero-animado"
-      className="relative min-h-[95dvh] flex items-center justify-center pt-32 pb-20 overflow-hidden bg-brand-blue text-white section-fade-bottom"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleMouseLeave}
-      style={{ perspective: 1000 }}
+      className="relative w-full overflow-hidden bg-[#0950F6] text-white shadow-ambient-elevation"
+      style={{ minHeight: '90dvh' }}
     >
-      {/* Background patterns - using transform for parallax */}
-      {reduceMotion ? (
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.02),transparent_40%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,236,1,0.02),transparent_50%)]" />
-        </div>
-      ) : (
-        <motion.div
-          style={{ y: parallaxY }}
-          className="absolute inset-0 pointer-events-none"
-          transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.02),transparent_40%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,236,1,0.02),transparent_50%)]" />
-        </motion.div>
-      )}
+      {/* Pure Vector & Dynamic Procedural Background */}
+      <HeroProceduralBackground variant="express" />
 
-      {/* Interactive Logistics Network Background */}
-      {reduceMotion ? (
-        <div className="absolute inset-0 w-full h-full pointer-events-none z-0 bg-gradient-to-br from-brand-blue-900/20 via-brand-blue-800/10 to-brand-blue-900/20" />
-      ) : (
-        <LogisticaNetworkCanvas />
-      )}
+      {/* Ghost Wordmark Monumental de Fondo */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0">
+        <span className="font-display uppercase text-[15vw] leading-none text-white/[0.035] tracking-tighter whitespace-nowrap">
+          ENVÍOS DOS RUEDAS
+        </span>
+      </div>
 
-      {/* Bottom gradient fade to white section */}
-      <div className="absolute bottom-0 left-0 right-0 h-2 bg-brand-white-50 pointer-events-none" />
-
-      {/* Background illustration overlay with topographic feel */}
-      {reduceMotion ? (
-        <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none">
-          <Image
-            src="/hero-background.jpeg"
-            alt="Textura de Mapa de calles"
-            fill={true}
-            priority
-            fetchPriority="high"
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
-      ) : (
-        <motion.div
-          style={{ y: parallaxY }}
-          className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none"
-          transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-        >
-          <Image
-            src="/hero-background.jpeg"
-            alt="Textura de Mapa de calles"
-            fill={true}
-            priority
-            fetchPriority="high"
-            sizes="100vw"
-            className="object-cover"
-          />
-        </motion.div>
-      )}
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <motion.div
-          className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-12 items-center"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Main Info */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8">
-            {/* Badge */}
-            <motion.div variants={itemVariants} className="inline-flex justify-center lg:justify-start">
-              <span className="px-3.5 py-1.5 rounded-full text-xs font-subheading font-bold uppercase tracking-widest bg-brand-yellow text-brand-blue border border-brand-yellow cta-pulse shadow-accent-sm">
-                Tu Solución Confiable
-              </span>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-28">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          
+          {/* Left Column: Copy & Actions (7 Cols on desktop) */}
+          <motion.div
+            className="lg:col-span-7 space-y-7 lg:space-y-9 text-center lg:text-left"
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+          >
+            {/* Top Badge */}
+            <motion.div className="flex justify-center lg:justify-start" variants={itemVariants}>
+              <motion.span
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-subheading font-bold uppercase tracking-widest bg-[#FFF12E] text-[#0950F6] shadow-glow-yellow border border-[#FFF12E] cursor-default"
+                whileHover={reduceMotion ? undefined : { scale: 1.03, transition: snappySpring }}
+              >
+                <Sparkles className="w-3.5 h-3.5 fill-[#0950F6]" />
+                Tu Solución Confiable en Mar del Plata
+              </motion.span>
             </motion.div>
 
-            {/* Title */}
+            {/* Title with Signature Kinetic Typography */}
             <motion.h1
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display uppercase tracking-tight leading-[0.98] flex flex-col items-center lg:items-start gap-2 select-none"
               variants={itemVariants}
-              className="text-4xl sm:text-5xl lg:text-6xl font-display uppercase tracking-[-0.03em] leading-[1.15] sm:leading-[1.1] lg:leading-[1.05] text-white flex flex-col items-center lg:items-start select-none"
             >
-              <span className="kinetic-font-stretch cursor-pointer hover:text-brand-yellow">
+              <span className="kinetic-font-stretch">
                 Mensajería y Logística
               </span>
-              <span className="kinetic-font-stretch bg-brand-yellow px-2.5 py-0.5 text-brand-blue inline-block my-1 sm:my-1.5 lg:my-0 hover:bg-white">
-                E-Commerce
+              <span className="relative inline-block bg-[#052C87]/80 px-3.5 py-1 my-1 transform -rotate-1 rounded-xl border border-[#FFF12E]/40 shadow-xl">
+                <span className="relative z-10 bg-[#FFF12E] text-[#0950F6] px-3 py-1 inline-block font-display font-black rounded-lg">
+                  E-Commerce
+                </span>
               </span>
-              <span className="kinetic-font-stretch cursor-pointer hover:text-brand-yellow">
+              <span className="kinetic-font-stretch text-white">
                 en Mar del Plata
               </span>
             </motion.h1>
 
-            {/* Body Text */}
+            {/* Body Text in Rioplatense voice */}
             <motion.p
+              className="text-base sm:text-lg lg:text-xl max-w-xl mx-auto lg:mx-0 font-sans leading-relaxed text-brand-blue-100/90 font-light"
               variants={itemVariants}
-              className="text-lg max-w-xl mx-auto lg:mx-0 font-sans leading-relaxed text-brand-blue-100"
             >
-              Somos tu partner estratégico en mensajería, envíos en el día y delivery de última milla. Soluciones ágiles, seguras y competitivas para potenciar tu marca.
+              Somos tu partner estratégico en mensajería urbana, envíos en el día y delivery de última milla. Flota propia de motos, cero tercerización y respuesta inmediata.
             </motion.p>
 
             {/* CTA Buttons */}
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2 w-full sm:w-auto">
-              <Link
+            <motion.div
+              className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-1"
+              variants={itemVariants}
+            >
+              <a
                 href="/cotizar/express"
                 id="hero-cta-solicitar"
-                className="w-full sm:w-auto bg-brand-yellow text-brand-blue font-subheading tracking-wider text-base uppercase cta-nested-pill border border-brand-yellow hover:shadow-cta-glow transition-all duration-300 ease-out hover:scale-[1.02] active:scale-[0.95] flex items-center justify-between font-bold px-7 py-3"
+                className="group inline-flex items-center justify-between rounded-full min-h-[52px] px-8 py-3.5 bg-[#FFF12E] hover:bg-[#FFF44A] text-[#0950F6] font-subheading text-lg font-bold uppercase tracking-wider shadow-glow-yellow transition-all duration-300 hover:scale-[1.02] cursor-pointer"
               >
                 <span>Cotizá Express</span>
-                <span className="cta-nested-icon bg-brand-blue/15 text-brand-blue transition-transform duration-300 group-hover:translate-x-1">
-                  <ArrowRight className="h-4 w-4" />
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#0950F6]/15 text-[#0950F6] ml-3 transition-transform duration-300 group-hover:translate-x-1">
+                  →
                 </span>
-              </Link>
-              <Link
+              </a>
+
+              <a
                 href="/servicios/envios-express"
                 id="hero-cta-servicios"
-                className="w-full sm:w-auto bg-transparent hover:bg-white/10 text-white font-subheading tracking-wider text-base uppercase cta-nested-pill border border-white/30 transition-all duration-300 ease-out hover:scale-[1.02] active:scale-[0.95] flex items-center justify-between group px-7 py-3 font-bold"
+                className="group inline-flex items-center justify-between rounded-full min-h-[52px] px-8 py-3.5 bg-white/10 hover:bg-white/20 text-white border border-white/30 hover:border-white font-subheading text-lg font-bold uppercase tracking-wider backdrop-blur-md transition-all duration-300 hover:scale-[1.02] cursor-pointer"
               >
                 <span>Mirá los Servicios</span>
-                <span className="cta-nested-icon bg-white/10 text-white transition-transform duration-300 group-hover:translate-x-1">
-                  <ArrowRight className="h-4 w-4" />
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/15 text-white ml-3 transition-transform duration-300 group-hover:translate-x-1">
+                  →
                 </span>
-              </Link>
+              </a>
             </motion.div>
 
-            {/* Features list */}
+            {/* Features / Trust Badges list */}
             <motion.div
+              className="pt-2 flex flex-wrap justify-center lg:justify-start gap-5 sm:gap-8 text-brand-blue-100/80"
               variants={itemVariants}
-              className="flex flex-wrap justify-center lg:justify-start gap-6 pt-8 border-t border-white/10 w-full max-w-lg mx-auto lg:mx-0"
             >
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg text-brand-yellow">
-                  <Shield className="h-4 w-4" />
+              <motion.div
+                className="flex items-center gap-2.5 font-subheading text-sm uppercase tracking-wider cursor-default"
+                whileHover={reduceMotion ? undefined : { x: 3, transition: snappySpring }}
+              >
+                <div className="w-8 h-8 rounded-lg bg-brand-yellow-500/15 border border-brand-yellow-500/30 flex items-center justify-center text-brand-yellow-500">
+                  <Package className="h-4 w-4" />
                 </div>
-                <span className="text-xs font-subheading tracking-widest uppercase text-brand-blue-100">100% SEGURO</span>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg text-brand-yellow">
-                  <Zap className="h-4 w-4" />
-                </div>
-                <span className="text-xs font-subheading tracking-widest uppercase text-brand-blue-100">RÁPIDO</span>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg text-brand-yellow">
+                <span>+50k Envíos</span>
+              </motion.div>
+              <motion.div
+                className="flex items-center gap-2.5 font-subheading text-sm uppercase tracking-wider cursor-default"
+                whileHover={reduceMotion ? undefined : { x: 3, transition: snappySpring }}
+              >
+                <div className="w-8 h-8 rounded-lg bg-brand-yellow-500/15 border border-brand-yellow-500/30 flex items-center justify-center text-brand-yellow-500">
                   <MapPin className="h-4 w-4" />
                 </div>
-                <span className="text-xs font-subheading tracking-widest uppercase text-brand-blue-100">COBERTURA TOTAL</span>
+                <span>Cobertura Total MDQ</span>
+              </motion.div>
+              <motion.div
+                className="flex items-center gap-2.5 font-subheading text-sm uppercase tracking-wider cursor-default"
+                whileHover={reduceMotion ? undefined : { x: 3, transition: snappySpring }}
+              >
+                <div className="w-8 h-8 rounded-lg bg-brand-yellow-500/15 border border-brand-yellow-500/30 flex items-center justify-center text-brand-yellow-500">
+                  <FastForward className="h-4 w-4" />
+                </div>
+                <span>Entregas en el Día</span>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
+          {/* Right Column: Hero Visual Card with 3D Tilt & Lighting */}
+          <div
+            className="lg:col-span-5 relative flex justify-center items-center mt-4 lg:mt-0"
+            style={{ perspective: '1200px' }}
+          >
+            {/* Ambient Backlight Glow behind 3D image */}
+            <motion.div
+              className="absolute w-72 sm:w-96 h-72 sm:h-96 bg-brand-yellow-500/20 rounded-full blur-[100px] pointer-events-none -z-10"
+              animate={reduceMotion ? {} : { scale: [1, 1.06, 1], opacity: [0.2, 0.3, 0.2] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <div className="absolute w-60 sm:w-80 h-60 sm:h-80 bg-brand-blue-500/30 rounded-full blur-[90px] pointer-events-none -z-10" />
+
+            {/* Interactive Floating 3D Graphic Container */}
+            <motion.div
+              ref={cardRef}
+              initial={{ opacity: 0, y: 30, scale: 0.94 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                rotateX: reduceMotion ? 0 : tilt.rotateX,
+                rotateY: reduceMotion ? 0 : tilt.rotateY,
+              }}
+              transition={
+                reduceMotion
+                  ? { duration: 0.01 }
+                  : {
+                      opacity: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+                      scale: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+                      rotateX: snappySpring,
+                      rotateY: snappySpring,
+                    }
+              }
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              whileHover={reduceMotion ? undefined : { y: -6, transition: snappySpring }}
+              className="relative w-full max-w-[460px] transform-style-3d cursor-pointer"
+            >
+              {/* Outer Double Bezel Frame for Hero Asset */}
+              <div className="p-3 sm:p-4 rounded-[30px] bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl hover:shadow-glow-yellow transition-shadow duration-300">
+                <div className="relative rounded-[20px] overflow-hidden bg-[#052C87] border border-white/15 p-4 sm:p-6 flex flex-col items-center">
+                  
+                  {/* Top HUD Telemetry Pill */}
+                  <div className="w-full flex items-center justify-between gap-2 mb-4 bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full backdrop-blur-md shadow-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="relative flex h-2.5 w-2.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFF12E] opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FFF12E]" />
+                      </span>
+                      <span className="font-subheading text-[11px] sm:text-xs uppercase tracking-widest text-[#FFF12E] font-bold">
+                        Ruteo Activo · MDQ
+                      </span>
+                    </div>
+                    <span className="font-mono text-[10px] sm:text-[11px] font-bold text-white bg-white/15 px-2 py-0.5 rounded-md border border-white/20">
+                      Friuli 1972
+                    </span>
+                  </div>
+
+                  {/* Main 3D Card Image Asset with depth */}
+                  <div className="relative w-full aspect-square max-w-[340px] flex items-center justify-center my-1 drop-shadow-[0_15px_30px_rgba(0,0,0,0.4)] transform-style-3d">
+                    <Image
+                      src="/card_mapa.webp"
+                      alt="Envíos DosRuedas - Mapa y Cobertura Logística en Mar del Plata"
+                      width={500}
+                      height={500}
+                      priority
+                      className="object-contain w-full h-full transform transition-transform duration-500 hover:scale-105"
+                    />
+                  </div>
+
+                  {/* Bottom Feature Badges Overlay */}
+                  <div className="w-full grid grid-cols-2 gap-2.5 mt-3">
+                    <motion.div
+                      className="bg-brand-blue-900/80 border border-white/15 p-2.5 rounded-xl flex items-center gap-2.5"
+                      whileHover={reduceMotion ? undefined : { scale: 1.03, transition: snappySpring }}
+                    >
+                      <div className="p-1.5 rounded-lg bg-brand-yellow-500 text-brand-blue-900 shrink-0">
+                        <Zap className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="font-subheading text-xs font-bold uppercase text-white leading-tight">
+                          Envíos Same-Day
+                        </p>
+                        <p className="font-sans text-[10px] text-brand-blue-200">Entrega en el Día</p>
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      className="bg-brand-blue-900/80 border border-white/15 p-2.5 rounded-xl flex items-center gap-2.5"
+                      whileHover={reduceMotion ? undefined : { scale: 1.03, transition: snappySpring }}
+                    >
+                      <div className="p-1.5 rounded-lg bg-brand-blue-500 text-white shrink-0">
+                        <ShieldCheck className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="font-subheading text-xs font-bold uppercase text-white leading-tight">
+                          Flota Propia
+                        </p>
+                        <p className="font-sans text-[10px] text-brand-blue-200">Cero Tercerización</p>
+                      </div>
+                    </motion.div>
+                  </div>
+
+                </div>
               </div>
             </motion.div>
           </div>
 
-          {/* Graphical Representation / Floating Cards (Inversa Flat Style) */}
-          <div
-            className="relative h-[380px] sm:h-[450px] w-full mt-10 lg:mt-0 flex justify-center items-center overflow-visible"
-            style={{ perspective: 1000 }}
-          >
-            {/* 3D Container with mouse-following tilt - static when reduceMotion */}
-            {reduceMotion ? (
-              <div className="w-full max-w-[400px] lg:max-w-none h-full relative" style={{ transformStyle: 'preserve-3d' }}>
-                {/* Card 1: Map Representation - static */}
-                <div
-                  className="absolute top-8 sm:top-12 right-0 w-[78%] z-25"
-                  style={{
-                    transformStyle: 'preserve-3d',
-                    transform: 'translateZ(10px)',
-                  }}
-                >
-                  <div className="relative rounded-2xl overflow-hidden border border-brand-blue-100 bg-white p-2.5 sm:p-3 shadow-[4px_4px_0px_var(--color-brand-blue-600)]">
-                    <div className="relative h-40 sm:h-48 w-full overflow-hidden rounded-xl" style={{ transform: 'translateZ(20px)', transformStyle: 'preserve-3d' }}>
-                      <Image
-                        src="/card_mapa.webp"
-                        alt="Mapa de Cobertura de Mar del Plata"
-                        fill={true}
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 350px"
-                        className="rounded-xl object-cover"
-                      />
-                    </div>
-                    <div className="mt-3 flex items-center justify-between text-brand-ink font-mono" style={{ transform: 'translateZ(30px)' }}>
-                      <span className="text-[11px] font-bold uppercase tracking-wide">Ruteo de Envíos</span>
-                      <span className="text-[9px] px-1.5 py-0.5 border border-brand-blue-400 bg-brand-white-50 text-brand-blue-700 font-bold uppercase rounded-full">Optimizado</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <motion.div
-                className="w-full max-w-[400px] lg:max-w-none h-full relative"
-                style={{
-                  rotateX,
-                  rotateY,
-                  transformStyle: 'preserve-3d',
-                }}
-                transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-              >
-                {/* Card 1: Map Representation */}
-                <motion.div
-                  className="absolute top-8 sm:top-12 right-0 w-[78%] z-25"
-                  initial={{ opacity: 0, z: -100 }}
-                  animate={{ opacity: 1, z: 0 }}
-                  transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.5, duration: 0.8 }}
-                  style={{
-                    transformStyle: 'preserve-3d',
-                    transform: 'translateZ(10px)',
-                  }}
-                  whileHover={{ scale: 1.02, transition: springConfigSnappy }}
-                >
-                  <div className="relative rounded-2xl overflow-hidden border border-brand-blue-100 bg-white p-2.5 sm:p-3 shadow-[4px_4px_0px_var(--color-brand-blue-600)]">
-                    <div className="relative h-40 sm:h-48 w-full overflow-hidden rounded-xl" style={{ transform: 'translateZ(20px)', transformStyle: 'preserve-3d' }}>
-                      <Image
-                        src="/card_mapa.webp"
-                        alt="Mapa de Cobertura de Mar del Plata"
-                        fill={true}
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 350px"
-                        className="rounded-xl object-cover"
-                      />
-                    </div>
-                    <div className="mt-3 flex items-center justify-between text-brand-ink font-mono" style={{ transform: 'translateZ(30px)' }}>
-                      <span className="text-[11px] font-bold uppercase tracking-wide">Ruteo de Envíos</span>
-                      <span className="text-[9px] px-1.5 py-0.5 border border-brand-blue-400 bg-brand-white-50 text-brand-blue-700 font-bold uppercase rounded-full">Optimizado</span>
-                    </div>
-                  </div>
-                </motion.div>
-              </motion.div>
-            )}
-
-              {/* Badge 1: Seguridad Garantizada - with perpetual micro-float */}
-              <motion.div
-                className="absolute top-12 left-4 sm:left-8 z-30"
-                initial={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                animate={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1 }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 100,
-                  damping: 20,
-                  delay: 0.7,
-                  duration: 0.6,
-                }}
-                style={{
-                  x: reduceMotion ? 0 : floatX,
-                  y: reduceMotion ? 0 : floatY,
-                  transform: 'translateZ(30px)',
-                }}
-                whileHover={{ scale: 1.05, transition: springConfigSnappy }}
-              >
-                <div className="px-4 py-2 sm:px-5 sm:py-2.5 bg-white text-brand-blue-700 font-mono tracking-widest text-[10px] sm:text-[11px] rounded-full border border-brand-blue-100 flex items-center gap-1.5 sm:gap-2 font-bold shadow-elevated">
-                  <Shield className="h-3.5 w-3.5 text-brand-blue-500" />
-                  SEGURIDAD GARANTIZADA
-                </div>
-              </motion.div>
-
-              {/* Badge 2: 100% MARPLATENSE - with perpetual micro-float (inverse) */}
-              <motion.div
-                className="absolute top-1/2 -translate-y-1/2 left-0 sm:left-4 z-35"
-                initial={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                animate={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1 }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 100,
-                  damping: 20,
-                  delay: 0.9,
-                  duration: 0.6,
-                }}
-                style={{
-                  x: reduceMotion ? 0 : floatXInv,
-                  y: reduceMotion ? 0 : floatYInv,
-                  transform: 'translateZ(50px)',
-                }}
-                whileHover={{ scale: 1.05, transition: springConfigSnappy }}
-              >
-                <div className="px-4 py-2 sm:px-5 sm:py-2.5 bg-brand-yellow text-brand-blue font-mono tracking-widest text-[10px] sm:text-[11px] rounded-full border border-brand-yellow flex items-center gap-1.5 sm:gap-2 font-bold shadow-[2px_2px_0px_var(--color-brand-blue)]">
-                  <MapPin className="h-3.5 w-3.5" />
-                  100% MARPLATENSE
-                </div>
-              </motion.div>
-
-              {/* Badge 3: Envíos en el Día - with perpetual micro-float */}
-              <motion.div
-                className="absolute bottom-8 left-6 sm:left-12 z-40"
-                initial={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                animate={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1 }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 100,
-                  damping: 20,
-                  delay: 1.1,
-                  duration: 0.6,
-                }}
-                style={{
-                  x: reduceMotion ? 0 : floatX,
-                  y: reduceMotion ? 0 : floatYInv,
-                  transform: 'translateZ(70px)',
-                }}
-                whileHover={{ scale: 1.05, transition: springConfigSnappy }}
-              >
-                <div className="px-4 py-2 sm:px-5 sm:py-2.5 bg-brand-blue-700 text-white font-mono tracking-widest text-[10px] sm:text-[11px] rounded-full border border-brand-yellow flex items-center gap-1.5 sm:gap-2 font-bold shadow-[2px_2px_0px_var(--color-brand-yellow)]">
-                  <Zap className="h-3.5 w-3.5 text-brand-yellow" />
-                  ENVÍOS EN EL DÍA
-                </div>
-              </motion.div>
-
-              {/* Counter Pill - with spring pop entrance */}
-              <motion.div
-                className="absolute -bottom-4 right-4 z-45"
-                initial={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.6 }}
-                animate={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1 }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 100,
-                  damping: 15,
-                  delay: 1.4,
-                  duration: 0.7,
-                }}
-                style={{
-                  x: reduceMotion ? 0 : floatX,
-                  y: reduceMotion ? 0 : floatYInv,
-                  transform: 'translateZ(90px)',
-                }}
-                whileHover={{ scale: 1.03, transition: springConfigSnappy }}
-              >
-                <div className="px-4 py-2 bg-white text-brand-blue-700 font-display text-xl rounded-xl border border-brand-blue-100 shadow-elevated flex items-center gap-2">
-                  <span className="text-brand-yellow-500">+</span>
-                  <span ref={counterRef} className="font-display">0</span>
-                  <span className="text-sm font-subheading tracking-widest ml-1 mt-1 text-brand-blue-700">ENVÍOS</span>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
+        </div>
       </div>
+
+      {/* Bottom gradient border fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-brand-yellow-500 pointer-events-none" />
     </section>
   );
 }

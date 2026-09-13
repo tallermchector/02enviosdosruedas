@@ -1,61 +1,101 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Dominio de producción unificado CON www para consistencia SEO
-  const baseUrl = 'https://www.enviosdosruedas.com'
+  // Dominio canónico oficial de producción unificado
+  const baseUrl = 'https://www.enviosdosruedas.com';
 
-  // Rutas públicas optimizadas para indexación
-  const publicRoutes = [
-    '/',
-    '/contacto',
-    '/cotizar/express',
-    '/cotizar/lowcost',
-    '/nosotros/nuestras-redes',
-    '/nosotros/preguntas-frecuentes',
-    '/nosotros/sobre-nosotros',
-    '/revisar',
-    '/servicios/envios-express',
-    '/servicios/envios-lowcost',
-    '/servicios/enviosflex',
-    '/servicios/plan-emprendedores',
-  ]
+  // Fecha de referencia operativa para indexación
+  const lastModified = new Date();
 
-  // Rutas legales secundarias
-  const legalRoutes = [
-    '/politica-de-privacidad',
-    '/terminos-y-condiciones',
-  ]
+  // 1. Portada & Páginas Transaccionales Clave (Prioridad 1.0 - 0.9)
+  const commercialRoutes: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}`,
+      lastModified,
+      changeFrequency: 'daily',
+      priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/servicios/envios-express`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/servicios/envios-lowcost`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/servicios/enviosflex`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/servicios/plan-emprendedores`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/cotizar/express`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/cotizar/lowcost`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/contacto`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+  ];
 
-  // Mapeo y asignación lógica de prioridades SEO reales
-  const coreSitemap = publicRoutes.map((route) => {
-    let priority = 0.8
-    let changeFrequency: 'daily' | 'weekly' | 'monthly' = 'weekly'
+  // 2. Páginas Institucionales, FAQ & Confianza (Prioridad 0.8 - 0.75)
+  const institutionalRoutes: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/nosotros/sobre-nosotros`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/nosotros/preguntas-frecuentes`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/nosotros/nuestras-redes`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.75,
+    },
+  ];
 
-    if (route === '/') {
-      priority = 1.0
-      changeFrequency = 'daily' // La home cambia seguido por promociones
-    } else if (route.startsWith('/servicios') || route.startsWith('/cotizar')) {
-      priority = 0.9 // Páginas transaccionales de alto valor comercial
-      changeFrequency = 'weekly'
-    } else if (route === '/revisar') {
-      priority = 0.7 // Herramienta de usuario, menos prioridad SEO
-      changeFrequency = 'monthly'
-    }
+  // 3. Páginas Legales y Normativas (Prioridad 0.3)
+  const legalRoutes: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/politica-de-privacidad`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/terminos-y-condiciones`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+  ];
 
-    return {
-      url: `${baseUrl}${route}`,
-      lastModified: new Date(),
-      changeFrequency,
-      priority,
-    }
-  })
-
-  const legalSitemap = legalRoutes.map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.3, // Baja prioridad para que no compitan con tus servicios
-  }))
-
-  return [...coreSitemap, ...legalSitemap]
+  return [...commercialRoutes, ...institutionalRoutes, ...legalRoutes];
 }

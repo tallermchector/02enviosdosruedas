@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Outfit, Anton, Bebas_Neue } from 'next/font/google';
+import { Outfit, Anton, Bebas_Neue, Geist_Mono } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import ClientLayout from '../components/ClientLayout';
@@ -8,6 +8,7 @@ const outfit = Outfit({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
+  preload: true,
 });
 
 const anton = Anton({
@@ -15,6 +16,7 @@ const anton = Anton({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
+  preload: true,
 });
 
 const bebasNeue = Bebas_Neue({
@@ -22,17 +24,37 @@ const bebasNeue = Bebas_Neue({
   subsets: ['latin'],
   variable: '--font-subheading',
   display: 'swap',
+  preload: true,
+});
+
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+  preload: true,
 });
 
 const baseUrl = 'https://www.enviosdosruedas.com';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Envíos DosRuedas - Mensajería & Logística en Mar del Plata',
+    default: 'Envíos DosRuedas · Tu Partner Logístico en Mar del Plata',
     template: '%s | Envíos DosRuedas',
   },
-  description: 'La solución logística y última milla de mayor confianza en Mar del Plata. Envíos Express, MercadoLibre Flex, ruteo eficiente y cadetería inteligente.',
-  keywords: ['envíos mar del plata', 'mensajería mar del plata', 'logística e-commerce argentina', 'mercadolibre flex mar del plata', 'cadetería mar del plata', 'envíos express mar del plata', 'logística 3pl argentina', 'última milla mar del plata'],
+  description: 'Tu partner logístico de confianza en Mar del Plata. Envíos Express (rango 3hs), Envíos Flex MercadoLibre en el día, Paquetería LowCost y Fulfillment 3PL para E-Commerce.',
+  keywords: [
+    'envios flex',
+    'mensajeria en moto',
+    'paqueteria ecommerce',
+    'envios express',
+    'reparto mercadolibre',
+    'servicio de cadeteria',
+    'logistica flex',
+    'envios mar del plata',
+    'mensajeria mar del plata',
+    'cadeteria mar del plata',
+    'logistica 3pl mar del plata',
+  ],
   authors: [{ name: 'Envíos DosRuedas' }],
   creator: 'Envíos DosRuedas',
   publisher: 'Envíos DosRuedas',
@@ -77,30 +99,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${outfit.variable} ${anton.variable} ${bebasNeue.variable} scroll-smooth`} data-scroll-behavior="smooth">
+    <html
+      lang="es"
+      className={`${outfit.variable} ${anton.variable} ${bebasNeue.variable} ${geistMono.variable} scroll-smooth`}
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <head>
-        {/* Preload para imagen LCP del Hero */}
-        <link rel="preload" as="image" href="/hero-background.jpeg" fetchPriority="high" />
-
-        {/* DNS Prefetch para dominios externos */}
+        {/* DNS Prefetch & Preconnect para recursos externos */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://wa.me" />
-
-        {/* Google tag (gtag.js) - Google Ads & Analytics */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17510443994"
-          strategy="afterInteractive"
-        />
-        <Script id="google-tag-init" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'AW-17510443994');
-            gtag('config', 'G-LSLQ3RJ8WT');
-          `}
-        </Script>
 
         {/* Schema Markup: Organization + LocalBusiness */}
         <script
@@ -113,7 +122,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   '@type': 'Organization',
                   name: 'Envíos DosRuedas',
                   url: baseUrl,
-                  logo: `${baseUrl}/LogoEnviosDosRuedas.png`,
+                  logo: `${baseUrl}/logo-envios-simplified.webp`,
                   sameAs: [
                     'https://www.instagram.com/enviosdosruedas',
                     'https://www.facebook.com/enviosdosruedas',
@@ -211,7 +220,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
 
+        {/* Google tag (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17510443994"
+          strategy="lazyOnload"
+        />
+        <Script id="google-tag-init" strategy="lazyOnload">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
 
+            gtag('config', 'AW-17510443994');
+            gtag('config', 'G-LSLQ3RJ8WT');
+          `}
+        </Script>
       </head>
       <body className="bg-white text-brand-ink font-sans antialiased selection:bg-brand-yellow selection:text-brand-blue min-h-screen flex flex-col" suppressHydrationWarning>
         <ClientLayout>

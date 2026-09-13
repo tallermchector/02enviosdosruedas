@@ -1,111 +1,80 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { motion } from 'motion/react';
-import { Award, ArrowRight, Phone, TrendingUp, Sparkles } from 'lucide-react';
+import HeroProceduralBackground from '@/components/ui/HeroProceduralBackground';
+import { motion, AnimatePresence } from 'motion/react';
+import {
+  ArrowRight,
+  Phone,
+  Zap,
+  Clock,
+  ShieldCheck,
+  CheckCircle2,
+  Sparkles,
+  QrCode,
+  Award,
+} from 'lucide-react';
 
 export default function FlexHero() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring' as const,
-        stiffness: 100,
-        damping: 20,
-      }
-    },
-  };
+  const [activeTab, setActiveTab] = useState<'ventajas' | 'integracion'>('ventajas');
 
   return (
     <section
       id="flex-hero"
-      className="relative w-full min-h-dvh pt-32 pb-12 lg:py-0 flex items-center justify-center overflow-hidden bg-brand-blue-700 text-white"
+      className="relative w-full overflow-hidden bg-[#0950F6] text-white min-h-[85vh] flex items-center pt-24 pb-16 lg:pt-28 lg:pb-20 border-b border-white/10"
     >
-      {/* Background atmospheric depth - only brand gradients */}
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(6,54,165,0.15)_0%,transparent_70%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(6,54,165,0.2),transparent_50%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_75%,rgba(255,236,1,0.08),transparent_50%)] pointer-events-none" />
+      {/* Pure Vector & Dynamic Procedural Background */}
+      <HeroProceduralBackground variant="flex" />
 
-      {/* Background illustration overlay */}
-      <div className="absolute inset-0 z-0 opacity-[0.06] mix-blend-overlay pointer-events-none">
-        <Image
-          src="/img/generales/banner_servicio_flex.jpeg"
-          alt="Banner del servicio MercadoLibre Flex"
-          fill={true}
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
+      {/* Ghost Wordmark Monumental de Fondo */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0">
+        <span className="font-display uppercase text-[16vw] leading-none text-white/[0.035] tracking-tighter whitespace-nowrap">
+          LOGÍSTICA FLEX
+        </span>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full py-6 my-auto">
-        <motion.div
-          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Copy Segment */}
-          <div className="lg:col-span-7 text-center lg:text-left space-y-8">
-            {/* Badge */}
-            <motion.div variants={itemVariants} className="inline-flex justify-center lg:justify-start">
-              <span className="px-4 py-1.5 rounded-full text-sm font-subheading uppercase tracking-widest bg-brand-yellow-500 text-brand-blue-900 border-2 border-brand-blue-700 flex items-center gap-1.5 shadow-[2px_2px_0px_var(--color-brand-blue)]">
-                <Sparkles className="h-4.5 w-4.5 animate-pulse shrink-0" />
-                Beneficio Emprendedores 2026
-              </span>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          {/* Left Column: Kinetic Copy & CTAs (7 cols) */}
+          <div className="lg:col-span-7 space-y-6 sm:space-y-8 text-center lg:text-left">
+            {/* Speed Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="-rotate-1 inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-subheading font-bold uppercase tracking-widest bg-[#052C87] border border-[#FFF12E]/30 text-[#FFF12E] shadow-glow-yellow"
+            >
+              <Award className="h-4 w-4 text-[#FFF12E] shrink-0" />
+              <span>ENVÍOS FLEX Y REPARTO MERCADOLIBRE · MDQ 2026</span>
             </motion.div>
 
-            {/* Title with Inline Image Typography */}
-            <motion.h1
-              variants={itemVariants}
-              className="text-4xl sm:text-5xl lg:text-6xl font-display uppercase tracking-tight leading-none flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-3"
-            >
-              <span>ENVÍOS EN EL DÍA</span>
-              <span className="relative inline-block w-16 h-10 sm:w-20 sm:h-12 rounded-full overflow-hidden border-2 border-brand-yellow-500 align-middle shrink-0 shadow-[2px_2px_0px_var(--color-brand-blue)]">
-                <Image
-                  src="/img/generales/servicio_flex.jpeg"
-                  alt="MercadoLibre Flex"
-                  fill={true}
-                  sizes="(max-width: 768px) 64px, 80px"
-                  className="object-cover"
-                />
+            {/* Monumental Headline */}
+            <h1 className="text-4xl sm:text-6xl lg:text-[5rem] xl:text-[5.5rem] font-display uppercase tracking-tight leading-[0.98] text-white">
+              <span className="block">ENVÍOS FLEX Y</span>
+              <span className="block text-[#FFF12E] drop-shadow-[0_2px_16px_rgba(255,241,46,0.35)]">
+                REPARTO MERCADOLIBRE
               </span>
-              <span className="text-brand-yellow-500 font-bold">PARA MERCADOLIBRE</span>
-            </motion.h1>
+              <span className="block text-2xl sm:text-4xl lg:text-5xl text-blue-100 mt-1">
+                LOGÍSTICA FLEX CON 100% CUMPLIMIENTO
+              </span>
+            </h1>
 
             {/* Description */}
-            <motion.p
-              variants={itemVariants}
-              className="text-lg max-w-2xl mx-auto lg:mx-0 font-sans leading-relaxed text-brand-blue-100"
-            >
-              Solución para vendedores de MercadoLibre en Mar del Plata. Despachá tus ventas Same-Day y mantené tu medidor verde.
-            </motion.p>
+            <p className="text-base sm:text-lg lg:text-xl font-sans text-white/90 max-w-2xl mx-auto lg:mx-0 leading-relaxed pl-4 border-l-2 border-[#FFF12E] font-light">
+              Líderes en envíos flex, reparto MercadoLibre y logística flex en Mar del Plata. SLA real con 100% de entregas en el día antes de las 20:00 hs para proteger la reputación de MercadoLíder. Horario de corte 15:00 hs y múltiples retiros diarios sin mínimos de paquetes.
+            </p>
 
-            {/* CTA Buttons */}
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2">
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
               <Link
                 href="/cotizar/lowcost"
                 id="flex-hero-cta-activar"
-                className="w-full sm:w-auto cta-nested-pill bg-brand-yellow-500 text-brand-blue-900 hover:bg-brand-yellow-400 font-bold cursor-pointer"
+                className="group inline-flex items-center justify-between gap-4 bg-[#FFF12E] hover:bg-[#FFF44A] text-[#052C87] font-subheading font-bold uppercase tracking-wider px-8 py-3.5 rounded-full text-sm sm:text-base min-h-[52px] shadow-glow-yellow hover:scale-[1.02] active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFF12E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0950F6]"
               >
                 <span>Activar Envíos Flex</span>
-                <span className="cta-nested-icon bg-brand-blue-100">
-                  <ArrowRight className="h-5 w-5 shrink-0" />
+                <span className="w-8 h-8 rounded-full bg-[#052C87]/10 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:translate-x-1">
+                  <ArrowRight className="h-4 w-4 text-[#052C87]" />
                 </span>
               </Link>
 
@@ -114,98 +83,194 @@ export default function FlexHero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 id="flex-hero-cta-whatsapp"
-                className="w-full sm:w-auto cta-nested-pill bg-brand-blue-700 text-brand-white-50 hover:bg-brand-blue-600 border-2 border-brand-blue-100 cursor-pointer"
+                className="group inline-flex items-center justify-between gap-4 bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white/20 text-white font-subheading font-bold uppercase tracking-wider px-8 py-3.5 rounded-full text-sm sm:text-base min-h-[52px] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0950F6]"
               >
-                <span className="cta-nested-icon bg-brand-blue-100 mr-2">
-                  <Phone className="h-5 w-5 text-brand-yellow-500 shrink-0" />
-                </span>
                 <span>Contactar Asesor Flex</span>
+                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:translate-x-1">
+                  <Phone className="h-4 w-4 text-white" />
+                </span>
               </a>
-            </motion.div>
+            </div>
 
-            {/* Reputacion Verde Row */}
-            <motion.div
-              variants={itemVariants}
-              className="grid grid-cols-2 gap-4 pt-8 border-t-2 border-brand-blue-100 max-w-md mx-auto lg:mx-0"
-            >
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-brand-blue-100/30 rounded-xl text-brand-yellow-500 border border-brand-blue-200/50">
-                  <Award className="h-5 w-5 shrink-0" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wide text-brand-blue-200 leading-none mb-1">Tu Reputación</p>
-                  <p className="text-sm font-subheading uppercase font-semibold text-white">Medidor 100% en Verde</p>
-                </div>
+            {/* Quick KPI Chips */}
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-3 pt-3 max-w-xl mx-auto lg:mx-0">
+              <div className="p-3 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md text-center">
+                <span className="block font-mono font-bold text-xl sm:text-2xl text-[#FFF12E] tabular-nums">
+                  15:00 hs
+                </span>
+                <span className="block font-subheading text-[10px] sm:text-xs uppercase tracking-wider text-blue-100 mt-0.5">
+                  Horario de Corte
+                </span>
               </div>
-
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-brand-blue-100/30 rounded-xl text-brand-yellow-500 border border-brand-blue-200/50">
-                  <TrendingUp className="h-5 w-5 shrink-0" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wide text-brand-blue-200 leading-none mb-1">SLA de Despacho</p>
-                  <p className="text-sm font-subheading uppercase font-semibold text-white">Same-Day Garantizado</p>
-                </div>
+              <div className="p-3 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md text-center">
+                <span className="block font-mono font-bold text-xl sm:text-2xl text-[#FFF12E] tabular-nums">
+                  100%
+                </span>
+                <span className="block font-subheading text-[10px] sm:text-xs uppercase tracking-wider text-blue-100 mt-0.5">
+                  Entregas en el Día
+                </span>
               </div>
-            </motion.div>
-
+              <div className="p-3 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md text-center">
+                <span className="block font-mono font-bold text-xl sm:text-2xl text-[#FFF12E] tabular-nums">
+                  Sin Mínimos
+                </span>
+                <span className="block font-subheading text-[10px] sm:text-xs uppercase tracking-wider text-blue-100 mt-0.5">
+                  Retiros Múltiples
+                </span>
+              </div>
+            </div>
           </div>
 
-          {/* Graphics Segment */}
-          <div className="lg:col-span-5 relative hidden lg:block h-[450px]">
-            {/* Card 1: Reputation Status Screen - Double Bezel */}
-            <motion.div
-              className="absolute top-8 right-0 w-[80%] z-20"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0, transition: { duration: 0.8, delay: 0.4 } }}
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="double-bezel-outer bg-brand-blue-50/80 border border-brand-blue-100 rounded-2xl p-2 shadow-float hover:shadow-antigravity-deep hover:border-brand-blue-300 transition-all duration-500 w-full">
-                <div className="double-bezel-inner bg-brand-white-50 rounded-xl border border-brand-blue-50/50 shadow-sm p-5 text-brand-blue-700">
-                  <div className="flex justify-between items-start mb-3">
-                    <span className="text-[10px] bg-brand-blue-100 text-brand-blue-700 border border-brand-blue-200 font-bold uppercase px-2.5 py-1 rounded-full">
-                      SOCIOS LOGÍSTICOS CERTIFICADOS
+          {/* Right Column: Interactive Double Bezel Mini-Comparador Card (5 cols) */}
+          <div className="lg:col-span-5 relative w-full">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 p-2.5 rounded-[28px] shadow-2xl">
+              <div className="bg-white p-5 sm:p-7 rounded-[20px] border border-brand-blue-50/50 shadow-sm text-[#0950F6] space-y-5 relative overflow-hidden">
+                {/* Giant Watermark Icon */}
+                <Award className="absolute -bottom-6 -right-6 h-48 w-48 text-[#0950F6]/[0.04] pointer-events-none select-none" />
+                {/* Header with status badge */}
+                <div className="flex items-center justify-between border-b border-brand-blue-100/80 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-yellow-500 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-brand-yellow-500" />
                     </span>
-                    <span className="text-xs font-mono font-bold text-brand-blue-700">
-                      OK
+                    <span className="font-subheading text-xs uppercase tracking-wider font-bold text-brand-blue-700">
+                      INTEGRACIÓN LOGÍSTICA FLEX
                     </span>
                   </div>
-                  <h3 className="text-base font-display uppercase tracking-tight text-brand-blue-700 leading-snug">
-                    Entregas en el día sin demoras
-                  </h3>
-                  <p className="text-xs text-brand-blue-500 font-sans mt-2 leading-relaxed">
-                    Evitá sanciones en tu panel de MercadoLibre. Nuestro equipo cumple de manera estricta los ruteos y horarios oficiales del canal.
-                  </p>
+                  <span className="font-mono text-xs font-bold bg-brand-blue-50 text-brand-blue-700 px-2.5 py-1 rounded-lg border border-brand-blue-100">
+                    SLA 100%
+                  </span>
                 </div>
-              </div>
-            </motion.div>
 
-            {/* Card 2: Flex Corte Horario Screen - Double Bezel Dark */}
-            <motion.div
-              className="absolute bottom-10 left-0 w-[75%] z-30"
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0, transition: { duration: 0.8, delay: 0.6 } }}
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="double-bezel-outer bg-brand-blue-50/80 border border-brand-blue-100 rounded-2xl p-2 shadow-float hover:shadow-antigravity-deep hover:border-brand-blue-300 transition-all duration-500 w-full">
-                <div className="double-bezel-inner bg-brand-blue-700 rounded-xl border border-brand-blue-600/50 shadow-sm p-5 text-white">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                      <div className="h-2 w-2 rounded-full bg-brand-yellow-500 animate-ping" />
-                      <span className="text-[10px] font-bold tracking-widest text-brand-yellow-500 uppercase">Corte Flex Extendido</span>
-                    </div>
-                    <p className="text-sm font-subheading uppercase font-semibold leading-none">
-                      Recibimos hasta las 15:00 hs
-                    </p>
-                    <p className="text-xs text-brand-blue-200 font-sans leading-relaxed">
-                      Maximizá tus ventas de la mañana. Coordinamos el ruteo express de tus paquetes durante la tarde sin excepción.
-                    </p>
-                  </div>
+                {/* Interactive Segmented Toggle */}
+                <div className="grid grid-cols-2 p-1 bg-brand-blue-50 rounded-xl border border-brand-blue-100">
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('ventajas')}
+                    className={`py-2 px-3 rounded-lg text-xs font-subheading uppercase tracking-wider font-bold transition-all min-h-[44px] cursor-pointer flex items-center justify-center gap-1.5 ${
+                      activeTab === 'ventajas'
+                        ? 'bg-brand-blue-700 text-brand-yellow-500 shadow-sm'
+                        : 'text-brand-blue-700 hover:bg-white/60'
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                    <span>Ventajas MercadoLíder</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('integracion')}
+                    className={`py-2 px-3 rounded-lg text-xs font-subheading uppercase tracking-wider font-bold transition-all min-h-[44px] cursor-pointer flex items-center justify-center gap-1.5 ${
+                      activeTab === 'integracion'
+                        ? 'bg-brand-blue-700 text-brand-yellow-500 shadow-sm'
+                        : 'text-brand-blue-700 hover:bg-white/60'
+                    }`}
+                  >
+                    <QrCode className="w-3.5 h-3.5 shrink-0" />
+                    <span>Proceso QR</span>
+                  </button>
+                </div>
+
+                {/* Tab Content Display */}
+                <div className="min-h-[190px]">
+                  <AnimatePresence mode="wait">
+                    {activeTab === 'ventajas' ? (
+                      <motion.div
+                        key="ventajas"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.25 }}
+                        className="space-y-3"
+                      >
+                        <div className="flex items-start gap-3 p-2.5 rounded-xl bg-brand-blue-50/50 border border-brand-blue-100">
+                          <CheckCircle2 className="w-4 h-4 text-brand-yellow-500 shrink-0 mt-0.5" />
+                          <div>
+                            <p className="text-xs font-bold font-subheading uppercase tracking-wide text-brand-blue-700">
+                              Corte a las 15:00 hs
+                            </p>
+                            <p className="text-[11px] text-brand-ink/80 font-sans leading-snug">
+                              Procesamos tus envíos flex recibidos hasta las 15:00 hs con entregas aseguradas antes de las 20:00 hs.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-2.5 rounded-xl bg-brand-blue-50/50 border border-brand-blue-100">
+                          <ShieldCheck className="w-4 h-4 text-brand-yellow-500 shrink-0 mt-0.5" />
+                          <div>
+                            <p className="text-xs font-bold font-subheading uppercase tracking-wide text-brand-blue-700">
+                              Protección de Reputación
+                            </p>
+                            <p className="text-[11px] text-brand-ink/80 font-sans leading-snug">
+                              100% de entregas en el día para mantener tu reputación y medalla de MercadoLíder impecable.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start gap-3 p-2.5 rounded-xl bg-brand-blue-50/50 border border-brand-blue-100">
+                          <Zap className="w-4 h-4 text-brand-yellow-500 shrink-0 mt-0.5" />
+                          <div>
+                            <p className="text-xs font-bold font-subheading uppercase tracking-wide text-brand-blue-700">
+                              Sin Mínimos y Múltiples Retiros
+                            </p>
+                            <p className="text-[11px] text-brand-ink/80 font-sans leading-snug">
+                              Retiramos en tu local cuantas veces sea necesario en el día sin mínimo de paquetes.
+                            </p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="integracion"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.25 }}
+                        className="space-y-3"
+                      >
+                        <div className="p-3 rounded-xl bg-brand-blue-50/60 border border-brand-blue-100 space-y-1">
+                          <div className="flex justify-between items-center text-xs font-subheading uppercase font-bold text-brand-blue-700">
+                            <span>1. Imprimís tus etiquetas Flex</span>
+                            <span className="text-brand-blue-500 font-mono">Paso 1</span>
+                          </div>
+                          <p className="text-[11px] text-brand-ink/75 font-sans">
+                            Generás las etiquetas de MercadoLibre con código QR habitual.
+                          </p>
+                        </div>
+
+                        <div className="p-3 rounded-xl bg-brand-blue-50/60 border border-brand-blue-100 space-y-1">
+                          <div className="flex justify-between items-center text-xs font-subheading uppercase font-bold text-brand-blue-700">
+                            <span>2. Escaneo en mano</span>
+                            <span className="text-brand-blue-500 font-mono">Paso 2</span>
+                          </div>
+                          <p className="text-[11px] text-brand-ink/75 font-sans">
+                            Nuestro cadete escanea el paquete con la app oficial al retirar en tu dirección.
+                          </p>
+                        </div>
+
+                        <div className="p-3 rounded-xl bg-brand-blue-50/60 border border-brand-blue-100 space-y-1">
+                          <div className="flex justify-between items-center text-xs font-subheading uppercase font-bold text-brand-blue-700">
+                            <span>3. Entrega Same-Day</span>
+                            <span className="text-brand-blue-500 font-mono">Paso 3</span>
+                          </div>
+                          <p className="text-[11px] text-brand-ink/75 font-sans">
+                            Entrega final antes de las 20:00 hs asegurando tu reputación.
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Footer trust strip */}
+                <div className="pt-3 border-t border-brand-blue-100 flex items-center justify-between text-[11px] font-subheading uppercase tracking-wider text-brand-blue-600 font-bold">
+                  <span>Reparto MercadoLibre MDQ</span>
+                  <span className="text-brand-blue-700 font-mono text-xs">Corte 15:00 hs</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -1,169 +1,363 @@
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
-import { Mail, Handshake, Sparkles, Building2, Phone, AtSign, MapPin, ArrowUpRight } from 'lucide-react';
+import React, { useState } from 'react';
+import HeroProceduralBackground from '@/src/components/ui/HeroProceduralBackground';
+import { motion } from 'motion/react';
+import { Mail, Phone, MapPin, Send, CheckCircle2, ArrowRight, ShieldCheck, Zap, Sparkles } from 'lucide-react';
+
+const CHANNELS = [
+  {
+    title: "WhatsApp Comercial",
+    desc: "Respuestas y cotizaciones de envíos en tiempo real.",
+    icon: Mail,
+    href: "https://wa.me/542236602699?text=Hola!%20Quiero%20solicitar%20una%20cotizaci%C3%B3n%20para%20mis%20env%C3%ADos.",
+  },
+  {
+    title: "Llamada de Coordinación",
+    desc: "Para hablar directamente con un coordinador logístico.",
+    icon: Phone,
+    href: "tel:+542236602699",
+  },
+  {
+    title: "Solicitar Cotización B2B",
+    desc: "Envianos tu base de envíos para un plan personalizado.",
+    icon: MapPin,
+    href: "mailto:matiascejas@enviosdosruedas.com",
+  },
+];
 
 export default function ContactHero() {
+  const [formData, setFormData] = useState({
+    nombre: '',
+    telefono: '',
+    volumen: '50-200',
+    servicio: 'express',
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
   return (
-    <section className="relative w-full min-h-dvh pt-32 pb-12 lg:py-0 flex items-center justify-center overflow-hidden bg-brand-dark">
-      {/* Dynamic Animated Ambient Glow Orbs */}
-      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-brand-blue-700/30 rounded-full blur-[120px] pointer-events-none z-0 animate-pulse" />
-      <div className="absolute bottom-10 right-0 w-[500px] h-[500px] bg-brand-yellow-500/10 rounded-full blur-[150px] pointer-events-none z-0 animate-pulse" style={{ animationDelay: '700ms' }} />
+    <section className="relative w-full pt-20 pb-16 lg:pt-24 lg:pb-24 bg-[#0950F6] text-white overflow-hidden">
+      {/* Glow orbs - high voltage neon & deep midnight navy */}
+      <div
+        className="absolute top-[-128px] left-[-128px] w-[384px] h-[384px] rounded-full pointer-events-none bg-[#FFF12E]/25 blur-[100px]"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute bottom-[-160px] right-[-128px] w-[500px] h-[500px] rounded-full pointer-events-none bg-[#052C87]/60 blur-[130px]"
+        aria-hidden="true"
+      />
 
-      {/* Background overlay and image */}
-      <div className="absolute inset-0 z-0 opacity-15 mix-blend-overlay pointer-events-none">
-        <Image
-          src="/delivery-background.jpg"
-          alt="Envíos DosRuedas Contacto"
-          fill={true}
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-      </div>
-      <div className="absolute inset-0 z-10 bg-gradient-to-b from-brand-dark/95 via-brand-blue-700/60 to-brand-dark backdrop-blur-[2px]"></div>
+      {/* Border accent */}
+      <div className="absolute inset-0 pointer-events-none border border-white/10" />
 
-      {/* Content Container */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 my-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          
-          {/* Left Side: Main Content (7 cols) */}
-          <div className="col-span-1 lg:col-span-7 flex flex-col justify-center text-left">
-            
-            {/* Eyebrow Badge */}
-            <div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 border border-brand-yellow-500/40 bg-brand-dark/60 backdrop-blur-md rounded-full shadow-lg w-fit hover:border-brand-yellow-500 transition-colors duration-300">
-                <Mail className="w-4 h-4 text-brand-yellow-500" />
-                <span className="font-subheading text-xs tracking-widest uppercase text-white font-bold">
-                  ASISTENCIA COMERCIAL
-                </span>
-              </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20 lg:space-y-24">
+        {/* Top Hero Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Left Column: Headline & Channels (7 cols) */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 space-y-8"
+          >
+            {/* Badge - "Conexión Directa Mar del Plata" with velocity tilt & neon glow */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full w-fit bg-[#052C87]/80 backdrop-blur-md border border-[#FFF12E]/40 -rotate-1 shadow-glow-yellow">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FFF12E] shadow-[0_0_10px_#FFF12E]" />
+              <span className="font-subheading text-xs font-bold uppercase tracking-wider text-[#FFF12E]">
+                Conexión Directa Mar del Plata
+              </span>
             </div>
 
-            {/* Title */}
-            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white uppercase italic tracking-normal mb-5 sm:mb-6 flex flex-wrap items-center gap-2 sm:gap-3 leading-tight">
-              <span>CONTACTO</span>
-              <div className="inline-flex w-12 h-8 sm:w-16 sm:h-11 bg-brand-yellow-500/20 rounded-full border border-brand-yellow-500/50 items-center justify-center cursor-pointer shadow-inner hover:rotate-12 hover:scale-110 transition-transform duration-300">
-                <Handshake className="w-4 h-4 sm:w-6 sm:h-6 text-brand-yellow-500" />
-              </div>
-              <span className="text-brand-yellow-500 drop-shadow-[0_2px_12px_rgba(255,236,1,0.3)]">COMERCIAL</span>
-            </h1>
+            {/* Monumental Title */}
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="font-display uppercase tracking-tight leading-[0.98] text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-white"
+            >
+              ¿Hablamos<br />
+              <span className="italic text-[#FFF12E] drop-shadow-[0_2px_16px_rgba(255,241,46,0.4)]">
+                ahora?
+              </span>
+            </motion.h1>
 
-            {/* Subtitle */}
-            <p className="font-sans text-brand-blue-50 text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8 max-w-2xl">
-              ¿Buscás escalar la logística de tu negocio? Nuestro equipo comercial está listo para diseñar un plan a medida que optimice tus entregas y reduzca costos operativos.
-            </p>
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="max-w-xl font-sans leading-relaxed text-lg sm:text-xl text-white/90"
+            >
+              Sin formularios complejos ni esperas. Elegí el canal que mejor se adapte al ritmo de tu e-commerce.
+            </motion.p>
 
-            {/* Custom Info Box */}
-            <div className="flex items-start gap-4 p-4 sm:p-5 rounded-2xl border border-brand-blue-500/30 bg-brand-dark/60 backdrop-blur-md max-w-2xl transition-all duration-300 hover:-translate-y-1 hover:border-brand-yellow-500/40 shadow-xl">
-              <div className="shrink-0 w-10 h-10 rounded-full bg-brand-yellow-500/10 flex items-center justify-center border border-brand-yellow-500/30">
-                <Sparkles className="w-5 h-5 text-brand-yellow-500" />
-              </div>
-              <div>
-                <h3 className="font-display text-base sm:text-lg text-white uppercase mb-1 font-semibold flex items-center gap-2">
-                  Propuesta Personalizada
-                </h3>
-                <p className="font-sans text-xs sm:text-sm text-brand-blue-100 leading-relaxed">
-                  Evaluamos tu volumen de envíos, zonas de cobertura y necesidades específicas para ofrecerte tarifas preferenciales y soluciones de integración.
-                </p>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Right Side: Contact Card (5 cols) */}
-          <div className="col-span-1 lg:col-span-5 flex flex-col justify-center w-full">
-            <div className="rounded-2xl border border-white/15 bg-brand-dark/70 backdrop-blur-xl overflow-hidden shadow-2xl flex flex-col w-full group/card hover:border-brand-yellow-500/30 transition-all duration-500">
-              
-              <div className="p-6 sm:p-7 md:p-8 grow">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-brand-yellow-500/10 border border-brand-yellow-500/20">
-                      <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-brand-yellow-500" />
-                    </div>
-                    <h2 className="font-display text-xl sm:text-2xl text-white uppercase m-0 font-bold tracking-wide">
-                      Datos Oficiales
-                    </h2>
-                  </div>
-                </div>
-
-                <div className="space-y-4 sm:space-y-5">
-                  {/* Phone */}
-                  <a
-                    href="tel:+542236602699"
-                    className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-all group/item border border-transparent hover:border-white/10 hover:translate-x-1 duration-300"
-                  >
-                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover/item:bg-brand-yellow-500 group-hover/item:border-brand-yellow-500 transition-all duration-300">
-                      <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-white group-hover/item:text-brand-dark transition-colors" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <span className="block font-sans text-[10px] sm:text-[11px] text-brand-blue-100 uppercase tracking-wider mb-0.5">
-                        Teléfono Directo
-                      </span>
-                      <div className="flex items-center gap-1">
-                        <span className="font-sans text-base sm:text-lg text-white group-hover/item:text-brand-yellow-500 font-bold transition-colors">
-                          +54 223 660-2699
-                        </span>
-                        <ArrowUpRight className="w-4 h-4 text-white/40 opacity-0 group-hover/item:opacity-100 group-hover/item:text-brand-yellow-500 transition-all" />
-                      </div>
-                    </div>
-                  </a>
-
-                  {/* Email */}
-                  <a
-                    href="mailto:matiascejas@enviosdosruedas.com"
-                    className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-all group/item border border-transparent hover:border-white/10 hover:translate-x-1 duration-300"
-                  >
-                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover/item:bg-brand-yellow-500 group-hover/item:border-brand-yellow-500 transition-all duration-300">
-                      <AtSign className="w-4 h-4 sm:w-5 sm:h-5 text-white group-hover/item:text-brand-dark transition-colors" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <span className="block font-sans text-[10px] sm:text-[11px] text-brand-blue-100 uppercase tracking-wider mb-0.5">
-                        Correo Electrónico
-                      </span>
-                      <div className="flex items-center gap-1">
-                        <span className="font-sans text-sm sm:text-base text-white group-hover/item:text-brand-yellow-500 transition-colors break-all font-medium">
-                          matiascejas@enviosdosruedas.com
-                        </span>
-                        <ArrowUpRight className="w-4 h-4 text-white/40 shrink-0 opacity-0 group-hover/item:opacity-100 group-hover/item:text-brand-yellow-500 transition-all" />
-                      </div>
-                    </div>
-                  </a>
-
-                  {/* Address */}
-                  <div
-                    className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-all group/item border border-transparent hover:border-white/10 hover:translate-x-1 duration-300"
-                  >
-                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover/item:bg-brand-yellow-500 group-hover/item:border-brand-yellow-500 transition-all duration-300">
-                      <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-white group-hover/item:text-brand-dark transition-colors" />
-                    </div>
-                    <div>
-                      <span className="block font-sans text-[10px] sm:text-[11px] text-brand-blue-100 uppercase tracking-wider mb-0.5">
-                        Oficina Central
-                      </span>
-                      <span className="block font-sans text-sm sm:text-base text-white font-medium">Friuli 1972</span>
-                      <span className="block font-sans text-xs sm:text-sm text-brand-blue-100">Mar del Plata, Buenos Aires</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Status Bar with Glow Pulse */}
-              <div className="bg-brand-yellow-500/10 border-t border-brand-yellow-500/20 px-4 sm:px-6 py-3.5 flex items-center justify-center gap-2.5">
-                <span className="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-yellow-500 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-brand-yellow-500"></span>
+            {/* Office Info */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-wrap gap-8 pt-6 border-t border-white/20"
+            >
+              <div className="grid gap-1">
+                <span className="font-subheading text-xs uppercase tracking-wider text-[#FFF12E] font-bold">
+                  Oficina Central
                 </span>
-                <span className="font-subheading text-sm tracking-wider text-white uppercase font-bold text-center">
-                  Atención Comercial Disponible
+                <span className="font-mono text-sm font-bold text-white tabular-nums">
+                  Friuli 1972, Mar del Plata
                 </span>
               </div>
+              <div className="grid gap-1">
+                <span className="font-subheading text-xs uppercase tracking-wider text-[#FFF12E] font-bold">
+                  Operación
+                </span>
+                <span className="font-mono text-sm font-bold text-white tabular-nums">
+                  Lunes a Sábado · Turnos 2026
+                </span>
+              </div>
+            </motion.div>
+          </motion.div>
 
-            </div>
-          </div>
-
+          {/* Right Column: Contact Channel Cards (5 cols) */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 space-y-4 sm:space-y-5"
+          >
+            {CHANNELS.map((channel) => (
+              <a
+                key={channel.title}
+                href={channel.href}
+                target={channel.title === 'Llamada de Coordinación' ? '_self' : '_blank'}
+                rel={channel.title === 'Llamada de Coordinación' ? undefined : 'noopener noreferrer'}
+                className="group flex items-center justify-between p-6 rounded-2xl bg-[#052C87] border border-white/15 shadow-lg hover:shadow-glow-yellow hover:border-[#FFF12E]/60 transition-all duration-300 cursor-pointer"
+              >
+                <span className="flex items-center gap-4 sm:gap-5">
+                  <span className="inline-flex p-3 rounded-xl bg-white/10 text-[#FFF12E] group-hover:bg-[#FFF12E] group-hover:text-[#0950F6] transition-colors duration-300">
+                    <channel.icon className="h-6 w-6 shrink-0" />
+                  </span>
+                  <span>
+                    <span className="block font-display uppercase tracking-wide text-lg sm:text-xl text-white leading-tight mb-1">
+                      {channel.title}
+                    </span>
+                    <span className="block font-sans text-xs text-white/70">
+                      {channel.desc}
+                    </span>
+                  </span>
+                </span>
+                <span className="text-[#FFF12E] group-hover:translate-x-1 transition-transform">
+                  <ArrowRight className="w-5 h-5" />
+                </span>
+              </a>
+            ))}
+          </motion.div>
         </div>
+
+        {/* Bottom Section: "Pedí un plan a medida" */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="pt-12 sm:pt-16 border-t border-white/20"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* Left Column: Heading, Description & Moto Image */}
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#052C87] border border-white/20 text-[#FFF12E] text-xs font-subheading uppercase tracking-wider font-bold">
+                <Sparkles className="w-3.5 h-3.5 text-[#FFF12E]" />
+                <span>PROPUESTA B2B · GENERAL PUEYRREDÓN</span>
+              </div>
+
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight text-white leading-[0.98]">
+                Pedí un plan a medida
+              </h2>
+
+              <p className="font-sans text-base sm:text-lg text-white/85 leading-relaxed">
+                Si tu negocio despacha a diario en Mar del Plata o necesitás integración de envíos para tu tienda online, armamos un esquema con tarifas fijas, retiros programados y cuenta corriente mensual.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                <div className="p-3.5 rounded-xl bg-[#052C87]/80 border border-white/15 flex items-center gap-2.5">
+                  <Zap className="w-4 h-4 text-[#FFF12E] shrink-0" />
+                  <span className="font-subheading text-xs uppercase tracking-wider text-white font-bold">
+                    Tarifas por volumen
+                  </span>
+                </div>
+                <div className="p-3.5 rounded-xl bg-[#052C87]/80 border border-white/15 flex items-center gap-2.5">
+                  <ShieldCheck className="w-4 h-4 text-[#FFF12E] shrink-0" />
+                  <span className="font-subheading text-xs uppercase tracking-wider text-white font-bold">
+                    Retiros en tu local
+                  </span>
+                </div>
+                <div className="p-3.5 rounded-xl bg-[#052C87]/80 border border-white/15 flex items-center gap-2.5">
+                  <MapPin className="w-4 h-4 text-[#FFF12E] shrink-0" />
+                  <span className="font-subheading text-xs uppercase tracking-wider text-white font-bold">
+                    Todo MDQ y Batán
+                  </span>
+                </div>
+              </div>
+
+              {/* Vector Dispatch HUD Card */}
+              <div className="relative w-full h-[220px] rounded-2xl overflow-hidden shadow-xl border border-white/20 bg-gradient-to-br from-[#052C87] via-[#04236B] to-[#021440] p-6 flex flex-col justify-between">
+                <HeroProceduralBackground variant="contact" />
+                <div className="relative z-10 flex justify-between items-start">
+                  <div>
+                    <span className="font-subheading text-xs uppercase tracking-widest text-[#FFF12E] font-bold block">
+                      CENTRAL DE DESPACHO MDQ
+                    </span>
+                    <span className="font-display text-2xl uppercase tracking-tight text-white mt-1 block">
+                      COBERTURA GENERAL PUEYRREDÓN
+                    </span>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-full bg-[#FFF12E]/20 border border-[#FFF12E] text-[#FFF12E] font-mono text-xs font-bold tabular-nums">
+                    GPS ACTIVO
+                  </span>
+                </div>
+                <div className="relative z-10 flex justify-between items-end text-white border-t border-white/10 pt-3">
+                  <div>
+                    <span className="font-subheading uppercase text-xs tracking-wider block text-white/80">
+                      Hub Operativo Friuli 1972
+                    </span>
+                    <span className="font-mono text-xs text-[#FFF12E] font-medium tabular-nums">
+                      Salidas cada 30 min · Soporte en directo
+                    </span>
+                  </div>
+                  <span className="w-3 h-3 rounded-full bg-[#FFF12E] animate-pulse shadow-[0_0_8px_#FFF12E]" />
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Double-Bezel Quick Request Card */}
+            <div className="rounded-[28px] bg-white/10 backdrop-blur-md border border-white/20 p-2.5 shadow-xl">
+              <div className="bg-[#052C87] p-6 sm:p-8 rounded-[20px] border border-white/10 relative overflow-hidden text-white">
+                {/* Accent line top */}
+                <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#0950F6] via-white to-[#FFF12E]" />
+
+                {submitted ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="py-10 text-center space-y-4"
+                  >
+                    <div className="w-14 h-14 rounded-full bg-[#FFF12E] text-[#0950F6] mx-auto flex items-center justify-center shadow-glow-yellow">
+                      <CheckCircle2 className="w-7 h-7" />
+                    </div>
+                    <h3 className="font-display text-2xl uppercase tracking-tight text-white">
+                      ¡SOLICITUD REGISTRADA!
+                    </h3>
+                    <p className="font-sans text-sm text-white/80 max-w-sm mx-auto">
+                      Un asesor comercial de Envíos DosRuedas te escribirá a la brevedad con la tarifa especial para tu volumen.
+                    </p>
+                    <a
+                      href={`https://wa.me/542236602699?text=Hola!%20Ped%C3%AD%20un%20plan%20a%20medida%20a%20nombre%20de%20${encodeURIComponent(
+                        formData.nombre || 'mi comercio'
+                      )}%20para%20${encodeURIComponent(formData.volumen)}%20env%C3%ADos%20mensuales.`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-between min-h-[52px] px-6 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-subheading uppercase text-sm tracking-wider font-bold shadow-lg transition-all cursor-pointer mt-2 group"
+                    >
+                      <span>Coordinar ahora por WhatsApp</span>
+                      <ArrowRight className="w-4 h-4 ml-3 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-4 pt-2">
+                    <div>
+                      <span className="font-subheading text-xs uppercase tracking-wider text-[#FFF12E] font-bold block">
+                        COTIZACIÓN INMEDIATA
+                      </span>
+                      <h3 className="font-display text-2xl uppercase tracking-tight text-white leading-none mt-1">
+                        Cotizá tu cuenta comercial
+                      </h3>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="block text-xs font-subheading uppercase tracking-wider text-white/90 font-bold">
+                        Nombre o Comercio <span className="text-[#FFF12E]">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.nombre}
+                        onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+                        placeholder="Ej: Tienda Güemes / Juan Pérez"
+                        className="w-full h-11 px-4 rounded-xl border-2 border-[#0950F6]/30 bg-white/5 text-white font-sans text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFF12E] transition-all placeholder:text-white/40"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="block text-xs font-subheading uppercase tracking-wider text-white/90 font-bold">
+                        WhatsApp / Teléfono <span className="text-[#FFF12E]">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        required
+                        value={formData.telefono}
+                        onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
+                        placeholder="Ej: 223 660-2699"
+                        className="w-full h-11 px-4 rounded-xl border-2 border-[#0950F6]/30 bg-white/5 text-white font-mono text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFF12E] transition-all placeholder:text-white/40 tabular-nums"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="space-y-1.5">
+                        <label className="block text-xs font-subheading uppercase tracking-wider text-white/90 font-bold">
+                          Volumen Mensual
+                        </label>
+                        <select
+                          value={formData.volumen}
+                          onChange={(e) => setFormData({ ...formData, volumen: e.target.value })}
+                          className="w-full h-11 px-3 rounded-xl border-2 border-[#0950F6]/30 bg-[#052C87] text-white font-sans text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFF12E] cursor-pointer"
+                        >
+                          <option value="20-50">20 a 50 envíos</option>
+                          <option value="50-200">50 a 200 envíos</option>
+                          <option value="200-500">200 a 500 envíos</option>
+                          <option value="+500">+500 envíos (Gran cuenta)</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="block text-xs font-subheading uppercase tracking-wider text-white/90 font-bold">
+                          Modalidad
+                        </label>
+                        <select
+                          value={formData.servicio}
+                          onChange={(e) => setFormData({ ...formData, servicio: e.target.value })}
+                          className="w-full h-11 px-3 rounded-xl border-2 border-[#0950F6]/30 bg-[#052C87] text-white font-sans text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFF12E] cursor-pointer"
+                        >
+                          <option value="express">Express (2 horas)</option>
+                          <option value="lowcost">LowCost (Mismo día)</option>
+                          <option value="flex">MercadoLibre Flex</option>
+                          <option value="3pl">Fulfillment 3PL</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="group w-full mt-2 min-h-[52px] rounded-full bg-[#FFF12E] hover:bg-[#FFF44A] text-[#0950F6] font-subheading uppercase text-base tracking-wider font-bold py-3 px-6 shadow-glow-yellow transition-all duration-300 cursor-pointer flex items-center justify-between"
+                    >
+                      <span>Solicitar Plan y Tarifas</span>
+                      <span className="w-8 h-8 rounded-full bg-[#0950F6]/10 text-[#0950F6] flex items-center justify-center shrink-0 group-hover:translate-x-1 transition-transform">
+                        <Send className="h-4 w-4" />
+                      </span>
+                    </button>
+
+                    <p className="text-center font-sans text-xs text-white/60 pt-1">
+                      Atención comercial directa en Mar del Plata · Sin costos de apertura de cuenta
+                    </p>
+                  </form>
+                )}
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

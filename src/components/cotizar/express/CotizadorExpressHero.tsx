@@ -1,241 +1,203 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
-import { motion, useSpring, useMotionValue, useTransform } from 'motion/react';
-import { Calculator, Zap, ShieldCheck, Clock, Navigation } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import {
+  Zap,
+  Clock,
+  Navigation,
+  ShieldCheck,
+  Calculator,
+} from 'lucide-react';
+import HeroProceduralBackground from '@/src/components/ui/HeroProceduralBackground';
 
-const SIMULATED_TRIPS = [
-  { origen: "Centro de Distribución", destino: "Zona Güemes", distancia: 4.2 },
-  { origen: "Av. Constitución 5500", destino: "Plaza Mitre", distancia: 5.8 },
-  { origen: "Puerto Mar del Plata", destino: "Plaza Colón", distancia: 8.5 },
-  { origen: "Terminal Ferroautomotora", destino: "B° Stella Maris", distancia: 3.7 },
-  { origen: "La Perla (Av. Libertad)", destino: "Punta Mogotes", distancia: 11.2 },
-  { origen: "Paseo Aldrey", destino: "Zona San Juan", distancia: 2.8 },
-  { origen: "B° Constituyentes", destino: "Hospital Privado Comunidad", distancia: 4.9 },
+const SIMULATED_EXPRESS_TRIPS = [
+  {
+    origen: 'Terminal Ferroautomotora',
+    destino: 'B° Stella Maris',
+    distancia: '3.7 km',
+    tarifa: '$4.600 ARS',
+  },
+  {
+    origen: 'Centro de Distribución (Av. Colón 1200)',
+    destino: 'Zona Güemes (Centro)',
+    distancia: '2.8 km',
+    tarifa: '$3.700 ARS',
+  },
+  {
+    origen: 'Av. Constitución 5500',
+    destino: 'Plaza Mitre',
+    distancia: '5.8 km',
+    tarifa: '$6.100 ARS',
+  },
+  {
+    origen: 'Puerto Mar del Plata',
+    destino: 'Punta Mogotes',
+    distancia: '7.4 km',
+    tarifa: '$8.200 ARS',
+  },
 ];
 
 export default function CotizadorExpressHero() {
-  const cardRef = useRef<HTMLDivElement>(null);
-  
-  // Trip simulation state
-  const [trip, setTrip] = useState({ origen: "Centro de Distribución", destino: "Zona Güemes", distancia: 4.2 });
+  const [tripIndex, setTripIndex] = useState(0);
 
   useEffect(() => {
-    // Select a random trip on mount to avoid SSR hydration mismatch
-    const randomIndex = Math.floor(Math.random() * SIMULATED_TRIPS.length);
-    setTimeout(() => setTrip(SIMULATED_TRIPS[randomIndex]), 0);
+    const interval = setInterval(() => {
+      setTripIndex((prev) => (prev + 1) % SIMULATED_EXPRESS_TRIPS.length);
+    }, 4000);
+    return () => clearInterval(interval);
   }, []);
 
-  // Calcula la tarifa Express según rangos reales de la BD
-  // Rangos fijos hasta 10 km; por encima se cobra $1000 por km entero excedente (sin prorrateo)
-  const distanceKm = trip.distancia;
-  function calcExpressPrice(d: number): number {
-    if (d <= 3)  return 3700;
-    if (d <= 5)  return 4600;
-    if (d <= 7)  return 6100;
-    if (d <= 10) return 8200;
-    // Más de 10 km: base 8200 + $1000 por cada km entero que exceda los 10 km
-    return 8200 + Math.ceil(d - 10) * 1000;
-  }
-  const price = calcExpressPrice(distanceKm);
-
-  // Motion values for smooth 3D mouse tracking spring animations
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  
-  const springConfig = { damping: 25, stiffness: 120, mass: 0.5 };
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [15, -15]), springConfig);
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-15, 15]), springConfig);
-  
-  const [lightX, setLightX] = useState(50);
-  const [lightY, setLightY] = useState(50);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    
-    // Normalized mouse position between -0.5 and 0.5
-    const relativeX = (e.clientX - rect.left) / width - 0.5;
-    const relativeY = (e.clientY - rect.top) / height - 0.5;
-    
-    x.set(relativeX);
-    y.set(relativeY);
-
-    // Dynamic reflection highlight positioning
-    const lightPercentX = ((e.clientX - rect.left) / width) * 100;
-    const lightPercentY = ((e.clientY - rect.top) / height) * 100;
-    setLightX(lightPercentX);
-    setLightY(lightPercentY);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-    setLightX(50);
-    setLightY(50);
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.05,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 25 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring' as const,
-        stiffness: 90,
-        damping: 18,
-      }
-    },
-  };
+  const currentTrip = SIMULATED_EXPRESS_TRIPS[tripIndex];
 
   return (
     <section
       id="cotizador-express-hero"
-      className="relative min-h-[65vh] flex items-center justify-center pt-32 pb-12 overflow-hidden bg-gradient-to-b from-brand-blue-700 via-brand-dark to-brand-dark text-white border-b border-white/10"
+      className="relative w-full overflow-hidden bg-[#0950F6] text-white min-h-[72vh] flex items-center pt-24 pb-16 lg:pt-28 lg:pb-20 border-b border-white/10"
     >
-      {/* Ambient background glows */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_35%,var(--color-brand-blue-700),transparent_55%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_65%,var(--color-brand-yellow-500),transparent_45%)] pointer-events-none" />
+      {/* Dynamic Procedural Background */}
+      <HeroProceduralBackground variant="express" />
 
-      {/* Decorative logistics illustration overlay */}
-      <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none">
-        <Image
-          src="/delivery-background.jpg"
-          alt="Fondo de reparto"
-          fill={true}
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-      </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          
+          {/* LEFT COLUMN: Headline & Value Proposition (7 cols) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 space-y-6 text-center lg:text-left"
+          >
+            {/* Glowing Pill Badge with velocity tilt */}
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs sm:text-sm font-subheading font-bold uppercase tracking-wider bg-[#052C87]/90 text-[#FFF12E] border-2 border-[#FFF12E]/50 -rotate-1 shadow-glow-yellow backdrop-blur-md">
+              <Zap className="h-4 w-4 text-[#FFF12E] shrink-0 fill-[#FFF12E]" />
+              <span>SERVICIO EXPRESS PRIORITARIO</span>
+            </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <motion.div
-          className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Left Column: Title and Description */}
-          <div className="lg:col-span-7 text-center lg:text-left space-y-6">
-            
-            {/* Badge (Bebas Neue) */}
-            <motion.div variants={itemVariants} className="inline-flex justify-center lg:justify-start">
-              <span className="px-4 py-1.5 rounded-full text-sm font-subheading uppercase tracking-widest bg-brand-blue border-2 border-brand-yellow text-brand-yellow flex items-center gap-1.5 shadow-[0_0_20px_var(--color-brand-yellow-500)] font-bold">
-                <Zap className="h-4 w-4 text-brand-yellow animate-pulse shrink-0" />
-                Servicio Express Prioritario
+            {/* Monumental Headline */}
+            <h1 className="text-5xl sm:text-6xl lg:text-[4.75rem] xl:text-[5.5rem] font-display uppercase tracking-tight leading-[0.92] text-white">
+              <span>COTIZÁ TU </span>
+              <span className="text-[#FFF12E] drop-shadow-[0_2px_16px_rgba(255,241,46,0.4)]">
+                ENVÍO{' '}
               </span>
-            </motion.div>
-
-            {/* Title with display typography */}
-            <motion.h1
-              variants={itemVariants}
-              className="text-5xl sm:text-6xl lg:text-7xl font-display uppercase tracking-tight leading-none text-white flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-2"
-            >
-              <span>COTIZÁ TU</span>
-              <span className="text-brand-yellow text-glow-yellow">ENVÍO</span>
-              <span>EXPRESS</span>
-            </motion.h1>
+              <span className="block sm:inline">EXPRESS</span>
+            </h1>
 
             {/* Description */}
-            <motion.p
-              variants={itemVariants}
-              className="text-base sm:text-lg text-brand-blue-200 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-sans"
-            >
+            <p className="text-base sm:text-lg lg:text-xl font-sans text-white/90 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
               Calculá el costo de tu envío prioritario al instante. Obtené la tarifa de entrega según la distancia y coordiná en el acto con nosotros por WhatsApp.
-            </motion.p>
+            </p>
 
-            {/* Features Indicators */}
-            <motion.div
-              variants={itemVariants}
-              className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 max-w-xl mx-auto lg:mx-0 text-left font-sans text-xs"
-            >
-              <div className="flex items-center gap-2 text-brand-blue-200 bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm hover:border-white/20 transition-colors">
-                <Clock className="h-4 w-4 text-brand-yellow shrink-0" />
+            {/* Feature Pills Row */}
+            <div className="flex flex-wrap gap-2.5 sm:gap-3 justify-center lg:justify-start pt-2">
+              <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs sm:text-sm font-subheading uppercase tracking-wide bg-[#052C87]/80 border border-white/20 text-white backdrop-blur-sm">
+                <Clock className="h-4 w-4 text-[#FFF12E] shrink-0" />
                 <span>Entrega en &lt; 2 Horas</span>
               </div>
-              <div className="flex items-center gap-2 text-brand-blue-200 bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm hover:border-white/20 transition-colors">
-                <Navigation className="h-4 w-4 text-brand-yellow shrink-0" />
+
+              <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs sm:text-sm font-subheading uppercase tracking-wide bg-[#052C87]/80 border border-white/20 text-white backdrop-blur-sm">
+                <Navigation className="h-4 w-4 text-[#FFF12E] shrink-0" />
                 <span>Ruta Optimizada</span>
               </div>
-              <div className="flex items-center gap-2 text-brand-blue-200 bg-white/5 border border-white/10 rounded-2xl p-3 backdrop-blur-sm hover:border-white/20 transition-colors">
-                <ShieldCheck className="h-4 w-4 text-brand-yellow shrink-0" />
+
+              <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs sm:text-sm font-subheading uppercase tracking-wide bg-[#052C87]/80 border border-white/20 text-white backdrop-blur-sm">
+                <ShieldCheck className="h-4 w-4 text-[#FFF12E] shrink-0" />
                 <span>Tarifa 100% Precisa</span>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
 
-          {/* Right Column: Dynamic 3D Spring Floating Card */}
-          <div className="lg:col-span-5 relative hidden lg:block h-[380px] perspective-1000">
-            <motion.div
-              ref={cardRef}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              style={{ rotateX, rotateY }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] z-20 preserve-3d cursor-pointer"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1, transition: { duration: 0.8, delay: 0.3 } }}
-            >
-              {/* Double-Bezel Card wrapper */}
-              <div className="double-bezel-outer bg-brand-blue-50/80 shadow-brutalist border border-brand-blue-100 p-2 rounded-2xl transition-all duration-300">
-                <div className="double-bezel-inner bg-white p-8 rounded-xl border border-brand-blue-50/50 text-brand-blue-700">
-                  <div className="space-y-6 relative z-10">
-                    <div className="flex items-center justify-between border-b border-brand-blue-100/60 pb-4">
-                      <div>
-                        <h4 className="text-xl font-subheading uppercase text-brand-blue-700 tracking-wider">
-                          CÁLCULO AUTOMÁTICO
-                        </h4>
-                        <p className="text-[10px] text-brand-blue-600 font-subheading tracking-wider uppercase mt-0.5">SISTEMA EXPRESS MAPS</p>
-                      </div>
-                      <Calculator className="h-6 w-6 text-brand-blue-700 shrink-0 animate-pulse" />
-                    </div>
-
-                    {/* Calculator Simulation items */}
-                    <div className="space-y-3 text-xs text-brand-blue-900">
-                      <div className="flex justify-between items-center py-1 border-b border-brand-blue-100/60">
-                        <span className="font-subheading font-bold uppercase tracking-wider text-[10px] text-brand-blue-600">ORIGEN</span>
-                        <span className="text-brand-blue-700 font-semibold font-sans truncate max-w-[150px] inline-block align-middle">{trip.origen}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-1 border-b border-brand-blue-100/60">
-                        <span className="font-subheading font-bold uppercase tracking-wider text-[10px] text-brand-blue-600">DESTINO</span>
-                        <span className="text-brand-blue-700 font-semibold font-sans truncate max-w-[150px] inline-block align-middle">{trip.destino}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-1 border-b border-brand-blue-100/60">
-                        <span className="font-subheading font-bold uppercase tracking-wider text-[10px] text-brand-blue-600">DISTANCIA</span>
-                        <span className="text-brand-blue-700 font-bold font-mono">{trip.distancia} km</span>
-                      </div>
-                      <div className="flex justify-between items-center py-1 text-sm pt-2 border-t border-brand-blue-100/60">
-                        <span className="font-subheading font-bold text-brand-blue-700 tracking-wide">TARIFA FINAL</span>
-                        <span className="text-brand-blue-700 font-bold text-lg font-mono">${price.toLocaleString('es-AR')} ARS</span>
-                      </div>
-                    </div>
-
-                    <div className="pt-2 flex justify-center">
-                      <span className="px-3 py-1 bg-brand-yellow-50 border border-brand-yellow text-brand-blue-700 rounded-xl text-[10px] font-subheading tracking-wider uppercase">
-                        SIN REGISTRO OBLIGATORIO
-                      </span>
-                    </div>
+          {/* RIGHT COLUMN: Double Bezel Card (5 cols) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 relative w-full max-w-lg mx-auto"
+          >
+            {/* Double Bezel Outer Frame */}
+            <div className="p-2.5 sm:p-3 rounded-[28px] sm:rounded-[30px] bg-white/10 border border-white/20 shadow-2xl backdrop-blur-md">
+              {/* Inner Midnight Card */}
+              <div className="bg-[#052C87] rounded-[20px] p-6 sm:p-8 text-white border border-white/10 shadow-lg space-y-6">
+                
+                {/* Header */}
+                <div className="flex items-start justify-between border-b border-white/15 pb-4">
+                  <div>
+                    <h3 className="font-display text-2xl sm:text-3xl uppercase tracking-tight text-white leading-none">
+                      CÁLCULO AUTOMÁTICO
+                    </h3>
+                    <p className="font-subheading text-[11px] sm:text-xs uppercase tracking-widest text-[#FFF12E] mt-1 font-bold">
+                      SISTEMA EXPRESS MAPS
+                    </p>
+                  </div>
+                  <div className="p-2 rounded-xl bg-white/10 border border-white/20 text-[#FFF12E] shrink-0">
+                    <Calculator className="h-5 w-5" />
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          </div>
 
-        </motion.div>
+                {/* Simulated Values with Animated Transitions */}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={tripIndex}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.25 }}
+                    className="space-y-4"
+                  >
+                    {/* ORIGEN */}
+                    <div className="flex items-center justify-between py-1.5 border-b border-white/10">
+                      <span className="font-subheading text-xs uppercase tracking-wider font-bold text-[#FFF12E]">
+                        ORIGEN
+                      </span>
+                      <span className="font-sans text-xs sm:text-sm font-semibold text-white text-right truncate max-w-[210px]">
+                        {currentTrip.origen}
+                      </span>
+                    </div>
+
+                    {/* DESTINO */}
+                    <div className="flex items-center justify-between py-1.5 border-b border-white/10">
+                      <span className="font-subheading text-xs uppercase tracking-wider font-bold text-[#FFF12E]">
+                        DESTINO
+                      </span>
+                      <span className="font-sans text-xs sm:text-sm font-semibold text-white text-right truncate max-w-[210px]">
+                        {currentTrip.destino}
+                      </span>
+                    </div>
+
+                    {/* DISTANCIA */}
+                    <div className="flex items-center justify-between py-1.5 border-b border-white/15">
+                      <span className="font-subheading text-xs uppercase tracking-wider font-bold text-[#FFF12E]">
+                        DISTANCIA
+                      </span>
+                      <span className="font-mono text-xs sm:text-sm font-bold text-white tabular-nums">
+                        {currentTrip.distancia}
+                      </span>
+                    </div>
+
+                    {/* TARIFA FINAL */}
+                    <div className="flex items-center justify-between pt-2">
+                      <span className="font-subheading text-sm uppercase tracking-wider font-bold text-white">
+                        TARIFA FINAL
+                      </span>
+                      <span className="font-mono text-xl sm:text-2xl font-bold text-[#FFF12E] tabular-nums">
+                        {currentTrip.tarifa}
+                      </span>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Centered Yellow Badge */}
+                <div className="pt-3 flex justify-center">
+                  <span className="px-4 py-1.5 rounded-full border border-[#FFF12E]/40 bg-[#FFF12E]/10 text-[#FFF12E] font-subheading text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                    SIN REGISTRO OBLIGATORIO
+                  </span>
+                </div>
+
+              </div>
+            </div>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );

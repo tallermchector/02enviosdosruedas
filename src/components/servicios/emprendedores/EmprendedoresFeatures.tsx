@@ -2,37 +2,37 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { Container, PackageCheck, Receipt, Landmark, BarChart3, Users, Clock } from 'lucide-react';
+import { Container, PackageCheck, Receipt, Landmark, BarChart3, Users, Clock, Tag } from 'lucide-react';
 
 export default function EmprendedoresFeatures() {
   const features = [
     {
-      title: 'Almacenamiento en Friuli 1972',
-      desc: 'Tercerizá tu logística integral con nosotros. Guardamos tu stock en nuestro depósito central de Friuli 1972.',
+      title: 'E-Commerce Same Day (Friuli 1972)',
+      desc: 'Guardamos tu stock en nuestro depósito central de Friuli 1972. Al vender, tu producto sale inmediatamente empaquetado con picking por código QR.',
       icon: Container,
     },
     {
-      title: 'Picking por código QR o de barras',
-      desc: 'Armado ágil y preciso con picking por código QR o de barras y packing seguro, ideal para tu tienda online.',
-      icon: PackageCheck,
+      title: 'Opción DropOFF (-20% OFF)',
+      desc: 'Acercá tus paquetes directamente a nuestro depósito en Friuli 1972 y obtené un 20% de descuento automático en la tarifa final de envío.',
+      icon: Tag,
     },
     {
-      title: 'Cuentas Corrientes',
-      desc: 'Esquemas de facturación mensual flexible y cuentas corrientes centralizadas adaptadas al flujo de caja de tu empresa.',
+      title: 'Contrareembolso Sin Cargo Extra',
+      desc: 'Realizamos cobro contra entrega en destino sin ningún tipo de comisión ni recargo adicional por gestión de cobranza.',
       icon: Receipt,
     },
   ];
 
   const stats = [
-    { value: 'ALTA', label: 'Efectividad', icon: BarChart3 },
-    { value: 'CONFIABLE', label: 'Logística Local', icon: Users },
-    { value: 'CONTROL', label: 'Trazabilidad', icon: Clock },
+    { value: 'SAME DAY', label: 'Picking por QR', icon: BarChart3 },
+    { value: '-20% OFF', label: 'Opción DropOFF', icon: Tag },
+    { value: '$0 COMISIÓN', label: 'Contrareembolso', icon: Clock },
   ];
 
   return (
     <section
       id="emprendedores-features"
-      className="py-24 bg-brand-white-50 relative z-10 overflow-hidden border-t-4 border-brand-blue-700"
+      className="py-24 bg-[#F8FAFC] relative z-10 overflow-hidden border-t border-brand-blue-100"
     >
       <motion.div
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
@@ -48,22 +48,22 @@ export default function EmprendedoresFeatures() {
 
           {/* Header column (Left) */}
           <div className="lg:col-span-5 space-y-6 text-left">
-            <span className="px-4 py-1.5 bg-brand-blue-700 text-brand-yellow-500 rounded-full text-xs font-subheading uppercase tracking-widest inline-block border-2 border-brand-yellow-500 shadow-[2px_2px_0px_rgba(0,39,124,0.2)]">
-              SOLUCIONES CORPORATIVAS
+            <span className="-rotate-1 inline-block px-4 py-1.5 bg-[#0950F6] text-[#FFF12E] rounded-full text-xs font-subheading uppercase font-bold tracking-widest shadow-sm">
+              SOLUCIONES PAQUETERÍA E-COMMERCE
             </span>
 
-            <h2 className="text-brand-blue-700 text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight leading-none border-l-4 border-brand-yellow-500 pl-4">
+            <h2 className="text-[#0950F6] text-3xl sm:text-4xl lg:text-5xl font-display uppercase tracking-tight leading-[0.98] border-l-4 border-[#FFF12E] pl-4">
               LOGÍSTICA 3PL <br />
-              <span className="text-brand-yellow-500 font-bold">PARA EMPRENDEDORES</span>
+              <span className="text-[#052C87] bg-[#FFF12E] px-2 py-0.5 inline-block mt-1 font-bold">Y PAQUETERÍA E-COMMERCE</span>
             </h2>
 
-            <p className="text-brand-blue-500 text-base leading-relaxed font-sans">
-              Somos mucho más que una empresa de envíos tradicional; nos convertimos en el departamento de logística estratégico de tu negocio. Delegá el almacenamiento, empaquetado y distribución en manos de expertos y enfocate de lleno en hacer crecer tu marca.
+            <p className="text-[#00277C] text-base leading-relaxed font-sans">
+              Especialistas en paquetería e-commerce y logística 3PL en Mar del Plata. Almacenamos tus productos pequeños o medianos en Friuli 1972, realizamos picking por QR y despachamos en el día o 24hs con la tarifa más competitiva.
             </p>
 
-            <div className="pt-4 flex items-center gap-3.5 text-sm text-brand-blue-700 font-bold uppercase tracking-wider font-subheading">
-              <Landmark className="h-5 w-5 text-brand-yellow-500 shrink-0 fill-current" />
-              <span>ALIANZA ESTRATÉGICA DE LARGO PLAZO</span>
+            <div className="pt-4 flex items-center gap-3.5 text-sm text-[#0950F6] font-bold uppercase tracking-wider font-subheading">
+              <Landmark className="h-5 w-5 text-[#FFF12E] shrink-0 fill-current" />
+              <span>PAQUETERÍA Y LOGÍSTICA B2B MAR DEL PLATA</span>
             </div>
           </div>
 
@@ -71,7 +71,6 @@ export default function EmprendedoresFeatures() {
           <div className="lg:col-span-7 grid grid-cols-1 lg:grid-cols-12 gap-6 text-left">
             {features.map((feat, idx) => {
               const Icon = feat.icon;
-              // Asymmetric Bento Grid spans
               const spanClass = idx === 0
                 ? 'lg:col-span-12'
                 : idx === 1
@@ -90,17 +89,20 @@ export default function EmprendedoresFeatures() {
                     x: 2,
                     boxShadow: "0 20px 40px -15px rgba(6, 54, 165, 0.15), 0 0 25px -5px rgba(255, 236, 1, 0.2)"
                   }}
-                  className={`${spanClass} double-bezel-outer transition-all duration-500 flex flex-col group cursor-pointer`}
+                  className={`${spanClass} bg-brand-blue-50/80 border border-brand-blue-100 p-2 rounded-[28px] shadow-float hover:shadow-antigravity-deep transition-all duration-300 flex flex-col group cursor-pointer relative overflow-hidden`}
                 >
-                  <div className="double-bezel-inner p-6 flex flex-col md:flex-row gap-5 items-start h-full">
-                    <div className="p-3 bg-brand-blue-600 text-brand-yellow-500 rounded-2xl shrink-0 border border-brand-blue-500 shadow-md group-hover:scale-105 transition-transform duration-300">
-                      <Icon className="h-5.5 w-5.5 shrink-0" />
+                  <div className="bg-white p-6 rounded-[20px] border border-brand-blue-50/50 shadow-sm flex flex-col md:flex-row gap-5 items-start h-full relative overflow-hidden">
+                    {/* Giant Watermark Icon */}
+                    <Icon className="absolute -bottom-6 -right-6 h-32 w-32 text-[#0950F6]/[0.05] pointer-events-none select-none transition-transform duration-500 group-hover:scale-110" />
+
+                    <div className="p-3 bg-[#0950F6] text-[#FFF12E] rounded-xl shrink-0 border border-[#0950F6] shadow-md group-hover:bg-[#FFF12E] group-hover:text-[#052C87] transition-colors duration-300 relative z-10">
+                      <Icon className="h-6 w-6 shrink-0" />
                     </div>
-                    <div className="space-y-1.5">
-                      <h4 className="text-xl font-display uppercase tracking-wider text-brand-blue-700 leading-tight group-hover:text-brand-blue-600 transition-colors duration-300">
+                    <div className="space-y-1.5 relative z-10">
+                      <h4 className="text-xl font-display uppercase tracking-wider text-[#0950F6] leading-tight group-hover:text-[#052C87] transition-colors duration-300">
                         {feat.title}
                       </h4>
-                      <p className="text-sm text-brand-blue-500 font-sans leading-relaxed">
+                      <p className="text-sm text-[#00277C]/80 font-sans leading-relaxed">
                         {feat.desc}
                       </p>
                     </div>
@@ -113,7 +115,7 @@ export default function EmprendedoresFeatures() {
         </div>
 
         {/* Stats Section Panel */}
-        <div className="mt-20 border-t-2 border-brand-blue-100 pt-16">
+        <div className="mt-20 border-t border-brand-blue-100 pt-16">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {stats.map((stat, idx) => {
               const Icon = stat.icon;
@@ -124,18 +126,20 @@ export default function EmprendedoresFeatures() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1, duration: 0.5 }}
-                  className="bg-brand-white-50 border-2 border-brand-blue-700 p-6 rounded-3xl shadow-[4px_4px_0px_var(--color-brand-blue)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_var(--color-brand-blue)] transition-all duration-300 flex items-center gap-5 justify-center sm:justify-start"
+                  className="bg-white/10 backdrop-blur-md border border-white/20 p-2 rounded-[28px] shadow-float transition-all duration-300 flex items-center justify-center sm:justify-start"
                 >
-                  <div className="p-3.5 bg-brand-yellow-500 text-brand-blue-900 rounded-2xl shrink-0 border-2 border-brand-blue-700 shadow-[2px_2px_0px_var(--color-brand-blue)]">
-                    <Icon className="h-6 w-6 shrink-0" />
-                  </div>
-                  <div className="text-left">
-                    <span className="block text-3xl font-display uppercase tracking-tight text-brand-blue-700 leading-none mb-1">
-                      {stat.value}
-                    </span>
-                    <span className="block text-xs uppercase tracking-wider font-subheading text-brand-blue-500 font-bold">
-                      {stat.label}
-                    </span>
+                  <div className="bg-white p-6 rounded-[20px] border border-brand-blue-50/50 shadow-sm flex items-center gap-5 w-full">
+                    <div className="p-3.5 bg-[#FFF12E] text-[#052C87] rounded-xl shrink-0 border border-[#FFF12E] shadow-glow-yellow">
+                      <Icon className="h-6 w-6 shrink-0" />
+                    </div>
+                    <div className="text-left">
+                      <span className="block text-2xl font-mono tabular-nums font-bold uppercase tracking-tight text-[#052C87] leading-none mb-1">
+                        {stat.value}
+                      </span>
+                      <span className="block text-xs uppercase tracking-wider font-subheading text-[#0950F6] font-bold">
+                        {stat.label}
+                      </span>
+                    </div>
                   </div>
                 </motion.div>
               );

@@ -4,13 +4,11 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   devIndicators: false,
 
-  // SE ELIMINÓ: La propiedad 'eslint' que causaba el error de compilación.
-
   typescript: {
     ignoreBuildErrors: false,
   },
 
-  // Configuración de imágenes remotas permitidas
+  // Configuración de imágenes remotas y formatos modernos
   images: {
     remotePatterns: [
       {
@@ -24,26 +22,84 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-    // Optimización de formatos modernos
+    // Optimización de formatos modernos prioritarios
     formats: ['image/avif', 'image/webp'],
+    // Caché extendido de 30 días para optimización de imágenes en Vercel Edge
+    minimumCacheTTL: 2592000,
     // Tamaños de dispositivo para imagenes responsive
     deviceSizes: [320, 420, 640, 768, 1024, 1280, 1536],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 
-  output: 'standalone',
+  poweredByHeader: false,
+  compress: true,
   transpilePackages: ['motion'],
 
-  // SOLUCIÓN TURBOPACK: Declaramos un objeto vacío para silenciar el error.
-  // Nota: Al usar Turbopack por defecto en Next.js 16, tu función 'webpack' de abajo
-  // será ignorada en desarrollo. Si notas que los archivos no se actualizan solos en Windows,
-  // puedes ejecutar 'pnpm dev --webpack' para forzar el motor antiguo.
-  turbopack: {},
-
-  // Optimización: Target modernos navegadores para evitar polyfills legacy
-  compiler: {
-    // No necesario, Next.js 15+ usa SWC y target moderno por defecto
+  // Optimización de importación de paquetes para reducir drásticamente el tamaño del bundle
+  experimental: {
+    optimizePackageImports: [
+      'lucide-react',
+      'react-icons',
+      'gsap',
+      'leaflet',
+      '@radix-ui/react-icons',
+      '@radix-ui/react-accordion',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-navigation-menu',
+      '@number-flow/react',
+      'motion',
+      'clsx',
+      'tailwind-merge',
+      'zod',
+    ],
   },
+
+  // Encabezados de seguridad y rendimiento para Vercel Edge Network
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(self)',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload',
+          },
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
+          },
+        ],
+      },
+      {
+        source: '/(.*)\\.(webp|jpg|jpeg|png|svg|ico|woff2)$',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+
+  // SOLUCIÓN TURBOPACK: Declaramos un objeto vacío para silenciar el error.
+  turbopack: {},
 
   webpack: (config, { dev, isServer }) => {
     if (dev) {
@@ -53,11 +109,9 @@ const nextConfig: NextConfig = {
         ignored: /node_modules/,
       };
     }
-    // Optimización: evita polyfills innecesarios en producción
     if (!dev && !isServer) {
       config.resolve.alias = {
         ...config.resolve.alias,
-        // Evita polyfills de core-js para features ya soportadas
       };
     }
     return config;

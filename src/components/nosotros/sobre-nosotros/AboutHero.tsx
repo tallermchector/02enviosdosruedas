@@ -1,172 +1,272 @@
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
-import { motion } from 'motion/react';
-import { Award, Star, ShieldCheck, Heart, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import HeroProceduralBackground from '@/components/ui/HeroProceduralBackground';
+import { motion, AnimatePresence } from 'motion/react';
+import { Award, Star, ShieldCheck, Sparkles, MapPin, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react';
+
+const REVIEWS = [
+  {
+    author: "Sol R.",
+    role: "Google Local Guide · Mar del Plata",
+    text: "Matías de Envíos DosRuedas se convirtió en mi héroe logístico por segundo año consecutivo. Rapidez, comunicación clara y un embalaje impecable.",
+    rating: 5,
+    date: "Hace 26 semanas",
+  },
+  {
+    author: "Karen H.",
+    role: "Comercio Local · Mar del Plata",
+    text: "Excelente servicio, rápidos, muy atentos, resolvieron mi problema con la mejor predisposición. Los recomiendo ampliamente.",
+    rating: 5,
+    date: "Hace 13 semanas",
+  },
+  {
+    author: "Agustín T.",
+    role: "Tienda Online · Centro",
+    text: "Lo usé varias veces para llevar pedidos a nuestros clientes. Impecable el servicio y la confianza de su flota propia.",
+    rating: 5,
+    date: "Hace 48 semanas",
+  },
+];
+
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 export default function AboutHero() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
-      },
-    },
-  };
+  const [currentReview, setCurrentReview] = useState(0);
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { 
-        type: 'spring' as const, 
-        stiffness: 100, 
-        damping: 20,
-      } 
-    },
-  };
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentReview((prev) => (prev + 1) % REVIEWS.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section 
       id="about-hero" 
-      className="relative min-h-[85vh] flex items-center justify-center pt-32 pb-20 overflow-hidden bg-gradient-to-br from-brand-blue-700 to-brand-blue-600 text-white border-b border-brand-blue-100/10"
+      className="relative min-h-[90dvh] flex items-center justify-center pt-28 pb-20 lg:pt-32 lg:pb-24 overflow-hidden bg-brand-blue-500 text-white border-b border-white/10"
     >
-      {/* Ambient background glows using brand colors */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,var(--color-brand-blue-700),transparent_50%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_75%,var(--color-brand-yellow-500),transparent_50%)] pointer-events-none" />
+      {/* Dynamic procedural background */}
+      <HeroProceduralBackground variant="default" />
 
-      {/* Background illustration overlay */}
-      <div className="absolute inset-0 opacity-[0.06] mix-blend-overlay pointer-events-none">
-        <Image
-          src="/delivery-background.jpg"
-          alt="Fondo de reparto urbano"
-          fill={true}
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-      </div>
+      {/* Halo glows */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-yellow-500/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[30vw] h-[30vw] bg-white/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <motion.div 
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Left Column: Copy Content */}
-          <div className="lg:col-span-7 text-center lg:text-left space-y-6">
-            
-            {/* Badge in Bebas Neue */}
-            <motion.div variants={itemVariants} className="inline-flex justify-center lg:justify-start">
-              <span className="px-4 py-1.5 rounded-full text-base font-subheading uppercase tracking-widest bg-brand-blue-700/60 border border-brand-yellow-500/30 text-brand-yellow-500 flex items-center gap-1.5 shadow-sm backdrop-blur-sm">
-                <Award className="h-4.5 w-4.5 text-brand-yellow-500 animate-pulse shrink-0" />
-                NUESTRA IDENTIDAD
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          
+          {/* Left Column: Copy Content (7 cols) */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 text-center lg:text-left space-y-6 sm:space-y-8"
+          >
+            {/* Speed Badge with -rotate-1 */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-yellow-500/40 bg-[#052C87]/90 text-brand-yellow-500 text-xs sm:text-sm font-subheading uppercase tracking-widest shadow-md backdrop-blur-md transform -rotate-1">
+              <Award className="h-4 w-4 text-brand-yellow-500 shrink-0" />
+              <span>LOGÍSTICA SOBERANA · MAR DEL PLATA 2026</span>
+            </div>
+
+            {/* Monumental Headline */}
+            <h1 className="text-4xl sm:text-6xl lg:text-[5.5rem] xl:text-[6.2rem] font-display uppercase tracking-tight leading-[0.98] text-white">
+              <span className="block">LÍDERES EN</span>
+              <span className="block">LOGÍSTICA DE</span>
+              <span className="inline-block bg-brand-yellow-500 text-[#052C87] px-3 py-1 rounded-md transform -rotate-1 mt-1 font-display tracking-tight shadow-glow-yellow">
+                ÚLTIMA MILLA
               </span>
-            </motion.div>
- 
-            {/* Title with Inline Image Typography */}
-            <motion.h1
-              variants={itemVariants}
-              className="text-5xl sm:text-6xl lg:text-7xl font-display uppercase tracking-[0.02em] leading-[1.1] text-white flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-2"
-            >
-              <span>LÍDERES EN</span>
-              <span className="relative inline-block w-16 h-10 sm:w-20 sm:h-12 rounded-full overflow-hidden border-2 border-brand-yellow-500 align-middle shrink-0 shadow-md">
-                <Image
-                  src="/img/generales/envios_express.webp"
-                  alt="Reparto Mar del Plata"
-                  fill={true}
-                  sizes="(max-width: 768px) 64px, 80px"
-                  className="object-cover"
-                />
-              </span>
-              <span className="text-brand-yellow-500 drop-shadow-[0_2px_10px_var(--color-brand-yellow-500)]">ÚLTIMA MILLA</span>
-            </motion.h1>
- 
-            {/* Description */}
-            <motion.p 
-              variants={itemVariants}
-              className="text-base sm:text-lg lg:text-xl font-sans text-brand-blue-100 max-w-2xl mx-auto lg:mx-0 leading-relaxed accent-line-left pl-6"
-            >
-              Nuestra historia comenzó con una simple meta: hacer los envíos locales más eficientes, rápidos y confiables en Mar del Plata.
-            </motion.p>
- 
-            {/* Special Callout Panel (Double-Bezel on Blue Background) */}
-            <motion.div 
-              variants={itemVariants}
-              className="double-bezel-outer bg-brand-blue-50/90 border border-brand-blue-100 p-2 rounded-2xl max-w-xl mx-auto lg:mx-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
-            >
-              <div className="double-bezel-inner bg-white p-5 rounded-xl border border-brand-blue-50/50 shadow-sm text-brand-blue-700 space-y-2">
+            </h1>
+
+            {/* Description matching official profile */}
+            <p className="text-base sm:text-lg lg:text-xl font-sans text-white/90 max-w-2xl mx-auto lg:mx-0 leading-relaxed pl-4 border-l-4 border-brand-yellow-500">
+              Con más de 7 años de trayectoria en Mar del Plata, transformamos el despacho de tus productos en un motor de crecimiento para emprendedores, PyMEs y comercios locales con flota propia y compromiso humano.
+            </p>
+
+            {/* Conversion Primary CTA button */}
+            <div className="flex flex-col sm:flex-row items-center gap-4 pt-2 justify-center lg:justify-start">
+              <Link
+                href="/cotizar/express"
+                className="group relative inline-flex items-center justify-between min-h-[52px] px-8 py-3.5 rounded-full bg-brand-yellow-500 hover:bg-brand-yellow-400 text-brand-blue-900 font-subheading text-lg uppercase tracking-wider font-bold shadow-glow-yellow transition-all duration-300 transform active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-yellow-500/50"
+              >
+                <span>COTIZÁ TU ENVÍO EN VIVO</span>
+                <span className="w-8 h-8 rounded-full bg-[#052C87]/15 flex items-center justify-center ml-4 transition-transform duration-300 group-hover:translate-x-1 shrink-0">
+                  <ArrowRight className="w-4 h-4 text-[#052C87]" />
+                </span>
+              </Link>
+            </div>
+
+            {/* Mission Callout Card (Double Bezel Dark Variant) */}
+            <div className="rounded-[28px] bg-white/10 backdrop-blur-md border border-white/20 p-2 shadow-2xl max-w-xl mx-auto lg:mx-0">
+              <div className="rounded-[20px] bg-[#052C87] p-5 sm:p-6 border border-white/10 text-white space-y-2 relative overflow-hidden">
+                <Sparkles className="absolute -right-4 -bottom-4 w-24 h-24 text-white/[0.04] pointer-events-none" />
                 <div className="flex items-center gap-2 justify-center lg:justify-start">
-                  <Sparkles className="h-4.5 w-4.5 text-brand-yellow-500 animate-spin-slow" />
-                  <h3 className="text-xs font-sans font-bold uppercase tracking-wider text-brand-blue-700 leading-none">
-                    Nuestra Misión 2026
+                  <Sparkles className="h-4 w-4 text-brand-yellow-500 shrink-0" />
+                  <h3 className="text-xs font-subheading uppercase tracking-wider text-brand-yellow-500 font-bold">
+                    PROPÓSITO OPERATIVO 2026
                   </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-brand-blue-600/90 leading-relaxed font-sans text-center lg:text-left">
-                  Conectamos personas y negocios en Mar del Plata mediante un servicio motorizado rápido, seguro y 100% propio. Impulsamos tu crecimiento local reduciendo tus costos operativos.
+                <p className="text-xs sm:text-sm text-white/90 leading-relaxed font-sans text-center lg:text-left">
+                  Conectamos tiendas online, PyMEs y emprendedores de General Pueyrredón mediante una flota motorizada 100% propia, soporte en tiempo real y cumplimiento estricto de horarios desde nuestro Hub Central en Friuli 1972.
                 </p>
               </div>
-            </motion.div>
- 
-          </div>
- 
-          {/* Right Column: Floating reviews widget card (Double-Bezel on Blue Background) */}
-          <div className="lg:col-span-5 relative hidden lg:block h-[400px]">
-            <motion.div 
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] z-20"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1, transition: { duration: 0.8, delay: 0.3 } }}
-              whileHover={{ scale: 1.02, y: -6 }}
-              transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            >
-              <div className="double-bezel-outer bg-brand-blue-50/90 border border-brand-blue-100 p-2 rounded-2xl shadow-[0_20px_50px_var(--color-brand-blue-700)] group transition-all duration-300">
-                <div className="double-bezel-inner bg-white p-6 sm:p-8 rounded-xl border border-brand-blue-50/50 shadow-sm text-brand-blue space-y-6">
-                  {/* Visual Accent Top Bar */}
-                  <div className="absolute top-0 inset-x-0 h-1.5 bg-brand-blue" />
-                  
-                  <div className="flex items-center justify-between pt-2">
-                    <div className="flex items-center gap-1 text-brand-yellow-500">
-                      <Star className="h-5 w-5 fill-current stroke-brand-blue stroke-2" />
-                      <Star className="h-5 w-5 fill-current stroke-brand-blue stroke-2" />
-                      <Star className="h-5 w-5 fill-current stroke-brand-blue stroke-2" />
-                      <Star className="h-5 w-5 fill-current stroke-brand-blue stroke-2" />
-                      <Star className="h-5 w-5 fill-current stroke-brand-blue stroke-2" />
-                    </div>
-                    <span className="text-xs font-subheading font-bold bg-brand-blue text-brand-yellow px-2.5 py-0.5 rounded-full tracking-wider">5.0 / 5</span>
+            </div>
+
+            {/* Key Metrics Strip */}
+            <div className="grid grid-cols-3 gap-3 pt-2 max-w-xl mx-auto lg:mx-0">
+              <div className="p-3.5 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md text-center">
+                <span className="block font-mono text-2xl sm:text-3xl font-bold text-brand-yellow-500 tabular-nums">
+                  +7
+                </span>
+                <span className="block font-subheading text-[10px] sm:text-xs uppercase tracking-wider text-white/90 mt-0.5">
+                  Años en MDQ
+                </span>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md text-center">
+                <span className="block font-mono text-2xl sm:text-3xl font-bold text-brand-yellow-500 tabular-nums">
+                  100%
+                </span>
+                <span className="block font-subheading text-[10px] sm:text-xs uppercase tracking-wider text-white/90 mt-0.5">
+                  Flota Propia
+                </span>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md text-center">
+                <span className="block font-mono text-2xl sm:text-3xl font-bold text-brand-yellow-500 tabular-nums">
+                  5.0 ★
+                </span>
+                <span className="block font-subheading text-[10px] sm:text-xs uppercase tracking-wider text-white/90 mt-0.5">
+                  Google Reviews
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Column: Verified Reputation Card & Live Reviews Widget (5 cols) */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 relative"
+          >
+            <div className="rounded-[30px] bg-white/10 backdrop-blur-md border border-white/20 p-2 shadow-2xl">
+              <div className="rounded-[20px] bg-[#052C87] p-6 sm:p-8 border border-white/10 text-white space-y-6 relative overflow-hidden">
+                {/* Watermark Icon */}
+                <ShieldCheck className="absolute -right-6 -bottom-6 w-36 h-36 text-white/[0.04] pointer-events-none" />
+
+                {/* Accent line top */}
+                <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-brand-yellow-500 via-white to-brand-yellow-400" />
+
+                {/* Rating header */}
+                <div className="flex items-center justify-between pt-2">
+                  <div className="flex items-center gap-1 text-brand-yellow-500">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 fill-brand-yellow-500 text-brand-yellow-500" />
+                    ))}
                   </div>
- 
-                  <div>
-                    <h4 className="text-3xl font-subheading uppercase font-bold text-brand-blue leading-none tracking-wider">
-                      GOOGLE REVIEWS
+                  <span className="text-xs font-subheading font-bold bg-white/15 text-brand-yellow-500 px-3 py-1 rounded-full tracking-wider flex items-center gap-1 border border-white/20">
+                    <span>GOOGLE REVIEWS</span>
+                    <span className="tabular-nums font-mono">5.0 / 5</span>
+                  </span>
+                </div>
+
+                {/* Reputation title */}
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-brand-yellow-500 animate-pulse shadow-glow-yellow" />
+                    <h4 className="text-2xl sm:text-3xl font-display uppercase tracking-tight text-white leading-none">
+                      CONFIANZA LOCAL
                     </h4>
-                    <p className="text-xs text-brand-blue-400 font-sans font-bold tracking-wider uppercase mt-1">CONFIANZA LOCAL COMPROBADA</p>
                   </div>
- 
-                  <p className="text-sm text-brand-blue-600 font-sans leading-relaxed">
-                    Nuestros clientes avalan la excelencia operativa. Flota propia y coordinada con base operativa central en Mar del Plata.
+                  <p className="text-xs text-brand-yellow-500 font-subheading uppercase tracking-wider mt-1.5 font-bold">
+                    +7 AÑOS DE TRAYECTORIA EN CALLES DE MDQ
                   </p>
- 
-                  <div className="pt-4 border-t border-brand-blue-100 flex justify-between items-center text-xs">
-                    <span className="font-subheading text-brand-blue font-bold flex items-center gap-1 text-sm tracking-wider">
-                      <ShieldCheck className="h-4.5 w-4.5 text-brand-blue shrink-0 fill-brand-yellow-500/25" />
-                      FLOTA PROPIA
-                    </span>
-                    <span className="font-subheading text-brand-blue-600 flex items-center gap-1 text-sm tracking-wider">
-                      <Heart className="h-4.5 w-4.5 text-brand-yellow-500 fill-current shrink-0" />
-                      MAR DEL PLATA
-                    </span>
+                </div>
+
+                {/* Live Google Reviews Carousel */}
+                <div className="p-4 rounded-xl bg-white/5 border border-white/10 relative min-h-[140px] flex flex-col justify-between">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentReview}
+                      initial={{ opacity: 0, x: 12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -12 }}
+                      transition={{ duration: 0.3 }}
+                      className="space-y-2"
+                    >
+                      <p className="font-sans text-xs sm:text-sm text-white/90 italic leading-relaxed">
+                        &ldquo;{REVIEWS[currentReview].text}&rdquo;
+                      </p>
+                      <div className="flex justify-between items-center pt-1 text-[11px] font-sans">
+                        <span className="font-bold text-brand-yellow-500 flex items-center gap-1">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-brand-yellow-500" />
+                          {REVIEWS[currentReview].author}
+                        </span>
+                        <span className="text-white/70">{REVIEWS[currentReview].role}</span>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Carousel pagination */}
+                  <div className="flex justify-between items-center pt-3 border-t border-white/10 mt-2">
+                    <div className="flex gap-1.5">
+                      {REVIEWS.map((_, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setCurrentReview(idx)}
+                          aria-label={`Ver opinión ${idx + 1}`}
+                          className={`h-2 rounded-full transition-all duration-300 min-w-[20px] min-h-[20px] flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500`}
+                        >
+                          <span className={`h-1.5 rounded-full ${
+                            idx === currentReview
+                              ? 'w-6 bg-brand-yellow-500'
+                              : 'w-2 bg-white/30 hover:bg-white/60'
+                          }`} />
+                        </button>
+                      ))}
+                    </div>
+                    <div className="flex gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setCurrentReview((prev) => (prev === 0 ? REVIEWS.length - 1 : prev - 1))}
+                        aria-label="Opinión anterior"
+                        className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-white/10 text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500"
+                      >
+                        <ChevronLeft className="w-5 h-5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCurrentReview((prev) => (prev + 1) % REVIEWS.length)}
+                        aria-label="Siguiente opinión"
+                        className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-white/10 text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500"
+                      >
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </div>
                   </div>
                 </div>
+
+                <p className="text-xs text-white/80 leading-relaxed font-sans">
+                  Nuestros clientes avalan la excelencia operativa. Controlamos cada despacho desde el centro de distribución en <strong className="text-white">Friuli 1972</strong> con seguimiento constante.
+                </p>
+
+                {/* Trust anchors footer */}
+                <div className="pt-4 border-t border-white/10 flex justify-between items-center text-xs">
+                  <span className="font-subheading text-white font-bold flex items-center gap-1.5 text-xs sm:text-sm tracking-wider uppercase">
+                    <ShieldCheck className="h-4 w-4 text-brand-yellow-500" />
+                    FLOTA 100% PROPIA
+                  </span>
+                  <span className="font-subheading text-white/90 flex items-center gap-1.5 text-xs sm:text-sm tracking-wider uppercase font-bold">
+                    <MapPin className="h-4 w-4 text-brand-yellow-500" />
+                    MAR DEL PLATA
+                  </span>
+                </div>
               </div>
-            </motion.div>
-          </div>
- 
-        </motion.div>
+            </div>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );
