@@ -1,0 +1,133 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "urn:enviosdosruedas:site",
+      "name": "Envíos DosRuedas",
+      "url": "https://www.enviosdosruedas.com",
+      "inLanguage": "es-AR",
+      "publisher": {
+        "@id": "urn:enviosdosruedas:organization"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "urn:enviosdosruedas:organization",
+      "name": "Envíos DosRuedas",
+      "url": "https://www.enviosdosruedas.com",
+      "logo": "urn:enviosdosruedas:asset:logo-master",
+      "email": "matiascejas@enviosdosruedas.com",
+      "telephone": "+54-223-660-2699",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Friuli 1972",
+        "addressLocality": "Mar del Plata",
+        "addressRegion": "Buenos Aires",
+        "postalCode": "7600",
+        "addressCountry": "AR"
+      },
+      "sameAs": [
+        "https://www.instagram.com/enviosdosruedas",
+        "https://www.facebook.com/enviosdosruedas",
+        "https://wa.me/542236602699"
+      ]
+    },
+    {
+      "@type": "VisualAsset",
+      "@id": "urn:enviosdosruedas:asset:logo-master",
+      "name": "Logo Master Vectorial Envíos DosRuedas",
+      "url": "/logo-master.svg",
+      "fileFormat": "image/svg+xml",
+      "sectionId": "global-header-footer",
+      "typography": "font-display (Anton)",
+      "colorPalette": [
+        "#0636A5 (brand-blue-700)",
+        "#FFEC01 (brand-yellow-500)",
+        "#FFFFFF (brand-white-50)"
+      ],
+      "composition": "Logotipo vectorial oficial de Envíos DosRuedas con isotipo de dos ruedas integradas y tipografía institucional."
+    },
+    {
+      "@type": "VisualAsset",
+      "@id": "urn:enviosdosruedas:asset:og-image",
+      "name": "Open Graph Image Principal",
+      "url": "/og-image.jpg",
+      "fileFormat": "image/jpeg",
+      "sectionId": "global-metadata",
+      "typography": "font-display (Anton), font-subheading (Bebas Neue)",
+      "colorPalette": [
+        "#0636A5 (brand-blue-700)",
+        "#FFEC01 (brand-yellow-500)",
+        "#00277C (brand-ink)"
+      ],
+      "composition": "Imagen corporativa publicitaria optimizada para redes sociales con logotipo y eslogan de logística en Mar del Plata."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:layout:header",
+      "name": "OptimizedHeader",
+      "componentType": "React Server / Client Component",
+      "filePath": "src/components/layout/OptimizedHeader.tsx",
+      "requiresAsset": [
+        {
+          "@id": "urn:enviosdosruedas:asset:logo-master"
+        }
+      ],
+      "description": "Navegación principal superior con logo master, enlaces a rutas clave, selector de servicios y acceso rápido a cotizador."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:layout:footer",
+      "name": "OptimizedFooter",
+      "componentType": "React Server Component",
+      "filePath": "src/components/layout/OptimizedFooter.tsx",
+      "requiresAsset": [
+        {
+          "@id": "urn:enviosdosruedas:asset:logo-master"
+        }
+      ],
+      "description": "Pie de página institucional con links de navegación, información de contacto en Mar del Plata (Friuli 1972), legales y redes sociales."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:layout:mobile-nav",
+      "name": "MobileNav",
+      "componentType": "React Client Component",
+      "filePath": "src/components/layout/MobileNav.tsx",
+      "description": "Menú móvil desplegable e interactivo para pantallas táctiles (smartphones/tablets)."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:layout:carrusel-redes",
+      "name": "CarruselRedes",
+      "componentType": "React Client Component",
+      "filePath": "src/components/layout/CarruselRedes.tsx",
+      "description": "Cinta o carrusel infinito flotante que promociona las redes sociales corporativas e interacciones de usuarios."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:ui:cta-nested-pill",
+      "name": "CTANestedPill",
+      "componentType": "React Client Component",
+      "filePath": "src/components/ui/CTANestedPill.tsx",
+      "description": "Botón interactivo estilo pastilla anidada con microanimación de icono al realizar hover."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:ui:double-bezel-card",
+      "name": "DoubleBezelCard",
+      "componentType": "React Server / Client Component",
+      "filePath": "src/components/ui/DoubleBezelCard.tsx",
+      "description": "Contenedor de doble marco jerárquico Neo-Brutalista (outer bezel + inner card) con bordes de marca."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:ui:badge",
+      "name": "Badge",
+      "componentType": "React Server Component",
+      "filePath": "src/components/ui/Badge.tsx",
+      "description": "Etiqueta tipográfica en mayúsculas (Bebas Neue) para destacar categorías, estados y alertas."
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:home",
+      "url": "https://www.enviosdosruedas.com/",
+      "name": "Mensajería y Logística E-commerce en Mar del Plata | Envíos DosRuedas",
+      "description": "Especialistas en logística e-commerce y última milla en Mar del Plata. Envíos en el día, Flex y soluciones 3PL para potenciar tu negocio local.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:home:hero-animado" },
+        { "@id": "urn:enviosdosruedas:component:home:vision-section" },
+        { "@id": "urn:enviosdosruedas:component:home:services-overview" },
+        { "@id": "urn:enviosdosruedas:component:home:slider-servicios" },
+        { "@id": "urn:enviosdosruedas:component:home:emprendedores-home" },
+        { "@id": "urn:enviosdosruedas:component:home:social-proof-section" },
+        { "@id": "urn:enviosdosruedas:component:home:cta-section" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:home:hero-animado",
+      "name": "HeroAnimado",
+      "filePath": "src/components/home/HeroAnimado.tsx",
+      "componentType": "React Client Component",
+      "requiresAsset": [
+        { "@id": "urn:enviosdosruedas:asset:hero-principal" }
+      ]
+    },
+    {
+      "@type": "VisualAsset",
+      "@id": "urn:enviosdosruedas:asset:hero-principal",
+      "name": "Hero Principal Landing Image",
+      "url": "/assets/hero_principal.png",
+      "fileFormat": "image/png",
+      "sectionId": "hero-animado",
+      "typography": "font-display (Anton), font-subheading (Bebas Neue)",
+      "colorPalette": ["#0636A5", "#FFEC01", "#FFFFFF"],
+      "composition": "Cadete en motocicleta sobre fondo dinámico de Mar del Plata con acentos amarillos y tipografía de impacto."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:home:vision-section",
+      "name": "VisionSection",
+      "filePath": "src/components/home/VisionSection.tsx",
+      "componentType": "React Server / Client Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:home:services-overview",
+      "name": "ServicesOverview",
+      "filePath": "src/components/home/ServicesOverview.tsx",
+      "componentType": "React Server / Client Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:home:slider-servicios",
+      "name": "SliderServicios",
+      "filePath": "src/components/home/SliderServicios.tsx",
+      "componentType": "React Client Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:home:emprendedores-home",
+      "name": "EmprendedoresHome",
+      "filePath": "src/components/home/EmprendedoresHome.tsx",
+      "componentType": "React Client Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:home:social-proof-section",
+      "name": "SocialProofSection",
+      "filePath": "src/components/home/SocialProofSection.tsx",
+      "componentType": "React Client Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:home:cta-section",
+      "name": "CtaSection",
+      "filePath": "src/components/home/CtaSection.tsx",
+      "componentType": "React Client Component"
+    }
+  ]
+}

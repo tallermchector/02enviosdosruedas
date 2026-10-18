@@ -1,0 +1,84 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:cotizar-express",
+      "url": "https://www.enviosdosruedas.com/cotizar/express",
+      "name": "Cotizador de Envíos Express en Moto | Mar del Plata | Envíos DosRuedas",
+      "description": "Calculá el costo exacto de tu envío prioritario en Mar del Plata. Tarifas transparentes por kilómetro, entrega en el día y coordinación en el acto.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:cotizar:express:hero" },
+        { "@id": "urn:enviosdosruedas:component:cotizar:express:form" },
+        { "@id": "urn:enviosdosruedas:component:cotizar:express:details" },
+        { "@id": "urn:enviosdosruedas:component:cotizar:express:help" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:cotizar:express:hero",
+      "name": "CotizadorExpressHero",
+      "filePath": "src/components/cotizar/express/CotizadorExpressHero.tsx",
+      "componentType": "React Server Component",
+      "requiresAsset": [
+        { "@id": "urn:enviosdosruedas:asset:hero-cotizar-express" }
+      ]
+    },
+    {
+      "@type": "VisualAsset",
+      "@id": "urn:enviosdosruedas:asset:hero-cotizar-express",
+      "name": "Hero Cotizar Express Image",
+      "url": "/assets/hero_cotizar_express.png",
+      "fileFormat": "image/png",
+      "sectionId": "cotizador-express-hero",
+      "typography": "font-display (Anton), font-subheading (Bebas Neue)",
+      "colorPalette": ["#0636A5", "#FFEC01", "#FFFFFF"],
+      "composition": "Ilustración interactiva de cálculo rápido de envíos express en moto para Mar del Plata."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:cotizar:express:form",
+      "name": "CotizadorExpressForm",
+      "filePath": "src/components/cotizar/express/CotizadorExpressForm.tsx",
+      "componentType": "React Client Component",
+      "referencesComponent": [
+        { "@id": "urn:enviosdosruedas:component:ui:leaflet-route-map" },
+        { "@id": "urn:enviosdosruedas:component:ui:address-autocomplete" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:ui:leaflet-route-map",
+      "name": "LeafletRouteMap",
+      "filePath": "src/components/ui/LeafletRouteMap.tsx",
+      "componentType": "React Client Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:ui:address-autocomplete",
+      "name": "AddressAutocomplete",
+      "filePath": "src/components/ui/AddressAutocomplete.tsx",
+      "componentType": "React Client Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:cotizar:express:details",
+      "name": "CotizadorExpressDetails",
+      "filePath": "src/components/cotizar/express/CotizadorExpressDetails.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:cotizar:express:help",
+      "name": "CotizadorExpressHelp",
+      "filePath": "src/components/cotizar/express/CotizadorExpressHelp.tsx",
+      "componentType": "React Client Component"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:servicios-plan-emprendedores",
+      "url": "https://www.enviosdosruedas.com/servicios/plan-emprendedores",
+      "name": "Paquetería E-Commerce, Envíos E-Commerce y Logística 3PL Mar del Plata | Envíos DosRuedas",
+      "description": "Especialistas en paquetería e-commerce, envíos e-commerce y logística 3PL en Mar del Plata. Almacenamiento en Friuli 1972 con picking QR Same Day, E-Commerce Next Day (24hs), opción DropOFF (-20% OFF) y contrareembolso sin cargo extra.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:servicios:emprendedores:hero" },
+        { "@id": "urn:enviosdosruedas:component:servicios:emprendedores:features" },
+        { "@id": "urn:enviosdosruedas:component:servicios:emprendedores:benefits" },
+        { "@id": "urn:enviosdosruedas:component:servicios:emprendedores:pricing" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:emprendedores:hero",
+      "name": "EmprendedoresHero",
+      "filePath": "src/components/servicios/emprendedores/EmprendedoresHero.tsx",
+      "componentType": "React Server Component",
+      "requiresAsset": [
+        { "@id": "urn:enviosdosruedas:asset:hero-emprendedores" }
+      ]
+    },
+    {
+      "@type": "VisualAsset",
+      "@id": "urn:enviosdosruedas:asset:hero-emprendedores",
+      "name": "Hero Emprendedores Image",
+      "url": "/assets/hero_emprendedores.png",
+      "fileFormat": "image/png",
+      "sectionId": "emprendedores-hero",
+      "typography": "font-display (Anton), font-subheading (Bebas Neue)",
+      "colorPalette": ["#0636A5", "#FFEC01", "#FFFFFF"],
+      "composition": "Almacén logístico 3PL, gestión de inventario y fulfillment para emprendedores y e-commerce."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:emprendedores:features",
+      "name": "EmprendedoresFeatures",
+      "filePath": "src/components/servicios/emprendedores/EmprendedoresFeatures.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:emprendedores:benefits",
+      "name": "EmprendedoresBenefits",
+      "filePath": "src/components/servicios/emprendedores/EmprendedoresBenefits.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:emprendedores:pricing",
+      "name": "EmprendedoresPricing",
+      "filePath": "src/components/servicios/emprendedores/EmprendedoresPricing.tsx",
+      "componentType": "React Server Component"
+    }
+  ]
+}

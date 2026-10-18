@@ -1,0 +1,30 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:politica-de-privacidad",
+      "url": "https://www.enviosdosruedas.com/politica-de-privacidad",
+      "name": "Política de Privacidad | Envíos DosRuedas Mar del Plata",
+      "description": "Conocé cómo protegemos, procesamos y resguardamos tu información personal y los datos logísticos de tus despachos en Envíos DosRuedas.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:politica-de-privacidad:privacy-content" },
+        { "@id": "urn:enviosdosruedas:component:layout:carrusel-redes" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:politica-de-privacidad:privacy-content",
+      "name": "PrivacyContent",
+      "filePath": "src/app/politica-de-privacidad/PrivacyContent.tsx",
+      "componentType": "React Client Component",
+      "description": "Contenido detallado y navegación por secciones de las políticas de privacidad y tratamiento de datos personales de la empresa."
+    }
+  ]
+}

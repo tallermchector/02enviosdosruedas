@@ -1,0 +1,82 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:nosotros-sobre-nosotros",
+      "url": "https://www.enviosdosruedas.com/nosotros/sobre-nosotros",
+      "name": "Sobre Nosotros & Historia | Envíos DosRuedas Mar del Plata",
+      "description": "Conocé la historia, valores y equipo detrás de Envíos DosRuedas. Más de 7 años de trayectoria liderando la logística urbana, cadetería y última milla e-commerce en Mar del Plata.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:nosotros:sobre-nosotros:hero" },
+        { "@id": "urn:enviosdosruedas:component:nosotros:sobre-nosotros:advantages" },
+        { "@id": "urn:enviosdosruedas:component:nosotros:sobre-nosotros:values" },
+        { "@id": "urn:enviosdosruedas:component:nosotros:sobre-nosotros:timeline" },
+        { "@id": "urn:enviosdosruedas:component:nosotros:sobre-nosotros:team" },
+        { "@id": "urn:enviosdosruedas:component:nosotros:sobre-nosotros:mission-vision" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:nosotros:sobre-nosotros:hero",
+      "name": "AboutHero",
+      "filePath": "src/components/nosotros/sobre-nosotros/AboutHero.tsx",
+      "componentType": "React Server Component",
+      "requiresAsset": [
+        { "@id": "urn:enviosdosruedas:asset:hero-sobre-nosotros" }
+      ]
+    },
+    {
+      "@type": "VisualAsset",
+      "@id": "urn:enviosdosruedas:asset:hero-sobre-nosotros",
+      "name": "Hero Sobre Nosotros Image",
+      "url": "/assets/hero_sobre_nosotros.png",
+      "fileFormat": "image/png",
+      "sectionId": "about-hero",
+      "typography": "font-display (Anton), font-subheading (Bebas Neue)",
+      "colorPalette": ["#0636A5", "#FFEC01", "#FFFFFF"],
+      "composition": "Equipo operativo y flota de cadetes de Envíos DosRuedas en Mar del Plata."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:nosotros:sobre-nosotros:advantages",
+      "name": "AboutAdvantages",
+      "filePath": "src/components/nosotros/sobre-nosotros/AboutAdvantages.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:nosotros:sobre-nosotros:values",
+      "name": "AboutValues",
+      "filePath": "src/components/nosotros/sobre-nosotros/AboutValues.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:nosotros:sobre-nosotros:timeline",
+      "name": "AboutTimeline",
+      "filePath": "src/components/nosotros/sobre-nosotros/AboutTimeline.tsx",
+      "componentType": "React Client Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:nosotros:sobre-nosotros:team",
+      "name": "AboutTeam",
+      "filePath": "src/components/nosotros/sobre-nosotros/AboutTeam.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:nosotros:sobre-nosotros:mission-vision",
+      "name": "AboutMissionVision",
+      "filePath": "src/components/nosotros/sobre-nosotros/AboutMissionVision.tsx",
+      "componentType": "React Server Component"
+    }
+  ]
+}

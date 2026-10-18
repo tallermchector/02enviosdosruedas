@@ -1,0 +1,68 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:nosotros-preguntas-frecuentes",
+      "url": "https://www.enviosdosruedas.com/nosotros/preguntas-frecuentes",
+      "name": "Preguntas Frecuentes (FAQ) | Envíos DosRuedas Mar del Plata",
+      "description": "Despejá todas tus dudas sobre mensajería en moto, Envíos Flex MercadoLibre, reparto LowCost, servicio Express, tarifas 2026 y cobertura en Mar del Plata.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:nosotros:preguntas-frecuentes:hero" },
+        { "@id": "urn:enviosdosruedas:component:nosotros:preguntas-frecuentes:categories" },
+        { "@id": "urn:enviosdosruedas:component:nosotros:preguntas-frecuentes:cta" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:nosotros:preguntas-frecuentes:hero",
+      "name": "FaqHero",
+      "filePath": "src/components/nosotros/preguntas-frecuentes/FaqHero.tsx",
+      "componentType": "React Server Component",
+      "requiresAsset": [
+        { "@id": "urn:enviosdosruedas:asset:hero-faq" }
+      ]
+    },
+    {
+      "@type": "VisualAsset",
+      "@id": "urn:enviosdosruedas:asset:hero-faq",
+      "name": "Hero FAQ Image",
+      "url": "/assets/hero_faq.png",
+      "fileFormat": "image/png",
+      "sectionId": "faq-hero",
+      "typography": "font-display (Anton), font-subheading (Bebas Neue)",
+      "colorPalette": ["#0636A5", "#FFEC01", "#FFFFFF"],
+      "composition": "Asistencia al cliente, centro de soporte y preguntas operativas resueltas."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:nosotros:preguntas-frecuentes:categories",
+      "name": "FaqCategories",
+      "filePath": "src/components/nosotros/preguntas-frecuentes/Faq-categories.tsx",
+      "componentType": "React Client Component",
+      "referencesComponent": [
+        { "@id": "urn:enviosdosruedas:component:nosotros:preguntas-frecuentes:accordion" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:nosotros:preguntas-frecuentes:accordion",
+      "name": "FaqAccordion",
+      "filePath": "src/components/nosotros/preguntas-frecuentes/FaqAccordion.tsx",
+      "componentType": "React Client Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:nosotros:preguntas-frecuentes:cta",
+      "name": "FaqCta",
+      "filePath": "src/components/nosotros/preguntas-frecuentes/FaqCta.tsx",
+      "componentType": "React Client Component"
+    }
+  ]
+}

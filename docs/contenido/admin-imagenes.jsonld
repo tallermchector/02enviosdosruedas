@@ -1,0 +1,29 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:admin-imagenes",
+      "url": "https://www.enviosdosruedas.com/admin/imagenes",
+      "name": "Panel de Gestión de Imágenes | Envíos DosRuedas",
+      "description": "Panel de administración para dar seguimiento a los metadatos de las imágenes del sitio y almacenar sugerencias de prompts para IA.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:admin:imagenes-client" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:admin:imagenes-client",
+      "name": "AdminImagenesClient",
+      "filePath": "src/app/admin/imagenes/AdminImagenesClient.tsx",
+      "componentType": "React Client Component",
+      "description": "Panel interactivo de administración para previsualización, auditoría y actualización de imágenes y prompts del sistema."
+    }
+  ]
+}

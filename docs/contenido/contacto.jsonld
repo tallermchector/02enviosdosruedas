@@ -1,0 +1,66 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:contacto",
+      "url": "https://www.enviosdosruedas.com/contacto",
+      "name": "Contacto | Envíos DosRuedas Mar del Plata",
+      "description": "Contacto con el equipo comercial y logística urbana de Envíos DosRuedas en Mar del Plata. Cotizaciones inmediatas por WhatsApp y atención personalizada.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:contacto:contact-hero" },
+        { "@id": "urn:enviosdosruedas:component:contacto:contact-form" },
+        { "@id": "urn:enviosdosruedas:component:contacto:contact-info" },
+        { "@id": "urn:enviosdosruedas:component:contacto:conversion-banner" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:contacto:contact-hero",
+      "name": "ContactHero",
+      "filePath": "src/components/contacto/ContactHero.tsx",
+      "componentType": "React Server Component",
+      "requiresAsset": [
+        { "@id": "urn:enviosdosruedas:asset:hero-contacto" }
+      ]
+    },
+    {
+      "@type": "VisualAsset",
+      "@id": "urn:enviosdosruedas:asset:hero-contacto",
+      "name": "Hero Contacto Image",
+      "url": "/assets/hero_contacto.png",
+      "fileFormat": "image/png",
+      "sectionId": "contact-hero",
+      "typography": "font-display (Anton), font-subheading (Bebas Neue)",
+      "colorPalette": ["#0636A5", "#FFEC01", "#FFFFFF"],
+      "composition": "Atención al cliente y operador logístico listo para coordinar envíos en Mar del Plata."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:contacto:contact-form",
+      "name": "ContactForm",
+      "filePath": "src/components/contacto/ContactForm.tsx",
+      "componentType": "React Client Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:contacto:contact-info",
+      "name": "ContactInfo",
+      "filePath": "src/components/contacto/ContactInfo.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:contacto:conversion-banner",
+      "name": "ConversionBanner",
+      "filePath": "src/components/contacto/ConversionBanner.tsx",
+      "componentType": "React Client Component"
+    }
+  ]
+}

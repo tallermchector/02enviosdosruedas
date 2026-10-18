@@ -1,0 +1,29 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:revisar",
+      "url": "https://www.enviosdosruedas.com/revisar",
+      "name": "Panel de Revisión de Contenidos | Envíos DosRuedas",
+      "description": "Panel exclusivo para que el dueño de la empresa revise, proponga modificaciones de textos, imágenes y guarde los ajustes en tiempo real.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:revisar:revisar-client" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:revisar:revisar-client",
+      "name": "RevisarClient",
+      "filePath": "src/app/revisar/RevisarClient.tsx",
+      "componentType": "React Client Component",
+      "description": "Herramienta interactiva de revisión y feedback interno de contenido del sitio web."
+    }
+  ]
+}

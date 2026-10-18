@@ -1,0 +1,74 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "urn:enviosdosruedas:page:servicios-envios-lowcost",
+      "url": "https://www.enviosdosruedas.com/servicios/envios-lowcost",
+      "name": "Paquetería E-Commerce, Servicio de Cadetería y Encomiendas LowCost | Envíos DosRuedas",
+      "description": "Paquetería e-commerce, servicio de cadetería y servicio de encomiendas más rentable en Mar del Plata. Pedidos solicitados antes de las 13:00 hs se entregan en el día antes de las 19:00 hs. Tarifas 2026.",
+      "inLanguage": "es-AR",
+      "isPartOf": {
+        "@id": "urn:enviosdosruedas:site"
+      },
+      "hasComponent": [
+        { "@id": "urn:enviosdosruedas:component:layout:header" },
+        { "@id": "urn:enviosdosruedas:component:servicios:lowcost:hero" },
+        { "@id": "urn:enviosdosruedas:component:servicios:lowcost:features" },
+        { "@id": "urn:enviosdosruedas:component:servicios:lowcost:pricing" },
+        { "@id": "urn:enviosdosruedas:component:servicios:lowcost:benefits" },
+        { "@id": "urn:enviosdosruedas:component:servicios:lowcost:how-it-works" },
+        { "@id": "urn:enviosdosruedas:component:layout:footer" }
+      ]
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:lowcost:hero",
+      "name": "LowCostHero",
+      "filePath": "src/components/servicios/lowcost/LowCostHero.tsx",
+      "componentType": "React Server Component",
+      "requiresAsset": [
+        { "@id": "urn:enviosdosruedas:asset:hero-low-cost" }
+      ]
+    },
+    {
+      "@type": "VisualAsset",
+      "@id": "urn:enviosdosruedas:asset:hero-low-cost",
+      "name": "Hero Envíos LowCost Image",
+      "url": "/assets/hero_low_cost.png",
+      "fileFormat": "image/png",
+      "sectionId": "lowcost-hero",
+      "typography": "font-display (Anton), font-subheading (Bebas Neue)",
+      "colorPalette": ["#0636A5", "#FFEC01", "#FFFFFF"],
+      "composition": "Proceso de paquetería económica y ruteo urbano planificado para empresas."
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:lowcost:features",
+      "name": "LowCostFeatures",
+      "filePath": "src/components/servicios/lowcost/LowCostFeatures.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:lowcost:pricing",
+      "name": "LowCostPricing",
+      "filePath": "src/components/servicios/lowcost/LowCostPricing.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:lowcost:benefits",
+      "name": "LowCostBenefits",
+      "filePath": "src/components/servicios/lowcost/LowCostBenefits.tsx",
+      "componentType": "React Server Component"
+    },
+    {
+      "@type": "UXComponent",
+      "@id": "urn:enviosdosruedas:component:servicios:lowcost:how-it-works",
+      "name": "LowCostHowItWorks",
+      "filePath": "src/components/servicios/lowcost/LowCostHowItWorks.tsx",
+      "componentType": "React Server Component"
+    }
+  ]
+}
