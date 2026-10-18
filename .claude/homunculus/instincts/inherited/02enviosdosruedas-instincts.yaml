@@ -1,0 +1,281 @@
+# Instincts generated from https://github.com/tallermchector/02enviosdosruedas
+# Generated: 2026-07-16T10:32:53.213Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: 02enviosdosruedas-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: feat
+
+## Evidence
+
+- 1 commits analyzed
+- Detected conventional commit pattern
+- Examples: feat(ui): refactor 10 pages and components applying strict neo-brutalism design constraints
+
+---
+id: 02enviosdosruedas-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Commit Length
+
+## Action
+
+Write moderate-length commit messages (~91 characters)
+
+## Evidence
+
+- Average commit message length: 91 chars
+- Based on 1 commits
+
+---
+id: 02enviosdosruedas-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Naming Files
+
+## Action
+
+Use PascalCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: PascalCase
+
+---
+id: 02enviosdosruedas-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Export Style
+
+## Action
+
+Prefer default exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: default
+
+---
+id: 02enviosdosruedas-arch-type-based
+trigger: "when adding new code"
+confidence: 0.8
+domain: architecture
+source: repo-analysis
+source_repo: https://github.com/tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Arch Type Based
+
+## Action
+
+Place code in the appropriate type folder (components/, services/, utils/, etc.)
+
+## Evidence
+
+- Type-based module organization detected
+- Folders: app, components
+
+---
+id: 02enviosdosruedas-test-colocate
+trigger: "when writing tests"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Test Colocate
+
+## Action
+
+Place test file next to the source file (e.g., Button.test.tsx next to Button.tsx)
+
+## Evidence
+
+- Colocated test pattern detected
+- Tests live alongside source files
+
+---
+id: 02enviosdosruedas-instinct-file-naming
+trigger: "When creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Instinct File Naming
+
+## Action
+
+Name the file using PascalCase
+
+## Evidence
+
+- Pattern in namingConventions.files
+
+---
+id: 02enviosdosruedas-instinct-function-naming
+trigger: "When defining a new function"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Instinct Function Naming
+
+## Action
+
+Use camelCase for the function name
+
+## Evidence
+
+- Pattern in namingConventions.functions
+
+---
+id: 02enviosdosruedas-instinct-class-naming
+trigger: "When defining a new class"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Instinct Class Naming
+
+## Action
+
+Use PascalCase for the class name
+
+## Evidence
+
+- Pattern in namingConventions.classes
+
+---
+id: 02enviosdosruedas-instinct-constant-naming
+trigger: "When declaring a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Instinct Constant Naming
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for the constant name
+
+## Evidence
+
+- Pattern in namingConventions.constants
+
+---
+id: 02enviosdosruedas-instinct-import-style
+trigger: "When importing modules"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Instinct Import Style
+
+## Action
+
+Use absolute import paths
+
+## Evidence
+
+- Pattern in importStyle
+
+---
+id: 02enviosdosruedas-instinct-export-style
+trigger: "When exporting modules or components"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Instinct Export Style
+
+## Action
+
+Use default exports
+
+## Evidence
+
+- Pattern in exportStyle
+
+---
+id: 02enviosdosruedas-instinct-test-location
+trigger: "When adding a test for a module/component"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Instinct Test Location
+
+## Action
+
+Place the test file next to the module/component (colocated)
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation
+
+---
+id: 02enviosdosruedas-instinct-commit-format
+trigger: "When writing a commit message"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: tallermchector/02enviosdosruedas
+---
+
+# 02enviosdosruedas Instinct Commit Format
+
+## Action
+
+Use the conventional commit format with a 'feat' prefix for features
+
+## Evidence
+
+- Pattern in commits.type
+- Pattern in commits.prefixes
+- Seen in commit: 'feat(ui): refactor 10 pages and components applying strict neo-brutalism design constraints'
+
