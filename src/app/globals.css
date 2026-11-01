@@ -5,25 +5,25 @@
 
 :root {
   /* ========================================================================
-   * SUPERFICIES Y ACCIONES (fuera de @theme para no chocar con text-* font-size)
+   * SUPERFICIES Y LIENZO BASE
    * ======================================================================== */
   --surface-page: var(--color-white);
-  --surface-card: var(--color-white);
-  --surface-muted: var(--color-brand-blue-50);
-  --surface-invert: var(--color-brand-blue-700);
-  --surface-glass: rgba(255, 255, 255, 0.06);
-  --text-body: var(--color-brand-blue-900);
-  --text-muted: var(--color-brand-blue-400);
-  --text-heading: var(--color-brand-blue-900);
-  --text-on-invert: var(--color-white);
-  --text-on-accent: var(--color-brand-blue-900);
-  --border-subtle: var(--color-brand-blue-100);
-  --focus-ring: var(--color-brand-blue-500);
-  --action-primary: var(--color-brand-blue-700);
-  --action-primary-hover: var(--color-brand-blue-800);
-  --action-accent: var(--color-brand-yellow-500);
-  --action-accent-hover: var(--color-brand-yellow-400);
-  --action-danger: #EF4444;
+  --text-body: var(--color-brand-blue-500);
+
+  /* ========================================================================
+   * MOTION TOKENS — Emil Kowalski Philosophy
+   * ======================================================================== */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --ease-out-ui: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-ui: cubic-bezier(0.77, 0, 0.175, 1);
+
+  --duration-feedback: 160ms;
+  --duration-dropdown: 200ms;
+  --duration-modal: 250ms;
 }
 
 @theme {
@@ -32,20 +32,13 @@
    * Cada token tiene un hex literal. Nada más oscuro que #0950F6.
    * ======================================================================== */
 
-  /* Azul Vibrante — 6 pasos (50 → 500). 500/600/700/900/950 colapsan a #0950F6. */
+  /* Azul Vibrante — 6 pasos canónicos (50 → 500). Tope máximo de oscuridad: #0950F6 */
   --color-brand-blue-50: #E6EEFE;   /* fondo suave, bezel exterior /80, skeleton, hover ghost */
   --color-brand-blue-100: #BACEFD;  /* borde estructural, divisores, stepper línea pendiente */
   --color-brand-blue-200: #8EAFFB;  /* hover borde tarjeta, anillo radio pendiente, trazos SVG */
   --color-brand-blue-300: #628FF9;  /* borde input reposo, hover bezel, trazos SVG secundarios */
-  --color-brand-blue-400: #3570F8;  /* íconos, texto grande muted (≥24px). Falla AA en texto normal */
-  --color-brand-blue-500: #0950F6;  /* anillo de foco, primario canónico */
-
-  /* Colapsados al tope #0950F6 — el nombre elige la FUNCIÓN, no la oscuridad */
-  --color-brand-blue-600: #0950F6;  /* colapsado al tope */
-  --color-brand-blue-700: #0950F6;  /* PRIMARIO: lienzo institucional, header, footer, hero, H1/H2 */
-  --color-brand-blue-800: #3570F8;  /* hover de FONDOS azules (se aclara porque no se puede oscurecer) */
-  --color-brand-blue-900: #0950F6;  /* texto sobre amarillo y cuerpo en tarjetas (4.9:1) */
-  --color-brand-blue-950: #0950F6;  /* colapsado al tope (footer profundo = mismo azul) */
+  --color-brand-blue-400: #3570F8;  /* íconos, texto grande muted (≥24px), hover de fondos azules */
+  --color-brand-blue-500: #0950F6;  /* primario canónico, tope de oscuridad, H1/H2, foco, botones */
 
   /* Amarillo Vial — 7 pasos (50 → 600). Señal, nunca superficie. ≤15% cobertura. */
   --color-brand-yellow-50: #FFFDE6;  /* fondo Flex seleccionado */
@@ -62,62 +55,11 @@
   /* ========================================================================
    * ALIAS SEMÁNTICOS CANÓNICOS (referencian a la paleta de arriba)
    * ======================================================================== */
-  --color-brand-blue: var(--color-brand-blue-700);
+  --color-brand-blue: var(--color-brand-blue-500);
   --color-brand-yellow: var(--color-brand-yellow-500);
-  --color-brand-ink: var(--color-brand-blue-900);
+  --color-brand-ink: var(--color-brand-blue-500);
   --color-brand-white: var(--color-white);
 
-  /* ========================================================================
-   * REDES DE SEGURIDAD: escalas remapeadas a marca (no son API válida)
-   * Código nuevo usa solo brand-*. Estas evitan que clases heredadas rompan.
-   * ======================================================================== */
-  --color-blue-50: var(--color-brand-blue-50);
-  --color-blue-100: var(--color-brand-blue-100);
-  --color-blue-200: var(--color-brand-blue-200);
-  --color-blue-300: var(--color-brand-blue-300);
-  --color-blue-400: var(--color-brand-blue-400);
-  --color-blue-500: var(--color-brand-blue-500);
-  --color-blue-600: var(--color-brand-blue-500);
-  --color-blue-700: var(--color-brand-blue-700);
-  --color-blue-800: var(--color-brand-blue-400);
-  --color-blue-900: var(--color-brand-blue-700);
-  --color-blue-950: var(--color-brand-blue-700);
-
-  --color-gray-50: var(--color-white);
-  --color-gray-100: var(--color-brand-blue-50);
-  --color-gray-200: var(--color-brand-blue-100);
-  --color-gray-300: var(--color-brand-blue-200);
-  --color-gray-400: var(--color-brand-blue-300);
-  --color-gray-500: var(--color-brand-blue-400);
-  --color-gray-600: var(--color-brand-blue-500);
-  --color-gray-700: var(--color-brand-blue-700);
-  --color-gray-800: var(--color-brand-blue-700);
-  --color-gray-900: var(--color-brand-blue-700);
-  --color-gray-950: var(--color-brand-blue-700);
-
-  --color-slate-50: var(--color-white);
-  --color-slate-100: var(--color-brand-blue-50);
-  --color-slate-200: var(--color-brand-blue-100);
-  --color-slate-300: var(--color-brand-blue-200);
-  --color-slate-400: var(--color-brand-blue-300);
-  --color-slate-500: var(--color-brand-blue-400);
-  --color-slate-600: var(--color-brand-blue-500);
-  --color-slate-700: var(--color-brand-blue-700);
-  --color-slate-800: var(--color-brand-blue-700);
-  --color-slate-900: var(--color-brand-blue-700);
-  --color-slate-950: var(--color-brand-blue-700);
-
-  --color-zinc-50: var(--color-white);
-  --color-zinc-100: var(--color-brand-blue-50);
-  --color-zinc-200: var(--color-brand-blue-100);
-  --color-zinc-300: var(--color-brand-blue-200);
-  --color-zinc-400: var(--color-brand-blue-300);
-  --color-zinc-500: var(--color-brand-blue-400);
-  --color-zinc-600: var(--color-brand-blue-500);
-  --color-zinc-700: var(--color-brand-blue-700);
-  --color-zinc-800: var(--color-brand-blue-700);
-  --color-zinc-900: var(--color-brand-blue-700);
-  --color-zinc-950: var(--color-brand-blue-700);
 
   /* ========================================================================
    * NEUTRALIZACIÓN DE PALETAS PROHIBIDAS (Tailwind defaults)
@@ -222,49 +164,39 @@
   --shadow-xl: 0 16px 32px rgba(9, 80, 246, 0.12), 0 8px 16px rgba(9, 80, 246, 0.08);
   --shadow-2xl: 0 25px 50px -12px rgba(9, 80, 246, 0.25);
 
-  --shadow-panel: 0 32px 120px -20px rgba(9, 80, 246, 0.15);
   --shadow-float: 0 25px 50px -12px rgba(9, 80, 246, 0.15);
   --shadow-elevated: 0 16px 40px rgba(9, 80, 246, 0.18);
   --shadow-hover-lift: 0 24px 64px rgba(9, 80, 246, 0.20);
   --shadow-antigravity-deep: 0 24px 64px rgba(9, 80, 246, 0.22);
-  --shadow-ambient-elevation: 0 20px 80px rgba(9, 80, 246, 0.18);
 
   --shadow-accent: 0 12px 40px -6px rgba(255, 236, 1, 0.3);
-  --shadow-accent-hover: 0 6px 25px rgba(255, 236, 1, 0.4);
   --shadow-accent-sm: 0 2px 4px rgba(255, 236, 1, 0.15);
   --shadow-accent-md: 0 4px 8px rgba(255, 236, 1, 0.2);
-  --shadow-glow-blue: 0 0 25px rgba(9, 80, 246, 0.35);
   --shadow-glow-yellow: 0 0 25px rgba(255, 241, 46, 0.45);
   --shadow-cta-glow: 0 0 28px rgba(255, 236, 1, 0.45), 0 8px 24px rgba(9, 80, 246, 0.18);
 
   --animate-float-slow: float-slow 6s ease-in-out infinite;
   --animate-pulse-subtle: pulse-subtle 2s ease-in-out infinite;
-  --animate-border-pulse: border-pulse 2s ease-in-out infinite;
-  --animate-shimmer: shimmer 2.5s ease-in-out infinite;
-  --animate-counter-up: counter-up 0.6s ease-out;
   --animate-logos-scroll: marquee-left 30s linear infinite;
 
   /* ========================================================================
-   * DEPRECADO: alias temporales, se borran en la fase 3
-   * Cada alias apunta al canónico con var(), NUNCA a un hex.
+   * ALIAS DE TRANSICIÓN: conservado para compatibilidad en producción
    * ======================================================================== */
-  --color-brand-navy: var(--color-brand-blue-700);
-  --color-brand-blue-deep: var(--color-brand-blue-700);
-  --color-brand-blue-ink: var(--color-brand-blue-700);
-  --color-brand-dark: var(--color-brand-blue-700);
   --color-brand-white-50: var(--color-white);
 }
 
 @keyframes float-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @keyframes pulse-subtle { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
-@keyframes border-pulse { 0%, 100% { border-color: rgba(9,80,246,0.2); } 50% { border-color: rgba(9,80,246,0.4); } }
-@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-@keyframes counter-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
 body {
   font-family: var(--font-sans);
   background-color: var(--surface-page);
   color: var(--text-body);
+}
+
+section[id],
+main[id] {
+  scroll-margin-top: 5rem;
 }
 
 @utility font-display {
@@ -293,8 +225,10 @@ body {
   padding: 0.5rem;
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-float);
-  transition: border-color 0.3s cubic-bezier(0.25,1,0.5,1), box-shadow 0.3s cubic-bezier(0.25,1,0.5,1);
-  &:hover { border-color: var(--color-brand-blue-300); box-shadow: var(--shadow-antigravity-deep); }
+  transition: border-color var(--duration-dropdown) var(--ease-out-ui), box-shadow var(--duration-dropdown) var(--ease-out-ui);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover { border-color: var(--color-brand-blue-300); box-shadow: var(--shadow-antigravity-deep); }
+  }
 }
 @utility double-bezel-inner {
   background-color: var(--color-white);
@@ -316,10 +250,12 @@ body {
   letter-spacing: 0.05em;
   font-weight: 700;
   padding: 0.75rem 1.5rem;
-  min-height: 56px;
-  transition: transform 0.25s cubic-bezier(0.25,1,0.5,1), background-color 0.25s cubic-bezier(0.25,1,0.5,1), border-color 0.25s cubic-bezier(0.25,1,0.5,1), box-shadow 0.25s cubic-bezier(0.25,1,0.5,1);
-  &:hover { transform: translateY(-1px); }
-  &:active { transform: scale(0.98); }
+  min-height: 44px;
+  transition: transform var(--duration-feedback) var(--ease-out-ui), background-color var(--duration-feedback) var(--ease-out-ui), border-color var(--duration-feedback) var(--ease-out-ui), box-shadow var(--duration-feedback) var(--ease-out-ui);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover { transform: translateY(-1px); }
+  }
+  &:active { transform: scale(0.97); }
 }
 @utility cta-nested-icon {
   display: inline-flex;
@@ -361,17 +297,17 @@ body {
 
 @utility kinetic-font-stretch {
   display: inline-block;
-  transition: transform 0.4s cubic-bezier(0.25,1,0.5,1), letter-spacing 0.4s;
+  transition: transform 0.4s var(--ease-out-ui), letter-spacing 0.4s;
   transform-origin: left;
-  &:hover { transform: scaleX(1.08); letter-spacing: 0.02em; }
+  @media (hover: hover) and (pointer: fine) {
+    &:hover { transform: scaleX(1.08); letter-spacing: 0.02em; }
+  }
 }
 
 /* V2 Marquee Flotante */
 @keyframes marquee-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@keyframes marquee-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
-/* Motion compartido de heroes (2026-09) */
-@keyframes radar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+/* Motion compartido de heroes */
 @keyframes floaty {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
@@ -379,10 +315,6 @@ body {
 @keyframes shuttle {
   from { transform: translateX(0); }
   to { transform: translateX(100%); }
-}
-@keyframes draw {
-  from { stroke-dashoffset: var(--draw-len, 1200); }
-  to { stroke-dashoffset: 0; }
 }
 @keyframes pulse-ring {
   0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0.9; }
@@ -395,13 +327,10 @@ body {
   100% { transform: translateX(0); }
 }
 
-@utility animate-radar { animation: radar 6s linear infinite; }
 @utility animate-floaty { animation: floaty 5s ease-in-out infinite; }
-@utility animate-road { animation: marquee-left 3.5s linear infinite; }
 @utility animate-shuttle {
   animation: shuttle 5s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
 }
-@utility animate-draw { animation: draw 2.4s cubic-bezier(0.25,1,0.5,1) forwards; }
 @utility animate-pulse-ring {
   animation: pulse-ring 3.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
 }
@@ -409,24 +338,29 @@ body {
   animation: roundtrip 4.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 @keyframes grow-x {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+  from { transform: scaleX(0.25); opacity: 0.3; }
+  to { transform: scaleX(1); opacity: 1; }
 }
 @utility animate-grow-x {
-  animation: grow-x 1.1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation: grow-x 220ms var(--ease-out-ui) forwards;
   transform-origin: left center;
 }
 
 @utility animate-marquee-left { animation: marquee-left 36s linear infinite; }
-@utility animate-marquee-right { animation: marquee-right 42s linear infinite; }
-@utility is-paused { animation-play-state: paused !important; }
-@utility no-scrollbar { &::-webkit-scrollbar { display: none; } scrollbar-width: none; }
+
+/* Rendimiento de render diferido (modern-web-guidance) */
+@utility content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto none auto 650px;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-radar, .animate-floaty, .animate-road, .animate-shuttle, .animate-draw, .animate-roundtrip, .animate-pulse-ring, .animate-grow-x, .animate-marquee-left, .animate-marquee-right {
+  html {
+    scroll-behavior: auto !important;
+  }
+  .animate-floaty, .animate-shuttle, .animate-roundtrip, .animate-pulse-ring, .animate-grow-x, .animate-marquee-left {
     animation: none !important;
   }
-  .animate-draw { stroke-dashoffset: 0 !important; }
   .animate-grow-x { transform: scaleX(1) !important; }
   .animate-pulse-ring { opacity: 0 !important; }
   *, *::before, *::after {

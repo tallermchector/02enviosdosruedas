@@ -59,6 +59,7 @@ ds-bundle/
 document.md
 document.html
 document.pdf
+exports/
 
 # === AI AGENTS IGNORE (Unificado: reemplaza .aiexclude, .geminiignore, .cursorignore, etc.) ===
 # Ignora carpetas pesadas y artefactos de build para que los agentes de IA no las lean
@@ -91,6 +92,7 @@ ds-bundle/
 
 # Documentation local (prompts, specs, internals)
 docs/prompts/
+docs/paginas/
 docs/sitio_completo.html
 docs/diseno/
 docs/contexto/correo_propio/
@@ -125,3 +127,8 @@ v11/*
 # Python (scripts/ y sus tests)
 __pycache__/
 *.py[cod]
+
+.vercel
+.env*
+graphify-out/*
+src/graphify-out/*

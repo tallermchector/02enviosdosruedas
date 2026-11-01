@@ -11,6 +11,14 @@ export const metadata: Metadata = {
   alternates: {
     canonical: `${baseUrl}/terminos-y-condiciones`,
   },
+  openGraph: {
+    title: 'Términos y Condiciones',
+    description: 'Leé detenidamente las pautas operativas, obligaciones del usuario, tarifas, formas de pago y limitaciones de responsabilidad de Envíos DosRuedas.',
+    url: `${baseUrl}/terminos-y-condiciones`,
+    type: 'website',
+    locale: 'es_AR',
+    images: [`${baseUrl}/og-image.jpg`],
+  },
 };
 
 export default function TerminosCondicionesPage() {

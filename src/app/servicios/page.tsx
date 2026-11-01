@@ -11,17 +11,20 @@ const SAME_DAY_PRICE = `$${SAME_DAY_FIXED_PRICE.toLocaleString('es-AR')}`;
 const ECOMMERCE_24HS_PRICE_DISPLAY = `$${ECOMMERCE_24HS_PRICE.toLocaleString('es-AR')}`;
 
 export const metadata: Metadata = {
-  title: 'Servicios - Express, LowCost, Flex, Cuenta Corriente y E-commerce 24hs/Same-Day',
-  description: 'Servicios de Envíos DosRuedas en Mar del Plata: Envíos Express (franja 3hs), LowCost (día), Mercado Envíos Flex, Cuenta Corriente Flexible, E-commerce 24hs y Same-Day con stock en depósito.',
+  title: 'Servicios de Mensajería y Envíos',
+  description:
+    'Servicios de logística y mensajería en moto en Mar del Plata: Express, LowCost, Flex, Cuenta Corriente y E-commerce con stock en depósito y flota propia.',
   alternates: {
     canonical: `${baseUrl}/servicios`,
   },
   openGraph: {
-    title: 'Servicios | Envíos DosRuedas',
-    description: 'Mensajería Express, paquetería LowCost, MercadoLibre Flex, Cuenta Corriente y logística e-commerce 24hs/Same-Day en Mar del Plata.',
+    title: 'Servicios de Mensajería y Envíos | Envíos DosRuedas',
+    description:
+      'Mensajería Express, paquetería LowCost, MercadoLibre Flex, Cuenta Corriente y logística e-commerce en Mar del Plata.',
     url: `${baseUrl}/servicios`,
     type: 'website',
     locale: 'es_AR',
+    images: [`${baseUrl}/og-image.jpg`],
   },
   twitter: {
     card: 'summary_large_image',
@@ -138,6 +141,11 @@ const services = [
     cta: 'Ver detalle y tarifas',
     price: 'Desde $3.700',
     priceNote: '/ envío base',
+    stats: {
+      entrega: 'Franja 3 hs',
+      corte: '15:00 hs',
+      tarifa: 'Desde $3.700',
+    },
     features: [
       'Franja de 3 hs (ej. 10 a 13 hs)',
       'Corte 15:00 hs con 2h anticipación',
@@ -161,6 +169,11 @@ const services = [
     cta: 'Ver detalle y tarifas',
     price: 'Desde $3.000',
     priceNote: '/ envío base',
+    stats: {
+      entrega: 'En el día',
+      corte: '13:00 hs',
+      tarifa: 'Desde $3.000',
+    },
     features: [
       'Entrega antes de 19:00 hs',
       'Corte 13:00 hs mismo día',
@@ -184,6 +197,11 @@ const services = [
     cta: 'Ver planes Flex',
     price: 'Desde $3.000',
     priceNote: '/ envío base',
+    stats: {
+      entrega: 'Antes 20:00 hs',
+      corte: '15:00 hs',
+      tarifa: 'Desde $3.000',
+    },
     features: [
       '100% entregas Same-Day < 20:00 hs',
       'Sin mínimos: retiramos desde 1 paquete',
@@ -207,6 +225,11 @@ const services = [
     cta: 'Ver condiciones',
     price: 'Tarifas LowCost',
     priceNote: '',
+    stats: {
+      entrega: 'Franja 3 hs',
+      corte: '15:00 hs',
+      tarifa: 'Tarifa LowCost',
+    },
     features: [
       'Sin mínimo de envíos',
       'Franja de 3 hs, corte 15:00 hs',
@@ -230,6 +253,11 @@ const services = [
     cta: 'Ver planes 24hs',
     price: ECOMMERCE_24HS_PRICE_DISPLAY,
     priceNote: 'por envío',
+    stats: {
+      entrega: 'Día hábil sig.',
+      corte: 'En el día',
+      tarifa: ECOMMERCE_24HS_PRICE_DISPLAY,
+    },
     features: [
       'Entrega al día hábil siguiente',
       'Recolección gratis desde 10 envíos',
@@ -253,6 +281,11 @@ const services = [
     cta: 'Ver planes Same-Day',
     price: SAME_DAY_PRICE,
     priceNote: 'fijo a toda la ciudad',
+    stats: {
+      entrega: 'Antes 20:00 hs',
+      corte: '15:00 hs',
+      tarifa: SAME_DAY_PRICE,
+    },
     features: [
       'Stock en Friuli 1972 con picking QR',
       'Corte 15:00 hs, entrega antes de 20:00 hs',
@@ -329,44 +362,53 @@ export default function ServiciosPage() {
                 key={service.id}
                 id={service.id}
                 href={service.href}
-                className={`group relative scroll-mt-28 ${service.bgColor} ${service.borderColor} p-3 rounded-[28px] shadow-float hover:shadow-antigravity-deep transition-all duration-300 flex flex-col ${service.color}`}
+                className="group relative scroll-mt-28 double-bezel-outer p-2 rounded-3xl bg-brand-blue-50/70 border border-brand-blue-100 shadow-float hover:shadow-hover-lift hover:border-brand-blue-300 transition-all duration-300 ease-out flex flex-col text-brand-blue-500"
               >
-                <div className="border border-white/20 p-2 rounded-[20px] shadow-sm flex flex-col justify-between h-full relative overflow-hidden">
+                <div className="bg-white p-6 rounded-2xl shadow-xs flex flex-col justify-between h-full relative overflow-hidden border border-brand-blue-100/60">
                   <div className="space-y-4 relative z-10">
                     <div className="flex items-center justify-between">
-                      <span className="-rotate-1 absolute -top-3.5 left-6 bg-brand-yellow-500 text-brand-blue-500 font-bold font-subheading text-xs tracking-wider px-3 py-1 rounded-full shadow-glow-yellow">
+                      <span className="-rotate-1 inline-block bg-brand-yellow-500 text-brand-blue-500 font-bold font-subheading text-xs tracking-wider px-3 py-1 rounded-full shadow-glow-yellow">
                         {service.badge}
                       </span>
-                      <div className="w-12 h-12 rounded-xl bg-brand-blue-500 text-brand-yellow-500 flex items-center justify-center shrink-0 border border-brand-blue-500 shadow-sm group-hover:bg-brand-yellow-500 group-hover:text-brand-blue-500 transition-colors duration-200">
+                      <div className="w-12 h-12 rounded-xl bg-brand-blue-50 text-brand-blue-500 flex items-center justify-center shrink-0 border border-brand-blue-200 shadow-xs group-hover:bg-brand-yellow-500 group-hover:border-brand-yellow-400 transition-colors duration-200">
                         <Icon className="w-6 h-6 shrink-0" />
                       </div>
                     </div>
 
                     <div>
-                      <span className="text-xs font-subheading tracking-wider uppercase text-brand-yellow-500 font-bold">
+                      <span className="text-xs font-subheading tracking-wider uppercase text-brand-blue-500 font-bold">
                         {service.label}
                       </span>
-                      <h3 className="text-xl font-display uppercase tracking-wider mt-1 leading-tight min-h-12">
+                      <h3 className="text-2xl font-display uppercase tracking-tight text-brand-blue-500 mt-1 leading-tight min-h-12">
                         {service.title}
                       </h3>
                     </div>
 
-                    <p className="text-sm leading-relaxed font-sans">
+                    <p className="text-sm leading-relaxed font-sans text-brand-blue-500/80">
                       {service.description}
                     </p>
 
-                    <div className="flex items-baseline gap-2 pt-2 border-t border-white/20">
-                      <span className="text-2xl font-mono tabular-nums font-bold">{service.price}</span>
-                      {service.priceNote && (
-                        <span className="text-xs font-subheading tracking-wider uppercase text-brand-blue-100">{service.priceNote}</span>
-                      )}
+                    {/* 3 Metric Pills: ENTREGA | CORTE | TARIFA */}
+                    <div className="grid grid-cols-3 gap-2 pt-3 pb-3 border-y border-brand-blue-100/70 text-center">
+                      <div className="bg-brand-blue-50/80 border border-brand-blue-100/60 p-2 rounded-xl">
+                        <div className="text-xs font-bold font-subheading text-brand-blue-500 truncate">{service.stats.entrega}</div>
+                        <div className="text-[10px] uppercase font-bold tracking-wider text-brand-blue-500">ENTREGA</div>
+                      </div>
+                      <div className="bg-brand-blue-50/80 border border-brand-blue-100/60 p-2 rounded-xl">
+                        <div className="text-xs font-bold font-subheading text-brand-blue-500 truncate">{service.stats.corte}</div>
+                        <div className="text-[10px] uppercase font-bold tracking-wider text-brand-blue-500">CORTE</div>
+                      </div>
+                      <div className="bg-brand-blue-50/80 border border-brand-blue-100/60 p-2 rounded-xl">
+                        <div className="text-xs font-bold font-mono text-brand-blue-500 truncate">{service.stats.tarifa}</div>
+                        <div className="text-[10px] uppercase font-bold tracking-wider text-brand-blue-500">TARIFA</div>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-white/20 relative z-10 space-y-3">
+                  <div className="pt-4 border-t border-brand-blue-100/60 relative z-10 space-y-4">
                     <ul className="space-y-2">
                       {service.features.map((feature) => (
-                        <li key={feature} className="flex items-center gap-2 text-xs">
+                        <li key={feature} className="flex items-center gap-2 text-xs text-brand-blue-500">
                           <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-brand-yellow-500" />
                           <span className="font-sans">{feature}</span>
                         </li>
@@ -375,9 +417,10 @@ export default function ServiciosPage() {
 
                     <CTANestedPill
                       href={service.href}
-                      variant="elevated"
+                      variant="primary"
                       size="default"
                       className="w-full justify-center"
+                      asButton
                     >
                       {service.cta}
                     </CTANestedPill>
@@ -400,7 +443,68 @@ export default function ServiciosPage() {
           </p>
         </div>
 
-        <div className="overflow-x-auto rounded-2xl border border-brand-blue-100 bg-white shadow-sm">
+        {/* Vista Mobile (<sm) — Tarjetas de Resumen Vertical */}
+        <div className="grid grid-cols-1 gap-4 sm:hidden">
+          {services.map((svc) => {
+            const expKey = svc.id === 'envios-express' ? 'express'
+              : svc.id === 'envios-lowcost' ? 'lowcost'
+              : svc.id === 'enviosflex' ? 'flex'
+              : svc.id === 'cuenta-corriente-flexible' ? 'cuentaCorriente'
+              : svc.id === 'ecommerce-24hs' ? 'ecom24'
+              : 'ecomSameDay';
+
+            return (
+              <div
+                key={svc.id}
+                className="rounded-2xl border border-brand-blue-100 bg-white p-5 shadow-sm space-y-3"
+              >
+                <div className="flex items-center justify-between pb-3 border-b border-brand-blue-100">
+                  <span className="font-subheading text-base font-bold uppercase tracking-wide text-brand-blue-500">
+                    {svc.label}
+                  </span>
+                  <span className="text-2xs font-bold tracking-widest bg-brand-yellow-500 text-brand-blue-500 px-2.5 py-1 rounded-full uppercase font-subheading">
+                    {svc.badge}
+                  </span>
+                </div>
+
+                <div className="space-y-2 text-xs font-sans">
+                  <div className="flex items-center justify-between">
+                    <span className="text-brand-blue-500/80 font-medium">Precio Base:</span>
+                    <span className="font-mono font-bold text-brand-blue-500 text-sm">{svc.price}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-brand-blue-500/80 font-medium">Entrega:</span>
+                    <span className="font-semibold text-brand-blue-500">{comparisonTable[0][expKey]}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-brand-blue-500/80 font-medium">Corte:</span>
+                    <span className="text-brand-blue-500">{comparisonTable[1][expKey]}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-brand-blue-500/80 font-medium">Franja:</span>
+                    <span className="text-brand-blue-500">{comparisonTable[2][expKey]}</span>
+                  </div>
+                  <div className="pt-2 border-t border-brand-blue-100/60">
+                    <span className="text-brand-blue-500/80 font-medium block mb-0.5">Ideal para:</span>
+                    <span className="text-brand-blue-500 font-medium">{comparisonTable[4][expKey]}</span>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <Link
+                    href={svc.href}
+                    className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-brand-blue-50 text-brand-blue-500 font-subheading text-xs uppercase font-bold tracking-wider hover:bg-brand-blue-100 transition-colors"
+                  >
+                    Ver detalles del servicio →
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Vista Desktop (sm+) — Tabla clásica */}
+        <div className="hidden sm:block overflow-x-auto rounded-2xl border border-brand-blue-100 bg-white shadow-sm">
           <table className="w-full font-sans text-sm">
             <thead>
               <tr className="bg-brand-blue-500 text-white">
@@ -451,7 +555,7 @@ export default function ServiciosPage() {
               Te asesoramos sin compromiso. Contanos qué necesitás y te recomendamos la mejor opción.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <CTANestedPill href="https://wa.me/542236602699" variant="primary" size="large">
+              <CTANestedPill href="https://api.whatsapp.com/send/?phone=542236602699" variant="primary" size="large">
                 Asesorame por WhatsApp
               </CTANestedPill>
               <CTANestedPill href="/cobertura" variant="elevated" size="large">

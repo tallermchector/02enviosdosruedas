@@ -1,0 +1,104 @@
+# ==============================================================================
+# .claudeignore — Delimitación de Contexto y Optimización para Claude Code
+# Proyecto: Envíos DosRuedas | Stack: Next.js 16 · TypeScript · Tailwind v4 · Prisma
+# ==============================================================================
+
+# 1. Dependencias y Lockfiles (~500 KB de ahorro por invocación)
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+bun.lockb
+.pnpm-store/
+.npmrc
+
+# 2. Builds, Bundlers y Artefactos Generados
+.next/
+dist/
+build/
+out/
+.output/
+generated/
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+*.js.map
+*.css.map
+*.ts.map
+
+# 3. Control de Versiones y Logs
+.git/
+.github/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 4. Variables de Entorno y Secretos (Seguridad Estricta)
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.*.local
+*.pem
+*.key
+*.cert
+*.pfx
+
+# 5. Cachés de Herramientas y Testing
+.turbo/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+.vite/
+.vitest/
+coverage/
+test-results/
+.vercel/
+
+# 6. Tooling Interno de Agentes, IDEs y Entornos Locales
+.agent/
+.agents/
+.claude/
+.hermes/
+.impeccable/
+.opencode/
+.design-sync/
+.scratch/
+.stitch/
+.vscode/
+skills-lock.json
+exports/
+
+# 7. Assets Binarios y Multimedia (Evita saturación de tokens de visión)
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.ico
+*.svg
+*.avif
+*.bmp
+*.tiff
+*.woff
+*.woff2
+*.ttf
+*.otf
+*.eot
+*.pdf
+*.zip
+*.tar.gz
+
+# 8. Documentación Pesada y Scraping Histórico
+docs/paginas_en_txt/*
+docs/paginas/*
+docs/propuestas/*
+docs/Nueva carpeta/*
+docs/imagenes/
+docs/sitio_completo.html
+docs/ejemplo_tema.html

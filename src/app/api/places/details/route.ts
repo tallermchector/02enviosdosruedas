@@ -1,22 +1,79 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const placeId = searchParams.get('place_id');
+const SAFE_PLACE_ID_REGEX = /^[a-zA-Z0-9_\-:.+=]{5,500}$/;
 
-  if (!placeId) {
+export async function GET(request: NextRequest) {
+  // Verificación perimetral de origen para mitigar uso como proxy abierto por sitios externos
+  const secFetchSite = request.headers.get('sec-fetch-site');
+  if (secFetchSite === 'cross-site') {
+    return NextResponse.json({ error: 'Acceso no autorizado desde origen cruzado.' }, { status: 403 });
+  }
+
+  const { searchParams } = new URL(request.url);
+  const rawPlaceId = searchParams.get('place_id')?.trim();
+  const sessionToken = (searchParams.get('session_token') || searchParams.get('sessionToken'))?.trim();
+
+  if (!rawPlaceId) {
     return NextResponse.json({ error: 'Falta el parámetro "place_id"' }, { status: 400 });
   }
 
-  const apiKey = process.env.GOOGLE_MAPS_API_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  const placeId = rawPlaceId.replace(/^places\//, '');
+
+  if (!SAFE_PLACE_ID_REGEX.test(placeId)) {
+    return NextResponse.json({ error: 'Identificador de lugar "place_id" con formato inválido.' }, { status: 400 });
+  }
+
+  const apiKey = (process.env.GOOGLE_MAPS_API_KEY?.trim() || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY?.trim());
   if (!apiKey) {
     return NextResponse.json({ error: 'Configuración del servidor incompleta (API Key vacía)' }, { status: 500 });
   }
 
   try {
-    const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=geometry&key=${apiKey}`;
+    // 1. Intentar con Places API (New) completando la sesión
+    const sessionParam = sessionToken ? `?sessionToken=${encodeURIComponent(sessionToken)}` : '';
+    const newDetailsUrl = `https://places.googleapis.com/v1/places/${encodeURIComponent(placeId)}${sessionParam}`;
+    const newDetailsRes = await fetch(newDetailsUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': apiKey,
+        'X-Goog-FieldMask': 'id,location,displayName,formattedAddress',
+        'X-Goog-Maps-Solution-ID': 'gmp_git_agentskills_v1',
+      },
+    });
 
-    const res = await fetch(url);
+    if (newDetailsRes.ok) {
+      const data = await newDetailsRes.json();
+      if (data.location?.latitude != null && data.location?.longitude != null) {
+        return NextResponse.json(
+          {
+            status: 'OK',
+            result: {
+              geometry: {
+                location: {
+                  lat: data.location.latitude,
+                  lng: data.location.longitude,
+                },
+              },
+              formatted_address: data.formattedAddress || '',
+              name: data.displayName?.text || '',
+            },
+          },
+          {
+            headers: {
+              'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800',
+            },
+          }
+        );
+      }
+    }
+
+    // 2. Fallback a Legacy Place Details
+    const legacySessionParam = sessionToken ? `&sessiontoken=${encodeURIComponent(sessionToken)}` : '';
+    const legacyUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${encodeURIComponent(
+      placeId
+    )}&fields=geometry,name,formatted_address&key=${apiKey}${legacySessionParam}`;
+
+    const res = await fetch(legacyUrl);
     const data = await res.json();
 
     return NextResponse.json(data, {

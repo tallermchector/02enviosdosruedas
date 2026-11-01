@@ -1,15 +1,19 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Outfit, Anton, Bebas_Neue, Geist_Mono } from 'next/font/google';
 import Script from 'next/script';
 import { MotionConfig } from 'motion/react';
 import './globals.css';
 import ClientLayout from '@/components/ClientLayout';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { CONTACT_EMAIL, SUPPORT_PHONE } from '@/lib/promises';
+
+const JSON_LD_PHONE = SUPPORT_PHONE.replace(/\s+/g, '-');
 
 const outfit = Outfit({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
-  preload: true,
+  preload: false,
 });
 
 const anton = Anton({
@@ -36,6 +40,12 @@ const geistMono = Geist_Mono({
 });
 
 const baseUrl = 'https://www.enviosdosruedas.com';
+const AHREFS_ANALYTICS_KEY = 'NWj98c8Mm2KygtpCXcQh5w';
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#0950F6',
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -43,7 +53,8 @@ export const metadata: Metadata = {
     default: 'Mensajería en moto en Mar del Plata | Envíos DosRuedas',
     template: '%s | Envíos DosRuedas',
   },
-  description: 'Mensajería en moto y logística e-commerce en Mar del Plata. Express en franja de 3 hs a elección, Mercado Envíos Flex en el día y LowCost para comercios y particulares.',
+  description:
+    'Mensajería en moto y logística e-commerce en Mar del Plata. Envíos Express en franja de 3 hs, Mercado Envíos Flex en el día y reparto LowCost. Cotizá online.',
   authors: [{ name: 'Envíos DosRuedas' }],
   creator: 'Envíos DosRuedas',
   publisher: 'Envíos DosRuedas',
@@ -64,7 +75,8 @@ export const metadata: Metadata = {
     url: baseUrl,
     siteName: 'Envíos DosRuedas',
     title: 'Mensajería en moto en Mar del Plata | Envíos DosRuedas',
-    description: 'La solución logística y última milla de mayor confianza en Mar del Plata. Envíos Express, MercadoLibre Flex, ruteo eficiente y cadetería inteligente.',
+    description:
+      'La solución logística y última milla de mayor confianza en Mar del Plata. Envíos Express, MercadoLibre Flex, ruteo eficiente y cadetería inteligente.',
     images: [
       {
         url: `${baseUrl}/og-image.jpg`,
@@ -96,75 +108,81 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <head>
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://analytics.ahrefs.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://wa.me" />
+        <link rel="dns-prefetch" href="https://api.whatsapp.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@graph': [
-                {
-                  '@type': 'Organization',
-                  name: 'Envíos DosRuedas',
-                  url: baseUrl,
-                  logo: `${baseUrl}/logo-envios-simplified.webp`,
-                  sameAs: [
-                    'https://www.instagram.com/enviosdosruedas',
-                    'https://www.facebook.com/enviosdosruedas',
-                  ],
-                  contactPoint: {
-                    '@type': 'ContactPoint',
-                    telephone: '+54-223-660-2699',
-                    contactType: 'customer service',
-                    availableLanguage: 'Spanish',
-                    areaServed: 'AR',
-                  },
-                },
-                {
-                  '@type': 'LocalBusiness',
-                  '@id': `${baseUrl}#localbusiness`,
-                  name: 'Envíos DosRuedas',
-                  description: 'Mensajería y logística e-commerce en Mar del Plata. Envíos Express en franja de 3 hs a elección, LowCost, Mercado Envíos Flex y almacenamiento en Friuli 1972.',
-                  url: baseUrl,
-                  telephone: '+54-223-660-2699',
-                  email: 'matiascejas@enviosdosruedas.com',
-                  image: `${baseUrl}/og-image.jpg`,
-                  hasMap: 'https://maps.google.com/?q=Friuli+1972,+Mar+del+Plata',
-                  address: {
-                    '@type': 'PostalAddress',
-                    streetAddress: 'Friuli 1972',
-                    addressLocality: 'Mar del Plata',
-                    addressRegion: 'Buenos Aires',
-                    postalCode: '7600',
-                    addressCountry: 'AR',
-                  },
-                  geo: {
-                    '@type': 'GeoCoordinates',
-                    latitude: -38.0055,
-                    longitude: -57.5426,
-                  },
-                  openingHoursSpecification: [
-                    {
-                      '@type': 'OpeningHoursSpecification',
-                      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-                      opens: '09:00',
-                      closes: '18:00',
+            __html: JSON.stringify(
+              {
+                '@context': 'https://schema.org',
+                '@graph': [
+                  {
+                    '@type': 'Organization',
+                    name: 'Envíos DosRuedas',
+                    url: baseUrl,
+                    logo: `${baseUrl}/logo-envios-simplified.webp`,
+                    sameAs: [
+                      'https://www.instagram.com/enviosdosruedas/',
+                      'https://www.facebook.com/enviosdosruedas/',
+                    ],
+                    contactPoint: {
+                      '@type': 'ContactPoint',
+                      telephone: JSON_LD_PHONE,
+                      contactType: 'customer service',
+                      availableLanguage: 'Spanish',
+                      areaServed: 'AR',
                     },
-                    {
-                      '@type': 'OpeningHoursSpecification',
-                      dayOfWeek: ['Saturday'],
-                      opens: '10:00',
-                      closes: '15:00',
+                  },
+                  {
+                    '@type': 'LocalBusiness',
+                    '@id': `${baseUrl}#localbusiness`,
+                    name: 'Envíos DosRuedas',
+                    description:
+                      'Mensajería y logística e-commerce en Mar del Plata. Envíos Express en franja de 3 hs a elección, LowCost, Mercado Envíos Flex y almacenamiento en Friuli 1972.',
+                    url: baseUrl,
+                    telephone: JSON_LD_PHONE,
+                    email: CONTACT_EMAIL,
+                    image: `${baseUrl}/og-image.jpg`,
+                    hasMap: 'https://www.google.com/maps?q=Friuli+1972,+Mar+del+Plata',
+                    address: {
+                      '@type': 'PostalAddress',
+                      streetAddress: 'Friuli 1972',
+                      addressLocality: 'Mar del Plata',
+                      addressRegion: 'Buenos Aires',
+                      postalCode: '7600',
+                      addressCountry: 'AR',
                     },
-                  ],
-                  areaServed: { '@type': 'City', name: 'Mar del Plata' },
-                  priceRange: '$$',
-                  currenciesAccepted: 'ARS',
-                  paymentAccepted: 'Cash, Credit Card, Transfer, MercadoPago',
-                },
-              ],
-            }, null, 2)
+                    geo: {
+                      '@type': 'GeoCoordinates',
+                      latitude: -38.0055,
+                      longitude: -57.5426,
+                    },
+                    openingHoursSpecification: [
+                      {
+                        '@type': 'OpeningHoursSpecification',
+                        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                        opens: '09:00',
+                        closes: '18:00',
+                      },
+                      {
+                        '@type': 'OpeningHoursSpecification',
+                        dayOfWeek: ['Saturday'],
+                        opens: '10:00',
+                        closes: '15:00',
+                      },
+                    ],
+                    areaServed: { '@type': 'City', name: 'Mar del Plata' },
+                    priceRange: '$$',
+                    currenciesAccepted: 'ARS',
+                    paymentAccepted: 'Cash, Credit Card, Transfer, MercadoPago',
+                  },
+                ],
+              },
+              null,
+              2
+            ),
           }}
         />
         <Script src="https://www.googletagmanager.com/gtag/js?id=AW-17510443994" strategy="lazyOnload" />
@@ -177,11 +195,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             gtag('config', 'G-LSLQ3RJ8WT');
           `}
         </Script>
+        {process.env.NODE_ENV === 'production' && (
+          <Script
+            src="https://analytics.ahrefs.com/analytics.js"
+            data-key={AHREFS_ANALYTICS_KEY}
+            strategy="afterInteractive"
+            async
+          />
+        )}
       </head>
-      <body className="bg-brand-white text-brand-ink font-sans antialiased selection:bg-brand-yellow selection:text-brand-blue min-h-dvh flex flex-col" suppressHydrationWarning>
+      <body
+        className="bg-brand-white text-brand-ink font-sans antialiased selection:bg-brand-yellow selection:text-brand-blue min-h-dvh flex flex-col"
+        suppressHydrationWarning
+      >
         <MotionConfig reducedMotion="user">
           <ClientLayout>{children}</ClientLayout>
         </MotionConfig>
+        <SpeedInsights />
       </body>
     </html>
   );

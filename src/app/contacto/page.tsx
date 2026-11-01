@@ -8,22 +8,23 @@ import ConversionBanner from '@/components/contacto/ConversionBanner';
 const baseUrl = 'https://www.enviosdosruedas.com';
 
 export const metadata: Metadata = {
-  title: 'Contacto y Base Central',
-  description: 'Contacto con el equipo comercial y logística urbana de Envíos DosRuedas en Mar del Plata. Cotizaciones inmediatas por WhatsApp y atención personalizada.',
+  title: 'Contacto y Pedidos en Mar del Plata',
+  description: 'Contacto directo y pedidos de mensajería, trámites y logística urbana en Mar del Plata. Teléfono: 223 660-2699. Base en Friuli 1972. Cotizaciones inmediatas por WhatsApp.',
   alternates: {
     canonical: `${baseUrl}/contacto`,
   },
   openGraph: {
-    title: 'Contacto y Base Central | Envíos DosRuedas',
-    description: 'Contacto con el equipo comercial y logística urbana de Envíos DosRuedas en Mar del Plata. Cotizaciones inmediatas por WhatsApp.',
+    title: 'Contacto y Pedidos en Mar del Plata | Envíos DosRuedas',
+    description: 'Contacto directo y pedidos de mensajería, trámites y logística en Mar del Plata. Teléfono: 223 660-2699.',
     url: `${baseUrl}/contacto`,
     type: 'website',
     locale: 'es_AR',
+    images: [`${baseUrl}/og-image.jpg`],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Contacto y Base Central | Envíos DosRuedas',
-    description: 'Contacto con el equipo comercial y logística urbana de Envíos DosRuedas en Mar del Plata. Cotizaciones inmediatas por WhatsApp.',
+    title: 'Contacto y Pedidos en Mar del Plata | Envíos DosRuedas',
+    description: 'Contacto directo y pedidos de mensajería, trámites y logística en Mar del Plata. Teléfono: 223 660-2699.',
     images: [`${baseUrl}/og-image.jpg`],
     creator: '@enviosdosruedas',
   },
@@ -39,6 +40,8 @@ const jsonLdSchema = {
     '@type': 'LocalBusiness',
     '@id': `${baseUrl}#localbusiness`,
     name: 'Envíos DosRuedas',
+    image: `${baseUrl}/og-image.jpg`,
+    priceRange: '$$',
     telephone: '+54-223-660-2699',
     email: 'matiascejas@enviosdosruedas.com',
     address: {
@@ -49,6 +52,25 @@ const jsonLdSchema = {
       postalCode: '7600',
       addressCountry: 'AR',
     },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: -38.0055,
+      longitude: -57.5426,
+    },
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '09:00',
+        closes: '18:00',
+      },
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Saturday'],
+        opens: '10:00',
+        closes: '15:00',
+      },
+    ],
   },
 };
 

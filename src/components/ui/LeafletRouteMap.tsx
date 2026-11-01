@@ -2,8 +2,8 @@
 
 import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import Image from 'next/image';
 import 'leaflet/dist/leaflet.css';
+import Image from 'next/image';
 
 interface Coordinate {
   lat: number;
@@ -228,7 +228,7 @@ export default function LeafletRouteMap({
       {distanceKm !== undefined && distanceKm > 0 && (
         <div className="absolute top-3 right-3 z-400 pointer-events-none">
           <div className="bg-brand-yellow-500 text-brand-blue-500 px-3 py-1.5 rounded-xl border-2 border-brand-blue-500 shadow-xl flex items-center gap-2 animate-pulse-subtle">
-            <span className="text-2xs font-subheading font-bold uppercase tracking-wider">
+            <span className="text-2xs font-subheading uppercase tracking-wider">
               Distancia
             </span>
             <span className="text-sm font-mono font-black tabular-nums bg-brand-blue-500 text-white px-2 py-0.5 rounded-md">

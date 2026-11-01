@@ -1,12 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, useReducedMotion, type Variants } from 'motion/react';
-import { Building2, ShoppingBag, Landmark, ShieldCheck } from 'lucide-react';
+import { Building2, ShoppingBag, Landmark, ShieldCheck, Pause, Play } from 'lucide-react';
 import Link from 'next/link';
+import { trackAnalytics } from '@/lib/analytics';
 
 export default function EmprendedoresHome() {
   const reduceMotion = useReducedMotion();
+  const [isMarqueePaused, setIsMarqueePaused] = useState<boolean>(false);
 
   const descriptionText = "Si vendés online, necesitás un socio logístico que responda al toque. Creamos planes a tu medida con tarifas dinámicas transparentes y recolección programada a domicilio en Mar del Plata.";
   const words = descriptionText.split(" ");
@@ -17,8 +19,8 @@ export default function EmprendedoresHome() {
   ];
 
   // Spring transition configs
-  const springTransition = { type: 'spring' as const, stiffness: 100, damping: 20 };
-  const snappySpring = { type: 'spring' as const, stiffness: 300, damping: 25 };
+  const springTransition = { type: 'spring' as const, stiffness: 360, damping: 28 };
+  const snappySpring = { type: 'spring' as const, stiffness: 360, damping: 28 };
 
   // Orchestrated section entrance variants
   const sectionVariants: Variants = {
@@ -26,14 +28,14 @@ export default function EmprendedoresHome() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.05,
+        staggerChildren: 0.08,
+        delayChildren: 0.04,
       },
     },
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 12 },
     visible: {
       opacity: 1,
       y: 0,
@@ -41,36 +43,17 @@ export default function EmprendedoresHome() {
     },
   };
 
-  const wordContainerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.03,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const wordVariant: Variants = {
-    hidden: { opacity: 0, y: 8 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.3, ease: 'easeOut' },
-    },
-  };
-
   return (
     <section
       id="emprendedores-home"
       aria-labelledby="emprendedores-home-title"
-      className="py-32 md:py-48 bg-brand-blue-500 relative overflow-hidden text-white border-y border-white/10"
+      className="py-16 sm:py-24 lg:py-32 bg-brand-blue-500 relative overflow-hidden text-white border-y border-white/10"
     >
       {/* Background Decorative Asymmetric Glows */}
-      <div className="absolute top-0 left-0 w-125 h-125 bg-brand-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-0 w-125 h-125 bg-brand-blue-500/5 rounded-full blur-[120px] pointer-events-none" aria-hidden="true" />
       <motion.div
         className="absolute bottom-0 right-0 w-150 h-150 bg-brand-yellow-500/5 rounded-full blur-[150px] pointer-events-none"
+        aria-hidden="true"
         animate={reduceMotion ? {} : { scale: [1, 1.04, 1] }}
         transition={{ duration: 4, ease: 'easeInOut', repeat: Infinity }}
       />
@@ -89,34 +72,20 @@ export default function EmprendedoresHome() {
             Socio Estratégico Local
           </span>
 
-          <h2 id="emprendedores-home-title" className="text-white text-5xl sm:text-6xl lg:text-7xl font-display uppercase tracking-tight leading-[0.9] text-left max-w-5xl">
+          <h2 id="emprendedores-home-title" className="font-display text-3xl sm:text-4xl lg:text-5xl leading-[0.92] uppercase tracking-tight text-white text-left max-w-5xl">
             Potenciamos tu{' '}
             <span
-              className="inline-flex items-center justify-center w-16 sm:w-20 md:w-24 h-8 sm:h-10 md:h-12 rounded-full align-middle bg-linear-to-r from-brand-yellow-500 to-brand-yellow-400 mx-2 border border-brand-yellow-500 shadow-md text-brand-blue-900 font-display text-base sm:text-xl uppercase transition-transform duration-500 hover:scale-105"
-              role="img"
-              aria-label="Envíos DosRuedas"
+              aria-hidden="true"
+              className="inline-flex items-center justify-center w-14 sm:w-18 lg:w-20 h-7 sm:h-9 lg:h-10 rounded-full align-middle bg-linear-to-r from-brand-yellow-500 to-brand-yellow-400 mx-1.5 border border-brand-yellow-500 shadow-md text-brand-blue-500 font-display text-sm sm:text-base lg:text-lg uppercase transition-transform duration-500 hover:scale-105"
             >
               MDQ
             </span>{' '}
             Marca en Mar del Plata
           </h2>
 
-          <motion.div className="pt-2" variants={wordContainerVariants}>
+          <motion.div className="pt-2" variants={itemVariants}>
             <p className="text-brand-blue-50 font-sans text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl font-medium tracking-tight">
-              <span className="sr-only">{descriptionText}</span>
-              <span aria-hidden="true">
-                {words.map((word, i) => (
-                  <React.Fragment key={i}>
-                    <motion.span
-                      variants={wordVariant}
-                      className="inline-block"
-                    >
-                      {word}
-                    </motion.span>
-                    {i < words.length - 1 ? ' ' : ''}
-                  </React.Fragment>
-                ))}
-              </span>
+              {descriptionText}
             </p>
           </motion.div>
 
@@ -196,10 +165,11 @@ export default function EmprendedoresHome() {
               <div className="pt-6 mt-6 border-t border-white/10 relative z-10 flex justify-end">
                 <Link
                   href="/servicios/empresas-cuenta-corriente"
-                  className="inline-flex items-center justify-between rounded-full min-h-13 px-8 py-3.5 bg-brand-yellow-400 hover:bg-brand-yellow-300 text-brand-blue-500 font-subheading text-base font-bold uppercase tracking-wider shadow-glow-yellow transition-all duration-300 hover:scale-[1.02] cursor-pointer group"
+                  onClick={() => trackAnalytics.ctaClick('emprendedores_cuenta_corriente_cta', 'Conocé más')}
+                  className="inline-flex items-center justify-between rounded-full min-h-13 px-8 py-3.5 bg-brand-yellow-400 hover:bg-brand-yellow-300 text-brand-blue-500 font-subheading text-base font-bold uppercase tracking-wider shadow-glow-yellow transition-all duration-300 hover:scale-[1.02] cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-blue-500"
                 >
                   <span>Conocé más</span>
-                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-transparent text-brand-blue ml-3 transition-transform duration-300 group-hover:translate-x-1">
+                  <span aria-hidden="true" className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-transparent text-brand-blue ml-3 transition-transform duration-300 group-hover:translate-x-1">
                     →
                   </span>
                 </Link>
@@ -210,20 +180,22 @@ export default function EmprendedoresHome() {
           {/* Card 2: MercadoLibre Flex - lg:col-span-5 lg:row-span-1 (Yellow Card) */}
           <motion.div
             variants={itemVariants}
-            className="lg:col-span-5 lg:row-span-1 double-bezel-outer p-2 rounded-2xl bg-brand-yellow-500/10 border border-brand-yellow-500/20 hover:border-brand-blue-700/30 hover:bg-brand-yellow-500/15 hover:shadow-[0_20px_40px_-15px_rgba(255,236,1,0.15)] group overflow-hidden flex flex-col"
+            className="lg:col-span-5 lg:row-span-1 double-bezel-outer p-2 rounded-2xl bg-brand-yellow-500/10 border border-brand-yellow-500/20 hover:border-brand-blue-500/30 hover:bg-brand-yellow-500/15 hover:shadow-[0_20px_40px_-15px_rgba(255,236,1,0.15)] group overflow-hidden flex flex-col"
             whileHover={reduceMotion ? undefined : { y: -6, transition: snappySpring }}
           >
-            <div className="double-bezel-inner bg-linear-to-br from-brand-yellow-500 to-brand-yellow-400 p-6 sm:p-8 rounded-xl border border-brand-yellow-500/20 shadow-sm flex flex-col justify-between h-full relative overflow-hidden text-left text-brand-blue-900 flex-1">
+            <div className="double-bezel-inner bg-linear-to-br from-brand-yellow-500 to-brand-yellow-400 p-6 sm:p-8 rounded-xl border border-brand-yellow-500/20 shadow-sm flex flex-col justify-between h-full relative overflow-hidden text-left text-brand-blue-500 flex-1">
               {/* Subtle Radial Glow */}
               <motion.div
                 className="absolute bottom-0 right-0 w-36 h-36 rounded-full bg-white/20 blur-2xl pointer-events-none"
+                aria-hidden="true"
                 animate={reduceMotion ? {} : { scale: [1, 1.08, 1], opacity: [0.15, 0.25, 0.15] }}
                 transition={{ duration: 3, ease: 'easeInOut', repeat: Infinity }}
               />
 
               {/* Watermark Background Icon */}
               <motion.div
-                className="absolute right-4 bottom-4 text-brand-blue-900 opacity-[0.04] pointer-events-none select-none"
+                className="absolute right-4 bottom-4 text-brand-blue-500 opacity-[0.04] pointer-events-none select-none"
+                aria-hidden="true"
                 animate={reduceMotion ? {} : { rotate: [0, -2, 2, 0], scale: [1, 1.03, 1] }}
                 transition={{ duration: 5, ease: 'easeInOut', repeat: Infinity }}
               >
@@ -236,7 +208,7 @@ export default function EmprendedoresHome() {
                     className="p-3 bg-brand-blue-500 text-white rounded-xl shadow-[2px_2px_0px_var(--color-brand-blue-500)]"
                     whileHover={reduceMotion ? undefined : { scale: 1.08, transition: snappySpring }}
                   >
-                    <ShoppingBag className="h-5 w-5" />
+                    <ShoppingBag className="h-5 w-5" aria-hidden="true" />
                   </motion.div>
                   <span className="text-2xs font-bold tracking-widest bg-brand-blue-500 text-white px-3 py-1.5 rounded-lg uppercase font-subheading border border-brand-blue-500/30">
                     MERCADOLIBRE
@@ -256,10 +228,11 @@ export default function EmprendedoresHome() {
               <div className="pt-4 mt-4 border-t border-brand-blue-100 relative z-10 flex justify-end">
                 <Link
                   href="/servicios/enviosflex"
-                  className="cta-nested-pill bg-brand-blue-500 text-white px-6 py-2.5 text-xs font-bold tracking-wider font-subheading rounded-full flex items-center gap-2 shadow-md hover:bg-brand-blue-400"
+                  onClick={() => trackAnalytics.ctaClick('emprendedores_flex_cta', 'Configurar Flex')}
+                  className="cta-nested-pill bg-brand-blue-500 text-white px-6 py-2.5 text-xs font-bold tracking-wider font-subheading rounded-full flex items-center gap-2 shadow-md hover:bg-brand-blue-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-yellow-500"
                 >
                   <span>Configurar Flex</span>
-                  <span className="cta-nested-icon bg-white/10 w-6 h-6 rounded-full flex items-center justify-center">
+                  <span aria-hidden="true" className="cta-nested-icon bg-white/10 w-6 h-6 rounded-full flex items-center justify-center">
                     →
                   </span>
                 </Link>
@@ -277,13 +250,15 @@ export default function EmprendedoresHome() {
               {/* Subtle Radial Glow */}
               <motion.div
                 className="absolute bottom-0 right-0 w-36 h-36 rounded-full bg-brand-blue-500/5 blur-2xl pointer-events-none"
+                aria-hidden="true"
                 animate={reduceMotion ? {} : { scale: [1, 1.08, 1], opacity: [0.08, 0.16, 0.08] }}
                 transition={{ duration: 3, ease: 'easeInOut', repeat: Infinity }}
               />
 
               {/* Watermark Background Icon */}
               <motion.div
-                className="absolute right-4 bottom-4 text-brand-blue-700 opacity-[0.02] pointer-events-none select-none"
+                className="absolute right-4 bottom-4 text-brand-blue-500 opacity-[0.02] pointer-events-none select-none"
+                aria-hidden="true"
                 animate={reduceMotion ? {} : { rotate: [0, 2, -2, 0], scale: [1, 1.03, 1] }}
                 transition={{ duration: 5, ease: 'easeInOut', repeat: Infinity }}
               >
@@ -296,7 +271,7 @@ export default function EmprendedoresHome() {
                     className="p-3 bg-brand-yellow-500 text-brand-blue-500 rounded-xl shadow-[2px_2px_0px_var(--color-brand-blue-500)]"
                     whileHover={reduceMotion ? undefined : { scale: 1.08, transition: snappySpring }}
                   >
-                    <Building2 className="h-5 w-5" />
+                    <Building2 className="h-5 w-5" aria-hidden="true" />
                   </motion.div>
                   <span className="text-2xs font-bold tracking-widest bg-brand-blue-50 text-brand-blue-500 px-3 py-1.5 rounded-lg uppercase font-subheading border border-brand-blue-100">
                     CORPORATIVO
@@ -317,10 +292,11 @@ export default function EmprendedoresHome() {
               <div className="pt-4 mt-4 border-t border-brand-blue-100 relative z-10 flex justify-end">
                 <Link
                   href="/contacto"
-                  className="cta-nested-pill bg-brand-yellow-500 text-brand-blue-500 px-6 py-2.5 text-xs font-bold tracking-wider font-subheading rounded-full flex items-center gap-2 shadow-sm hover:bg-brand-yellow-400"
+                  onClick={() => trackAnalytics.ctaClick('emprendedores_corporativo_cta', 'Abrir Cuenta Corriente')}
+                  className="cta-nested-pill bg-brand-yellow-500 text-brand-blue-500 px-6 py-2.5 text-xs font-bold tracking-wider font-subheading rounded-full flex items-center gap-2 shadow-sm hover:bg-brand-yellow-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue-500 focus-visible:ring-offset-2"
                 >
                   <span>Abrir Cuenta Corriente</span>
-                  <span className="cta-nested-icon bg-transparent w-6 h-6 rounded-full flex items-center justify-center">
+                  <span aria-hidden="true" className="cta-nested-icon bg-transparent w-6 h-6 rounded-full flex items-center justify-center">
                     →
                   </span>
                 </Link>
@@ -333,17 +309,47 @@ export default function EmprendedoresHome() {
         {/* Marquee of Local Partners - GPU Hardware Accelerated Infinite Scroll */}
         <motion.div
           variants={itemVariants}
-          className="mt-24 pt-12 border-t border-brand-blue-500/10"
+          className="mt-24 pt-12 border-t border-white/10"
         >
-          <p className="text-center font-subheading text-xs tracking-widest text-brand-blue-50 mb-6 uppercase">
-            Marcas locales que confían en nosotros
-          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+            <p className="text-center font-subheading text-xs tracking-widest text-brand-blue-50 uppercase">
+              Marcas locales que confían en nosotros
+            </p>
+            {!reduceMotion && (
+              <button
+                type="button"
+                onClick={() => setIsMarqueePaused((prev) => !prev)}
+                aria-pressed={isMarqueePaused}
+                aria-label={isMarqueePaused ? 'Reanudar carrusel de marcas locales' : 'Pausar carrusel de marcas locales'}
+                className="min-h-11 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white hover:text-brand-yellow-500 text-xs font-subheading tracking-wider uppercase inline-flex items-center gap-1.5 cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500"
+              >
+                {isMarqueePaused ? (
+                  <>
+                    <Play className="w-3.5 h-3.5 fill-current" aria-hidden="true" />
+                    <span>Reanudar</span>
+                  </>
+                ) : (
+                  <>
+                    <Pause className="w-3.5 h-3.5 fill-current" aria-hidden="true" />
+                    <span>Pausar</span>
+                  </>
+                )}
+              </button>
+            )}
+          </div>
           <div
             className="relative w-full overflow-hidden py-4 select-none mask-[linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]"
           >
-            <div className="flex gap-16 w-max animate-logos-scroll hover:[animation-play-state:paused] focus-within:[animation-play-state:paused]">
+            <div
+              className={`flex gap-16 ${
+                reduceMotion
+                  ? 'flex-wrap justify-center w-full'
+                  : 'w-max motion-safe:animate-logos-scroll motion-reduce:animate-none! hover:[animation-play-state:paused] focus-within:[animation-play-state:paused]'
+              }`}
+              style={isMarqueePaused && !reduceMotion ? { animationPlayState: 'paused' } : undefined}
+            >
               {/* Set 1 */}
-              <div className="flex gap-16 items-center">
+              <div className={`flex gap-16 items-center ${reduceMotion ? 'flex-wrap justify-center gap-8' : ''}`}>
                 {partners.map((partner, index) => (
                   <span
                     key={index}
@@ -354,16 +360,18 @@ export default function EmprendedoresHome() {
                 ))}
               </div>
               {/* Set 2 (for infinite continuous loop) */}
-              <div className="flex gap-16 items-center" aria-hidden="true">
-                {partners.map((partner, index) => (
-                  <span
-                    key={`dup-${index}`}
-                    className="font-display text-2xl tracking-wider text-brand-blue-50 uppercase cursor-default hover:text-brand-yellow-500 hover:scale-105 transition-all duration-300"
-                  >
-                    {partner}
-                  </span>
-                ))}
-              </div>
+              {!reduceMotion && (
+                <div className="flex gap-16 items-center" aria-hidden="true">
+                  {partners.map((partner, index) => (
+                    <span
+                      key={`dup-${index}`}
+                      className="font-display text-2xl tracking-wider text-brand-blue-50 uppercase cursor-default hover:text-brand-yellow-500 hover:scale-105 transition-all duration-300"
+                    >
+                      {partner}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </motion.div>

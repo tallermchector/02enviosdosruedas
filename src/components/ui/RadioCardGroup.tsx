@@ -30,9 +30,9 @@ export interface RadioCardGroupProps {
  * Follows DESIGN.md specifications:
  * - Grid 3 cols desktop, 1 col mobile
  * - Card: bg-white, border-2 border-brand-blue-100, rounded-xl, p-6
- * - Checked Express: bg-brand-blue-700, border-brand-blue-700, text-white
- * - Checked LowCost: bg-brand-blue-50, border-brand-blue-200, text-brand-blue-700
- * - Checked Flex: bg-brand-yellow-50, border-brand-yellow-200, text-brand-blue-700
+ * - Checked Express: bg-brand-blue-500, border-brand-blue-500, text-white
+ * - Checked LowCost: bg-brand-blue-50, border-brand-blue-200, text-brand-blue-500
+ * - Checked Flex: bg-brand-yellow-50, border-brand-yellow-200, text-brand-blue-500
  */
 export const RadioCardGroup: React.FC<RadioCardGroupProps> = ({
   options,
@@ -86,7 +86,7 @@ export const RadioCardGroup: React.FC<RadioCardGroupProps> = ({
               if (!opt.disabled) onChange(opt.id);
             }}
             className={cn(
-              'relative flex flex-col justify-between p-6 rounded-xl border-2 transition-[transform,background-color,border-color,box-shadow] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer select-none hover:-translate-y-0.5 active:scale-98 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue-500 focus-visible:ring-offset-2',
+              'relative flex flex-col justify-between p-6 rounded-xl border-2 transition-[transform,background-color,border-color,box-shadow] duration-160 ease-out cursor-pointer select-none hover:-translate-y-0.5 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-yellow-500',
               checkedStyles,
               opt.disabled && 'opacity-50 cursor-not-allowed pointer-events-none'
             )}
@@ -120,7 +120,7 @@ export const RadioCardGroup: React.FC<RadioCardGroupProps> = ({
                 {opt.badge && (
                   <span
                     className={cn(
-                      'font-subheading text-2xs uppercase tracking-wider font-bold px-2.5 py-1 rounded-full',
+                      'font-subheading text-2xs uppercase tracking-wider px-2.5 py-1 rounded-full',
                       isChecked && type.includes('EXPRESS')
                         ? 'bg-brand-yellow-500 text-brand-blue-500'
                         : 'bg-brand-blue-50 text-brand-blue-500'
@@ -147,7 +147,7 @@ export const RadioCardGroup: React.FC<RadioCardGroupProps> = ({
               {/* Title & Description */}
               <h3
                 className={cn(
-                  'font-subheading text-xl uppercase tracking-wide font-bold mb-1',
+                  'font-subheading text-xl uppercase tracking-wide mb-1',
                   isChecked && type.includes('EXPRESS') ? 'text-white' : 'text-brand-blue-500'
                 )}
               >

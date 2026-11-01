@@ -19,19 +19,20 @@ import CTANestedPill from '@/components/ui/CTANestedPill';
 const baseUrl = 'https://www.enviosdosruedas.com';
 
 export const metadata: Metadata = {
-  title: 'Guía Completa Mercado Envíos Flex en Mar del Plata 2026',
+  title: 'Guía Mercado Envíos Flex en MDQ',
   description:
-    'Aprendé cómo activar, configurar y gestionar tus entregas con Mercado Envíos Flex en Mar del Plata. Horarios de corte, zonas cubiertas y consejos para proteger tu reputación.',
+    'Aprendé cómo activar y gestionar entregas con Mercado Envíos Flex en Mar del Plata. Horarios de corte, zonas y consejos para cuidar tu reputación.',
   alternates: {
     canonical: `${baseUrl}/guias/envios-flex-mar-del-plata`,
   },
   openGraph: {
-    title: 'Guía Mercado Envíos Flex en Mar del Plata | Envíos DosRuedas',
+    title: 'Guía Mercado Envíos Flex en MDQ | Envíos DosRuedas',
     description:
       'Paso a paso definitivo para vendedores de Mercado Libre en Mar del Plata. Optimizá tu logística y entregá en el día.',
     url: `${baseUrl}/guias/envios-flex-mar-del-plata`,
     type: 'article',
     locale: 'es_AR',
+    images: [`${baseUrl}/og-image.jpg`],
   },
 };
 
@@ -146,7 +147,7 @@ export default function GuiaEnviosFlexPage() {
 
             <div className="flex flex-wrap gap-4 pt-2">
               <CTANestedPill
-                href="https://wa.me/542236602699?text=Hola!%20Le%C3%AD%20la%20gu%C3%ADa%20Flex%20y%20quiero%20coordinar%20retiros%20para%20mi%20cuenta."
+                href="https://api.whatsapp.com/send/?phone=542236602699&text=Hola!%20Le%C3%AD%20la%20gu%C3%ADa%20Flex%20y%20quiero%20coordinar%20retiros%20para%20mi%20cuenta."
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="primary"
@@ -175,17 +176,17 @@ export default function GuiaEnviosFlexPage() {
           
           {/* Introducción */}
           <div className="space-y-4">
-            <h2 className="text-2xl sm:text-3xl font-display uppercase text-brand-blue-1000">
+            <h2 className="text-2xl sm:text-3xl font-display uppercase text-brand-blue-500">
               ¿Por qué activar Flex si vendés en Mar del Plata?
             </h2>
-            <p className="font-sans text-base text-brand-blue-1000 leading-relaxed">
+            <p className="font-sans text-base text-brand-blue-500 leading-relaxed">
               En Mar del Plata, más del 65% de los compradores de Mercado Libre prefieren publicaciones con la insignia <strong>&quot;Llega hoy&quot;</strong>. Activar Envíos Flex posiciona tus publicaciones en los primeros lugares de búsqueda para compradores de la ciudad, multiplicando tu tasa de conversión sin costos adicionales de comisión.
             </p>
           </div>
 
           {/* Pasos */}
           <div className="space-y-8">
-            <h2 className="text-2xl sm:text-3xl font-display uppercase text-brand-blue-1000">
+            <h2 className="text-2xl sm:text-3xl font-display uppercase text-brand-blue-500">
               Paso a paso para configurar tu logística
             </h2>
 
@@ -200,10 +201,10 @@ export default function GuiaEnviosFlexPage() {
                       {st.number}
                     </span>
                     <div className="space-y-1">
-                      <h3 className="font-display text-lg uppercase text-brand-blue-1000">
+                      <h3 className="font-display text-lg uppercase text-brand-blue-500">
                         {st.title}
                       </h3>
-                      <p className="font-sans text-sm text-brand-blue-1000 leading-relaxed">
+                      <p className="font-sans text-sm text-brand-blue-500 leading-relaxed">
                         {st.desc}
                       </p>
                     </div>
@@ -215,7 +216,7 @@ export default function GuiaEnviosFlexPage() {
 
           {/* Buenas Prácticas */}
           <div className="space-y-8">
-            <h2 className="text-2xl sm:text-3xl font-display uppercase text-brand-blue-1000">
+            <h2 className="text-2xl sm:text-3xl font-display uppercase text-brand-blue-500">
               Claves para cuidar tu reputación (Termómetro Verde)
             </h2>
 
@@ -230,10 +231,10 @@ export default function GuiaEnviosFlexPage() {
                     <div className="w-10 h-10 rounded-xl bg-brand-blue-500 text-brand-yellow-500 flex items-center justify-center">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="font-display text-base uppercase text-brand-blue-1000">
+                    <h3 className="font-display text-base uppercase text-brand-blue-500">
                       {t.title}
                     </h3>
-                    <p className="font-sans text-xs sm:text-sm text-brand-blue-1000 leading-relaxed">
+                    <p className="font-sans text-xs sm:text-sm text-brand-blue-500 leading-relaxed">
                       {t.desc}
                     </p>
                   </div>
@@ -256,7 +257,7 @@ export default function GuiaEnviosFlexPage() {
             </p>
             <div className="pt-2">
               <CTANestedPill
-                href="https://wa.me/542236602699?text=Hola!%20Quiero%20activar%20repartos%20Flex%20con%20Env%C3%ADos%20DosRuedas."
+                href="https://api.whatsapp.com/send/?phone=542236602699&text=Hola!%20Quiero%20activar%20repartos%20Flex%20con%20Env%C3%ADos%20DosRuedas."
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="primary"

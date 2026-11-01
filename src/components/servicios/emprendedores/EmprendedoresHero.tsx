@@ -150,7 +150,7 @@ export default function EmprendedoresHero() {
                   Activá Plan Emprendedores
                 </CTANestedPill>
                 <a
-                  href="https://wa.me/542236602699?text=Hola!%20Quiero%20armar%20un%20Plan%20Emprendedores"
+                  href="https://api.whatsapp.com/send/?phone=542236602699&text=Hola!%20Quiero%20armar%20un%20Plan%20Emprendedores"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex min-h-11 items-center gap-2 font-subheading text-sm sm:text-base uppercase tracking-wider text-brand-blue-500 underline decoration-brand-blue-500 decoration-2 underline-offset-4 hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-yellow-500 rounded-md"
@@ -173,13 +173,13 @@ export default function EmprendedoresHero() {
                       i > 0 ? 'border-t border-dashed border-brand-blue-100 sm:border-t-0 sm:border-l' : ''
                     }`}
                   >
-                    <span className="font-mono text-xs font-bold tabular-nums text-brand-blue-400">
+                    <span className="font-mono text-xs font-bold tabular-nums text-brand-blue-500">
                       {paso.n}
                     </span>
                     <span className="font-subheading text-xl uppercase leading-none tracking-wider text-brand-blue-500">
                       {paso.titulo}
                     </span>
-                    <span className="text-[13.5px] leading-snug text-brand-blue-400">
+                    <span className="text-[13.5px] leading-snug text-brand-blue-500/80">
                       {paso.texto}
                     </span>
                   </li>

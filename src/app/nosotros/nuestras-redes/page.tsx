@@ -8,21 +8,22 @@ const baseUrl = 'https://www.enviosdosruedas.com';
 
 export const metadata: Metadata = {
   title: 'Nuestras Redes y Comunidad',
-  description: 'Conectate con la mayor comunidad logística y de mensajería urbana en Mar del Plata. Seguí nuestras novedades operativas de calle, beneficios y promociones.',
+  description: 'Conectate con la comunidad logística y de mensajería urbana en Mar del Plata. Seguí nuestras novedades de calle, beneficios y promociones exclusivas.',
   alternates: {
     canonical: `${baseUrl}/nosotros/nuestras-redes`,
   },
   openGraph: {
     title: 'Nuestras Redes y Comunidad | Envíos DosRuedas',
-    description: 'Conectate con la mayor comunidad logística y de mensajería urbana en Mar del Plata. Seguí nuestras novedades operativas de calle, beneficios y promociones.',
+    description: 'Conectate con la comunidad logística y de mensajería urbana en Mar del Plata. Seguí nuestras novedades de calle, beneficios y promociones exclusivas.',
     url: `${baseUrl}/nosotros/nuestras-redes`,
     type: 'website',
     locale: 'es_AR',
+    images: [`${baseUrl}/og-image.jpg`],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Nuestras Redes y Comunidad | Envíos DosRuedas',
-    description: 'Conectate con la mayor comunidad logística y de mensajería urbana en Mar del Plata. Seguí nuestras novedades operativas de calle, beneficios y promociones.',
+    description: 'Conectate con la comunidad logística y de mensajería urbana en Mar del Plata. Seguí nuestras novedades de calle, beneficios y promociones exclusivas.',
     images: [`${baseUrl}/og-image.jpg`],
     creator: '@enviosdosruedas',
   },
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
 
 export default function NuestrasRedesPage() {
   return (
-    <main className="min-h-dvh bg-brand-white-50 text-brand-blue-700 relative overflow-hidden">
+    <main className="min-h-dvh bg-brand-white-50 text-brand-blue-500 relative overflow-hidden">
       {/* 3D Ambient floating glow-orbs */}
       <div className="absolute top-[20%] left-[-15%] w-[40vw] h-[40vw] bg-brand-blue-500/10 rounded-full blur-[130px] pointer-events-none animate-float-slow" />
       <div className="absolute bottom-[20%] right-[-10%] w-[35vw] h-[35vw] bg-brand-yellow-500/5 rounded-full blur-[110px] pointer-events-none [animation-delay:-3s]" />

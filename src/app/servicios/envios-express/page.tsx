@@ -11,8 +11,9 @@ const baseUrl = 'https://www.enviosdosruedas.com';
 const lastTier = EXPRESS_TIERS[EXPRESS_TIERS.length - 1];
 
 export const metadata: Metadata = {
-  title: 'Envíos Express en Moto en Mar del Plata (franja de 3 hs)',
-  description: `Mensajería en moto con entrega en ${EXPRESS_WINDOW} a elección, pedido con ${EXPRESS_LEAD_TIME}. Tarifa fija por distancia desde $${EXPRESS_TIERS[0].price.toLocaleString('es-AR')}, bultos de hasta ${STANDARD_WEIGHT_KG} kg. Cotizá online en segundos.`,
+  title: 'Envíos Express en Moto en Mar del Plata',
+  description:
+    'Servicio prioritario en moto con franja horaria a elección y 2 hs de anticipación. Tarifas fijas por distancia real en Mar del Plata. Despachá tu envío hoy.',
   alternates: {
     canonical: `${baseUrl}/servicios/envios-express`,
   },

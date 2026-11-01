@@ -124,10 +124,10 @@ export default function EmprendedoresPricing() {
         tiers={PLANS}
         ctaLabel={(idx) => `Consultar ${PLANS[idx].range}`}
         featuredIndex={1}
-        ctaHref="https://wa.me/542236602699"
+        ctaHref="https://api.whatsapp.com/send/?phone=542236602699"
         ctaVariant="primary"
         facts={EMPRENDEDORES_FACTS}
-        backgroundClassName="bg-brand-blue-700 text-white"
+        backgroundClassName="bg-brand-blue-500 text-white"
       />
 
       <ServicePricing
@@ -140,10 +140,10 @@ export default function EmprendedoresPricing() {
         tiers={PLANS_24HS}
         ctaLabel={(idx) => `Elegir plan ${PLANS_24HS[idx].range}`}
         featuredIndex={1}
-        ctaHref="https://wa.me/542236602699"
+        ctaHref="https://api.whatsapp.com/send/?phone=542236602699"
         ctaVariant="primary"
         facts={FACTS_24HS}
-        backgroundClassName="bg-brand-blue-500 text-brand-blue-900"
+        backgroundClassName="bg-brand-blue-500 text-brand-blue-500"
       />
     </div>
   );

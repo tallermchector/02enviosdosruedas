@@ -17,18 +17,22 @@ export default function CotizadorMapa({ form }: CotizadorMapaProps) {
 
   return (
     <div className="lg:col-span-5 min-h-90 lg:min-h-full rounded-[28px] sm:rounded-[30px] bg-white/10 backdrop-blur-md border border-white/20 p-2.5 shadow-xl">
-      <div className="bg-brand-blue-900 p-6 rounded-[20px] border border-white/10 flex flex-col justify-between h-full relative overflow-hidden text-white">
+      <div className="bg-brand-blue-500 p-6 rounded-[20px] border border-white/10 flex flex-col justify-between h-full relative overflow-hidden text-white">
         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none" />
 
         <div className="relative z-10 flex justify-between items-center border-b border-white/15 pb-3 mb-3">
           <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-brand-yellow-500 motion-safe:animate-ping" />
+            <div
+              className={`w-2.5 h-2.5 rounded-full bg-brand-yellow-500 ${
+                resultado ? '' : 'motion-safe:animate-ping'
+              }`}
+            />
             <span className="text-xs font-mono text-brand-yellow-500 uppercase tracking-widest font-semibold tabular-nums">
-              Midiendo ruta
+              {resultado ? 'Ruta calculada' : 'Midiendo ruta'}
             </span>
           </div>
           <span className="text-2xs font-mono text-white/90 tabular-nums">
-            OpenStreetMap + OSRM
+            {routeCoords.length > 0 ? 'Google Maps · Red Vial' : 'Mar del Plata · Cobertura'}
           </span>
         </div>
 

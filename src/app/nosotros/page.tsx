@@ -5,22 +5,30 @@ import { Users, HelpCircle, MessageSquare, ArrowRight, ShieldCheck, MapPin, Cloc
 import CTANestedPill from '@/components/ui/CTANestedPill';
 import DoubleBezelCard from '@/components/ui/DoubleBezelCard';
 
+const baseUrl = 'https://www.enviosdosruedas.com';
+
 export const metadata: Metadata = {
-  title: 'Sobre Nosotros, FAQs y Redes | Envíos DosRuedas Mar del Plata',
-  description: 'Conocé al equipo de Envíos DosRuedas: cadetería y mensajería en moto en Mar del Plata. Flota propia, base física en Friuli 1972 Chauvín y más de 7 años de trayectoria. Respuestas a FAQs y canales de contacto directo.',
+  title: 'Nosotros, Preguntas y Contacto',
+  description:
+    'Conocé al equipo de Envíos DosRuedas en Mar del Plata: cadetería y mensajería en moto con flota propia, base física en Friuli 1972 y atención personalizada.',
+  alternates: {
+    canonical: `${baseUrl}/nosotros`,
+  },
   keywords: [
     'envíos dosruedas nosotros',
     'cadetería mar del plata historia',
     'quiénes somos envíos dosruedas',
-    'base física friuli 1972 chauvín',
+    'base física friuli 1972',
     'mensajería en moto mar del plata equipo',
     'faq cadetería mar del plata',
   ],
   openGraph: {
-    title: 'Sobre Nosotros, FAQs y Redes | Envíos DosRuedas MDQ',
-    description: 'Flota propia, base física en Friuli 1972 y el compromiso de conectar cada barrio de Mar del Plata.',
-    url: 'https://enviosdosruedas.com.ar/nosotros',
+    title: 'Nosotros, Preguntas y Contacto | Envíos DosRuedas',
+    description:
+      'Flota propia de motos, base en Friuli 1972 y cadetería urbana para conectar cada barrio de Mar del Plata.',
+    url: `${baseUrl}/nosotros`,
     type: 'website',
+    images: [`${baseUrl}/og-image.jpg`],
   },
 };
 
@@ -29,7 +37,7 @@ const jsonLdSchema = {
   '@type': 'AboutPage',
   name: 'Sobre Nosotros | Envíos DosRuedas',
   description: 'Empresa de mensajería urbana y distribución en moto en Mar del Plata.',
-  url: 'https://enviosdosruedas.com.ar/nosotros',
+  url: `${baseUrl}/nosotros`,
   mainEntity: {
     '@type': 'Organization',
     name: 'Envíos DosRuedas',
@@ -48,8 +56,8 @@ const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://enviosdosruedas.com.ar' },
-    { '@type': 'ListItem', position: 2, name: 'Nosotros', item: 'https://enviosdosruedas.com.ar/nosotros' },
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: baseUrl },
+    { '@type': 'ListItem', position: 2, name: 'Nosotros', item: `${baseUrl}/nosotros` },
   ],
 };
 
@@ -85,7 +93,7 @@ const sections = [
 
 const values = [
   { icon: ShieldCheck, title: 'Flota Propia', desc: 'Cadetes de confianza, no apps ni intermediarios. Cada envío lo cuida alguien que conocemos.' },
-  { icon: MapPin, title: 'Base Física', desc: 'Friuli 1972, Barrio Chauvín. Operamos desde un punto real, no virtual.' },
+  { icon: MapPin, title: 'Base Física', desc: 'Friuli 1972, Mar del Plata. Operamos desde un punto real, no virtual.' },
   { icon: Clock, title: 'Transparencia Total', desc: 'Tarifas publicadas 2026, sin costos ocultos. "Preferimos decir que no podemos, a fallar".' },
   { icon: Truck, title: 'Cobertura Real', desc: 'Llegamos a todo Mar del Plata, barrio por barrio, con tarifa publicada.' },
 ];
@@ -223,7 +231,7 @@ export default function NosotrosPage() {
               Cotizá tu envío o consultanos lo que necesites.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
-              <CTANestedPill href="https://wa.me/542236602699" variant="primary">
+              <CTANestedPill href="https://api.whatsapp.com/send/?phone=542236602699" variant="primary">
                 Hablar por WhatsApp
               </CTANestedPill>
               <CTANestedPill href="/cotizar" variant="outline">

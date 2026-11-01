@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { AlertTriangle, Zap, Package, Check, ArrowRight, CloudRain } from 'lucide-react';
+import { AlertTriangle, Zap, Package, ArrowRight, CloudRain } from 'lucide-react';
 import { trackAnalytics } from '@/lib/analytics';
 import DoubleBezelCard from '@/components/ui/DoubleBezelCard';
 import CTANestedPill from '@/components/ui/CTANestedPill';
@@ -71,7 +71,19 @@ function precioTexto(precio: number | 'consultar'): string {
 
 export default function CotizadorComparativa({ form, error }: CotizadorComparativaProps) {
   const { resultado, quoteId, getWhatsAppLink, shouldReduceMotion } = form;
-  const [elegido, setElegido] = useState<string>('');
+  const [elegido, setElegido] = useState<string>('express');
+  const [prevResultado, setPrevResultado] = useState(resultado);
+
+  if (resultado !== prevResultado) {
+    setPrevResultado(resultado);
+    if (resultado) {
+      if (resultado.express.precio !== 'consultar') {
+        setElegido('express');
+      } else if (resultado.lowcost.precio !== 'consultar') {
+        setElegido('lowcost');
+      }
+    }
+  }
 
   // Sin resultado no hay escala posible: 0 evita NaN en el ancho de las barras.
   const precioExpress = resultado?.express.precio;
@@ -110,10 +122,13 @@ export default function CotizadorComparativa({ form, error }: CotizadorComparati
   ], [resultado]);
 
   const handleServiceChange = (service: string) => {
-    const svc = service as ServiceKey;
     setElegido(service);
+    trackAnalytics.ctaClick('cotizador_service_select', service);
+  };
+
+  const handleConfirmarWhatsApp = () => {
+    const svc = (elegido || 'express') as ServiceKey;
     trackAnalytics.whatsappClick(`cotizador_unificado_${svc}`);
-    // Open WhatsApp link
     if (resultado) {
       const link = getWhatsAppLink(svc);
       if (link !== '#') {
@@ -146,10 +161,10 @@ export default function CotizadorComparativa({ form, error }: CotizadorComparati
             role="region"
             aria-live="polite"
             aria-atomic="true"
-            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }}
             animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
-            transition={shouldReduceMotion ? { duration: 0.15 } : { type: 'spring', stiffness: 100, damping: 20 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+            transition={shouldReduceMotion ? { duration: 0.05 } : { duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
             className="w-full"
           >
             <span className="sr-only">
@@ -163,15 +178,15 @@ export default function CotizadorComparativa({ form, error }: CotizadorComparati
                 {/* Cabecera: la distancia medida, una sola vez */}
                 <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-brand-blue-100">
                   <div>
-                    <span className="block text-2xs font-subheading font-bold uppercase tracking-wider text-brand-blue-400">
+                    <span className="block text-2xs font-subheading font-bold uppercase tracking-wider text-brand-blue-500">
                       Distancia medida
                     </span>
-                    <span className="font-mono text-3xl sm:text-4xl font-bold text-brand-blue-700 tabular-nums tracking-tight">
+                    <span className="font-mono text-3xl sm:text-4xl font-bold text-brand-blue-500 tabular-nums tracking-tight">
                       {resultado.distancia} km
                     </span>
                   </div>
                   {quoteId && (
-                    <span className="font-mono text-xs px-2.5 py-1 rounded-full bg-brand-blue-50 text-brand-blue-700 border border-brand-blue-100 tabular-nums">
+                    <span className="font-mono text-xs px-2.5 py-1 rounded-full bg-brand-blue-50 text-brand-blue-500 border border-brand-blue-100 tabular-nums">
                       #{quoteId}
                     </span>
                   )}
@@ -179,7 +194,7 @@ export default function CotizadorComparativa({ form, error }: CotizadorComparati
 
                 {ambosConsultar ? (
                   <div className="space-y-4">
-                    <p className="font-sans text-sm text-brand-blue-700 leading-relaxed">
+                    <p className="font-sans text-sm text-brand-blue-500 leading-relaxed">
                       Tu envío supera el radio estándar de 20 km. Las tarifas por zona no alcanzan:
                       pasanos el caso y te pasamos el valor.
                     </p>
@@ -220,10 +235,10 @@ export default function CotizadorComparativa({ form, error }: CotizadorComparati
                                 >
                                   {regla.nombre}
                                 </span>
-                                <span className="font-mono text-2xl sm:text-3xl font-bold text-brand-blue-700 tabular-nums">
+                                <span className="font-mono text-2xl sm:text-3xl font-bold text-brand-blue-500 tabular-nums">
                                   {precioTexto(precio)}
                                   {typeof precio === 'number' && (
-                                    <span className="text-xs font-bold text-brand-blue-400 ml-1">ARS</span>
+                                    <span className="text-xs font-bold text-brand-blue-500 ml-1">ARS</span>
                                   )}
                                 </span>
                               </div>
@@ -235,7 +250,10 @@ export default function CotizadorComparativa({ form, error }: CotizadorComparati
                                   className={`h-full rounded-full ${
                                     key === 'express' ? 'bg-brand-yellow-500' : 'bg-brand-blue-500'
                                   }`}
-                                  style={{ width: `${ancho}%` }}
+                                  style={{
+                                    width: `${ancho}%`,
+                                    transition: shouldReduceMotion ? 'none' : 'width 240ms cubic-bezier(0.23, 1, 0.32, 1)',
+                                  }}
                                 />
                               </div>
                             </div>
@@ -246,7 +264,7 @@ export default function CotizadorComparativa({ form, error }: CotizadorComparati
                       {diferenciaPrecio > 0 && (
                         <p className="mt-3 pt-3 border-t border-brand-blue-100 font-sans text-xs text-brand-blue-500">
                           La diferencia entre uno y otro es de{' '}
-                          <span className="font-mono font-bold text-brand-blue-700 tabular-nums">
+                          <span className="font-mono font-bold text-brand-blue-500 tabular-nums">
                             ${diferenciaPrecio.toLocaleString('es-AR')}
                           </span>
                           . Lo demás que cambia es cuándo lo recibís.
@@ -278,33 +296,41 @@ export default function CotizadorComparativa({ form, error }: CotizadorComparati
                             <div key={key} className="space-y-1.5">
                               <div className="flex items-baseline justify-between gap-3">
                                 <span className="font-sans text-xs text-brand-blue-500">{regla.nombre}</span>
-                                <span className="font-sans text-sm font-bold text-brand-blue-700 text-right">
+                                <span className="font-sans text-sm font-bold text-brand-blue-500 text-right">
                                   {regla.entrega}
                                 </span>
                               </div>
 
                               {/* Resumen visual del texto de abajo: el lector de
                                   pantalla ya tiene la regla en palabras. */}
-                              <div aria-hidden="true" className="relative h-6 rounded-md bg-brand-blue-50">
+                              <div aria-hidden="true" className="relative h-6 mt-3.5 rounded-md bg-brand-blue-50">
                                 <div
                                   className={`absolute inset-y-0 rounded-md flex items-center px-2 overflow-hidden ${
                                     esExpress
-                                      ? 'bg-brand-yellow-500 text-brand-blue-900'
+                                      ? 'bg-brand-yellow-500 text-brand-blue-500'
                                       : 'bg-[repeating-linear-gradient(135deg,var(--color-brand-blue-500)_0_6px,var(--color-brand-blue-400)_6px_12px)] text-white'
                                   }`}
-                                  style={{ left: `${izquierda}%`, width: `${ancho}%` }}
+                                  style={{
+                                    left: `${izquierda}%`,
+                                    width: `${ancho}%`,
+                                    transition: shouldReduceMotion ? 'none' : 'left 240ms cubic-bezier(0.23, 1, 0.32, 1), width 240ms cubic-bezier(0.23, 1, 0.32, 1)',
+                                  }}
                                 >
                                   <span className="font-subheading text-2xs uppercase tracking-wider font-bold whitespace-nowrap">
                                     {regla.banda.rotulo}
                                   </span>
                                 </div>
                                 <div
-                                  className="absolute -inset-y-1 w-0.5 -translate-x-1/2 bg-brand-blue-700 ring-2 ring-white"
+                                  className="absolute -inset-y-1 w-0.5 -translate-x-1/2 bg-brand-blue-500 ring-2 ring-white z-10"
                                   style={{ left: `${posicion(regla.corte)}%` }}
-                                />
+                                >
+                                  <span className="absolute -top-4 -translate-x-1/2 px-1 py-0.2 bg-brand-yellow-500 text-brand-blue-500 font-mono text-[9px] font-bold rounded-xs shadow-xs uppercase whitespace-nowrap">
+                                    Corte {regla.corte}h
+                                  </span>
+                                </div>
                               </div>
 
-                              <p className="font-sans text-2xs text-brand-blue-400 leading-snug">
+                              <p className="font-sans text-2xs text-brand-blue-500 leading-snug">
                                 {regla.detalle}
                               </p>
                             </div>
@@ -312,7 +338,7 @@ export default function CotizadorComparativa({ form, error }: CotizadorComparati
                         })}
                       </div>
 
-                      <div aria-hidden="true" className="relative h-4 font-mono text-2xs text-brand-blue-400 tabular-nums">
+                      <div aria-hidden="true" className="relative h-4 font-mono text-2xs text-brand-blue-500 tabular-nums">
                         {MARCAS.map((hora) => (
                           <span
                             key={hora}
@@ -323,19 +349,24 @@ export default function CotizadorComparativa({ form, error }: CotizadorComparati
                           </span>
                         ))}
                       </div>
-                      <p className="font-sans text-2xs text-brand-blue-400 flex items-center gap-1.5">
-                        <span aria-hidden="true" className="inline-block h-3 w-0.5 bg-brand-blue-700" />
+                      <p className="font-sans text-2xs text-brand-blue-500 flex items-center gap-1.5">
+                        <span aria-hidden="true" className="inline-block h-3 w-0.5 bg-brand-blue-500" />
                         Horario de corte para pedir en el día.
                       </p>
                     </section>
 
                     {/* ─────────────────────────────────────────────────────────────
-                        LA DECISIÓN. RadioCardGroup para elegir servicio.
+                        LA DECISIÓN. RadioCardGroup para elegir servicio + Botón Explícito.
                         ───────────────────────────────────────────────────────────── */}
-                    <div className="pt-5 border-t border-brand-blue-100">
-                      <h3 className="font-subheading text-xs uppercase tracking-widest font-bold text-brand-blue-500 mb-3">
-                        Elegí cómo lo querés
-                      </h3>
+                    <div className="pt-5 border-t border-brand-blue-100 space-y-4">
+                      <div>
+                        <h3 className="font-subheading text-xs uppercase tracking-widest font-bold text-brand-blue-500 mb-1">
+                          Elegí cómo lo querés
+                        </h3>
+                        <p className="font-sans text-xs text-brand-blue-500/80">
+                          Marcá el servicio que preferís y confirmalo directamente por WhatsApp.
+                        </p>
+                      </div>
 
                       <RadioCardGroup
                         name="cotizador-service-selector"
@@ -344,6 +375,22 @@ export default function CotizadorComparativa({ form, error }: CotizadorComparati
                         options={serviceOptions}
                         gridCols="grid-cols-1 sm:grid-cols-2"
                       />
+
+                      <div className="pt-2 flex flex-col gap-2">
+                        <CTANestedPill
+                          type="button"
+                          variant="primary"
+                          size="large"
+                          onClick={handleConfirmarWhatsApp}
+                          className="w-full justify-between"
+                          icon={<ArrowRight className="h-4 w-4" />}
+                        >
+                          {elegido === 'lowcost' ? 'Pedir LowCost por WhatsApp' : 'Pedir Express por WhatsApp'}
+                        </CTANestedPill>
+                        <p className="font-mono text-2xs text-brand-blue-500/80 text-center">
+                          Coordinación directa con base en Friuli 1972 · Se abre WhatsApp con los datos del envío
+                        </p>
+                      </div>
                     </div>
 
                     {/* El precio de arriba es por distancia. Lo que pasa en el viaje
@@ -351,12 +398,12 @@ export default function CotizadorComparativa({ form, error }: CotizadorComparati
                         antes de confirmar, no después. */}
                     <div className="flex items-start gap-3 rounded-xl border border-brand-blue-100 bg-brand-blue-50/60 px-4 py-3.5">
                       <CloudRain className="h-4 w-4 shrink-0 mt-0.5 text-brand-blue-500" aria-hidden="true" />
-                      <p className="font-sans text-xs text-brand-blue-700 leading-relaxed">
+                      <p className="font-sans text-xs text-brand-blue-500 leading-relaxed">
                         El precio es por distancia, con bulto de hasta {STANDARD_WEIGHT_KG} kg. Lluvia,
                         espera en puerta, paradas extra o un bulto más grande suman recargo.{' '}
                         <a
                           href="#recargos"
-                          className="font-bold underline underline-offset-2 decoration-brand-blue-300 hover:decoration-brand-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue-500 rounded-sm"
+                          className="font-bold underline underline-offset-2 decoration-brand-blue-300 hover:decoration-brand-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue-500 rounded-sm"
                         >
                           Ver cuáles y cuánto
                         </a>

@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next';
 
+export const dynamic = 'force-static';
+
 /**
  * Dominio canónico oficial de producción unificado.
  */
@@ -41,7 +43,11 @@ const routes: Array<{
   { path: '/servicios/deposito-fulfillment', changeFrequency: 'weekly', priority: 0.9 },
   { path: '/cotizar', changeFrequency: 'weekly', priority: 0.9 },
   { path: '/servicios/empresas-cuenta-corriente', changeFrequency: 'weekly', priority: 0.9 },
+  { path: '/servicios/plan-emprendedores', changeFrequency: 'weekly', priority: 0.9 },
+  { path: '/servicios/envios-contrareembolso', changeFrequency: 'weekly', priority: 0.85 },
   { path: '/cobertura', changeFrequency: 'weekly', priority: 0.9 },
+  { path: '/logistica-dosruedas', changeFrequency: 'daily', priority: 0.9 },
+  { path: '/mardelivery', changeFrequency: 'weekly', priority: 0.9 },
   {
     path: '/guias/envios-flex-mar-del-plata',
     changeFrequency: 'weekly',

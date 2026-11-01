@@ -6,9 +6,15 @@ import Image from 'next/image';
 import { motion, useReducedMotion } from 'motion/react';
 import {
   Phone, MapPin, Mail, Clock, ShieldCheck, ArrowUpRight,
-  Zap, TrendingDown, ShoppingBag, ArrowUp, Rocket, Layers, Building2, Package, Store
+  Zap, TrendingDown, ArrowUp, Layers, Building2, Package, Store
 } from 'lucide-react';
 import { FaInstagram, FaFacebook, FaWhatsapp } from 'react-icons/fa';
+import { CONTACT_EMAIL, OPERATING_HOURS, SUPPORT_PHONE } from '@/lib/promises';
+import { trackAnalytics } from '@/lib/analytics';
+
+const PHONE_HREF = `tel:+${SUPPORT_PHONE.replace(/\D/g, '')}`;
+const WHATSAPP_NUMBER = SUPPORT_PHONE.replace(/\D/g, '');
+const CURRENT_YEAR = new Date().getFullYear();
 
 // ─── Animation Variants ───────────────────────────────────────────────────────
 
@@ -22,27 +28,27 @@ const FOOTER_CONTAINER = {
 
 /** Each column fades up */
 const FOOTER_COL = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 12 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { type: 'spring', stiffness: 280, damping: 24 },
+    transition: { type: 'spring', stiffness: 360, damping: 28 },
   },
 } as const;
 
 /** CTA Banner slides up from below */
 const BANNER_VARIANT = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { type: 'spring', stiffness: 260, damping: 22, delay: 0.08 },
+    transition: { type: 'spring', stiffness: 360, damping: 28, delay: 0.08 },
   },
 } as const;
 
 /** Social icon spring bounce on hover */
-const SOCIAL_HOVER = { y: -4, scale: 1.12 } as const;
-const SOCIAL_SPRING = { type: 'spring', stiffness: 480, damping: 18 } as const;
+const SOCIAL_HOVER = { y: -2, scale: 1.04 } as const;
+const SOCIAL_SPRING = { type: 'spring', stiffness: 420, damping: 26 } as const;
 
 export default function OptimizedFooter() {
   const prefersReducedMotion = useReducedMotion();
@@ -54,7 +60,7 @@ export default function OptimizedFooter() {
   return (
     <footer
       id="optimized-footer"
-      className="bg-brand-blue-700 text-white border-t border-white/10 relative overflow-hidden font-sans select-none"
+      className="bg-brand-blue-500 text-white border-t border-white/10 relative overflow-hidden font-sans"
     >
       {/* Decorative top yellow accent bar with continuous glow */}
       <div className="h-1.5 bg-brand-yellow-500 w-full shadow-md shadow-brand-yellow-500/30" />
@@ -76,9 +82,9 @@ export default function OptimizedFooter() {
           className="mb-14 rounded-2xl bg-brand-blue/90 border border-white/15 p-6 sm:p-8 backdrop-blur-md shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6"
         >
           <div className="space-y-2 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-yellow-500/15 border border-brand-yellow-500/30 text-brand-yellow-500 text-xs font-subheading font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-yellow-500/15 border border-brand-yellow-500/30 text-brand-yellow-500 text-xs font-subheading uppercase tracking-wider">
               <span className="w-2 h-2 rounded-full bg-brand-yellow-500 animate-ping motion-reduce:animate-none" />
-              Operaciones Activas Mar del Plata 2026
+              Operaciones Activas Mar del Plata {CURRENT_YEAR}
             </div>
             <h3 className="text-2xl sm:text-3xl font-display uppercase tracking-tight text-white">
               ¿Tenés envíos para hoy? <span className="text-brand-yellow-500">Los entregamos a tiempo.</span>
@@ -91,22 +97,24 @@ export default function OptimizedFooter() {
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto shrink-0">
             <Link
               href="/cotizar"
-              className="w-full sm:w-auto cta-nested-pill bg-brand-yellow-500 hover:bg-brand-yellow-400 text-brand-blue-900 font-subheading font-bold uppercase tracking-wider text-sm px-6 py-3.5 rounded-full shadow-accent-sm hover:shadow-cta-glow transition-all flex items-center justify-between group min-h-12"
+              onClick={() => trackAnalytics.ctaClick('footer_banner_cotizar_cta', 'Cotizá tu Envío')}
+              className="w-full sm:w-auto cta-nested-pill bg-brand-yellow-500 hover:bg-brand-yellow-400 text-brand-blue-500 font-subheading uppercase tracking-wider text-sm px-6 py-3.5 rounded-full shadow-accent-sm hover:shadow-cta-glow transition-[transform,background-color,border-color,box-shadow] duration-150 ease-out flex items-center justify-between group min-h-12"
             >
               <span>Cotizá tu Envío</span>
-              <span className="cta-nested-icon bg-brand-blue-900/10 text-brand-blue-900 h-7 w-7 rounded-full flex items-center justify-center shrink-0 ml-3 group-hover:translate-x-1 transition-transform">
-                <ArrowUpRight className="h-4 w-4" />
+              <span className="cta-nested-icon bg-brand-blue-500/10 text-brand-blue-500 h-7 w-7 rounded-full flex items-center justify-center shrink-0 ml-3 group-hover:translate-x-1 transition-transform duration-150 ease-out">
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </span>
             </Link>
 
             <a
-              href="https://wa.me/542236602699?text=Hola%20Envíos%20DosRuedas!%20Quiero%20hacer%20una%20consulta%20de%20envíos"
+              href={`https://api.whatsapp.com/send/?phone=${WHATSAPP_NUMBER}&text=Hola%20Envíos%20DosRuedas!%20Quiero%20hacer%20una%20consulta%20de%20envíos`}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackAnalytics.whatsappClick('footer_banner_whatsapp', 'Chateá con Nosotros')}
               aria-label="Chateá con Nosotros por WhatsApp para consultas de envíos"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/40 font-subheading font-bold uppercase tracking-wider text-sm px-5 py-3.5 rounded-full transition-all min-h-12"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/40 font-subheading uppercase tracking-wider text-sm px-5 py-3.5 rounded-full transition-[background-color,border-color] duration-150 ease-out min-h-12"
             >
-              <FaWhatsapp className="h-4 w-4 text-brand-yellow-500" />
+              <FaWhatsapp className="h-4 w-4 text-brand-yellow-500" aria-hidden="true" />
               <span>Chateá con Nosotros</span>
             </a>
           </div>
@@ -127,7 +135,7 @@ export default function OptimizedFooter() {
             className="lg:col-span-4 space-y-6"
           >
             <Link href="/" className="flex items-center gap-3.5 group w-fit focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500 rounded-xl">
-              <div className="relative w-11 h-11 bg-white/10 p-1.5 rounded-xl border border-white/15 group-hover:scale-105 transition-all duration-300 shrink-0 flex items-center justify-center">
+              <div className="relative w-11 h-11 bg-white/10 p-1.5 rounded-xl border border-white/15 group-hover:scale-105 transition-transform duration-300 shrink-0 flex items-center justify-center">
                 <Image
                   src="/logo-envios-simplified.webp"
                   alt="Logo Envíos DosRuedas"
@@ -163,7 +171,7 @@ export default function OptimizedFooter() {
                 >
                   <Link
                     href="/nosotros/nuestras-redes"
-                    className="h-10 w-10 rounded-xl bg-white/10 hover:bg-brand-yellow-500 text-white hover:text-brand-blue-900 flex items-center justify-center transition-colors duration-200 border border-white/15 hover:border-brand-yellow-500 shadow-sm p-2.5 group cursor-pointer"
+                    className="h-10 w-10 rounded-xl bg-white/10 hover:bg-brand-yellow-500 text-white hover:text-brand-blue-500 flex items-center justify-center transition-colors duration-200 border border-white/15 hover:border-brand-yellow-500 shadow-sm p-2.5 group cursor-pointer"
                     title="Instagram @enviosdosruedas"
                     aria-label="Instagram Oficial"
                   >
@@ -179,7 +187,7 @@ export default function OptimizedFooter() {
                 >
                   <Link
                     href="/nosotros/nuestras-redes"
-                    className="h-10 w-10 rounded-xl bg-white/10 hover:bg-brand-yellow-500 text-white hover:text-brand-blue-900 flex items-center justify-center transition-colors duration-200 border border-white/15 hover:border-brand-yellow-500 shadow-sm p-2.5 group cursor-pointer"
+                    className="h-10 w-10 rounded-xl bg-white/10 hover:bg-brand-yellow-500 text-white hover:text-brand-blue-500 flex items-center justify-center transition-colors duration-200 border border-white/15 hover:border-brand-yellow-500 shadow-sm p-2.5 group cursor-pointer"
                     title="Facebook Envíos DosRuedas"
                     aria-label="Facebook Oficial"
                   >
@@ -194,10 +202,11 @@ export default function OptimizedFooter() {
                   className="inline-block"
                 >
                   <a
-                    href="https://wa.me/542236602699"
+                    href={`https://api.whatsapp.com/send/?phone=${WHATSAPP_NUMBER}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="h-10 w-10 rounded-xl bg-brand-yellow-500 hover:bg-brand-yellow-400 text-brand-blue-900 flex items-center justify-center transition-colors duration-200 border border-brand-yellow-500 hover:border-brand-yellow-400 shadow-accent-sm hover:shadow-cta-glow p-2.5 group cursor-pointer"
+                    onClick={() => trackAnalytics.whatsappClick('footer_social_whatsapp', 'WhatsApp Directo')}
+                    className="h-10 w-10 rounded-xl bg-brand-yellow-500 hover:bg-brand-yellow-400 text-brand-blue-500 flex items-center justify-center transition-colors duration-200 border border-brand-yellow-500 hover:border-brand-yellow-400 shadow-accent-sm hover:shadow-cta-glow p-2.5 group cursor-pointer"
                     title="WhatsApp Directo"
                     aria-label="WhatsApp Directo"
                   >
@@ -218,26 +227,50 @@ export default function OptimizedFooter() {
             variants={prefersReducedMotion ? {} : FOOTER_COL}
             className="lg:col-span-4 space-y-5"
           >
-            <h4 className="font-subheading text-lg tracking-wider text-brand-yellow-500 uppercase border-b border-white/10 pb-2 font-bold flex items-center gap-2">
-              <span>Servicios y Cotizadores</span>
+            <h4 className="font-subheading text-lg tracking-wider text-brand-yellow-500 uppercase border-b border-white/10 pb-2 flex items-center gap-2">
+              <span>Servicios y Plataformas</span>
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
-              {/* Grupo Cotizadores */}
+              {/* Grupo Plataformas y Cotizador */}
               <div>
-                <p className="text-2xs font-bold text-brand-blue-50/70 uppercase tracking-widest font-subheading mb-2.5">
-                  Cotizador online
+                <p className="text-2xs text-brand-blue-50/70 uppercase tracking-widest font-subheading mb-2.5">
+                  Cotizador y Portales
                 </p>
                 <ul className="space-y-2.5 text-sm font-sans">
                   <li>
                     <Link
                       href="/cotizar"
-                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center justify-between group transition-all duration-200 hover:translate-x-1"
+                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center justify-between group transition-[color,transform] duration-200 ease-out hover:translate-x-1"
                     >
                       <div className="flex items-center gap-2.5">
                         <Zap className="h-4 w-4 text-brand-yellow-500 shrink-0" />
                         <span>Cotizá Express o LowCost</span>
                       </div>
-                      <ArrowUpRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-brand-yellow-500" />
+                      <ArrowUpRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-out text-brand-yellow-500" />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/logistica-dosruedas"
+                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center justify-between group transition-[color,transform] duration-200 ease-out hover:translate-x-1"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Package className="h-4 w-4 text-brand-yellow-500 shrink-0" />
+                        <span>Logística DosRuedas (Rastreo)</span>
+                      </div>
+                      <ArrowUpRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-out text-brand-yellow-500" />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/mardelivery"
+                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center justify-between group transition-[color,transform] duration-200 ease-out hover:translate-x-1"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Store className="h-4 w-4 text-brand-yellow-500 shrink-0" />
+                        <span>MarDelivery (Gastronomía)</span>
+                      </div>
+                      <ArrowUpRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-out text-brand-yellow-500" />
                     </Link>
                   </li>
                 </ul>
@@ -245,14 +278,14 @@ export default function OptimizedFooter() {
 
               {/* Grupo Servicios y Planes */}
               <div>
-                <p className="text-2xs font-bold text-brand-blue-50/70 uppercase tracking-widest font-subheading mb-2.5">
+                <p className="text-2xs text-brand-blue-50/70 uppercase tracking-widest font-subheading mb-2.5">
                   Servicios y planes
                 </p>
                 <ul className="space-y-2.5 text-sm font-sans">
                   <li>
                     <Link
                       href="/servicios/envios-express"
-                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center gap-2.5 transition-all duration-200 hover:translate-x-1"
+                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center gap-2.5 transition-[color,transform] duration-200 ease-out hover:translate-x-1"
                     >
                       <Zap className="h-4 w-4 text-brand-yellow-500 shrink-0" />
                       <span>Envíos Express</span>
@@ -261,7 +294,7 @@ export default function OptimizedFooter() {
                   <li>
                     <Link
                       href="/servicios/envios-lowcost"
-                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center gap-2.5 transition-all duration-200 hover:translate-x-1"
+                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center gap-2.5 transition-[color,transform] duration-200 ease-out hover:translate-x-1"
                     >
                       <TrendingDown className="h-4 w-4 text-brand-yellow-500 shrink-0" />
                       <span>Envíos LowCost</span>
@@ -270,7 +303,7 @@ export default function OptimizedFooter() {
                   <li>
                     <Link
                       href="/servicios/enviosflex"
-                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center gap-2.5 transition-all duration-200 hover:translate-x-1"
+                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center gap-2.5 transition-[color,transform] duration-200 ease-out hover:translate-x-1"
                     >
                       <Clock className="h-4 w-4 text-brand-yellow-500 shrink-0" />
                       <span>Mercado Envíos Flex</span>
@@ -279,7 +312,7 @@ export default function OptimizedFooter() {
                   <li>
                     <Link
                       href="/servicios/empresas-cuenta-corriente"
-                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center gap-2.5 transition-all duration-200 hover:translate-x-1"
+                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center gap-2.5 transition-[color,transform] duration-200 ease-out hover:translate-x-1"
                     >
                       <Building2 className="h-4 w-4 text-brand-yellow-500 shrink-0" />
                       <span>Cuenta Corriente Flexible</span>
@@ -288,7 +321,7 @@ export default function OptimizedFooter() {
                   <li>
                     <Link
                       href="/servicios#ecommerce-24hs"
-                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center gap-2.5 transition-all duration-200 hover:translate-x-1"
+                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center gap-2.5 transition-[color,transform] duration-200 ease-out hover:translate-x-1"
                     >
                       <Package className="h-4 w-4 text-brand-yellow-500 shrink-0" />
                       <span>E-commerce 24HS</span>
@@ -297,7 +330,7 @@ export default function OptimizedFooter() {
                   <li>
                     <Link
                       href="/servicios/deposito-fulfillment"
-                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center gap-2.5 transition-all duration-200 hover:translate-x-1"
+                      className="text-brand-blue-50 hover:text-brand-yellow-500 flex items-center gap-2.5 transition-[color,transform] duration-200 ease-out hover:translate-x-1"
                     >
                       <Store className="h-4 w-4 text-brand-yellow-500 shrink-0" />
                       <span>E-commerce Same Day</span>
@@ -306,7 +339,7 @@ export default function OptimizedFooter() {
                   <li>
                     <Link
                       href="/servicios"
-                      className="text-brand-yellow-500 hover:text-brand-yellow-400 flex items-center gap-2.5 transition-all duration-200 hover:translate-x-1 font-bold"
+                      className="text-brand-yellow-500 hover:text-brand-yellow-400 flex items-center gap-2.5 transition-[color,transform] duration-200 ease-out hover:translate-x-1 font-bold"
                     >
                       <Layers className="h-4 w-4 shrink-0" />
                       <span>Ver todos los servicios</span>
@@ -322,7 +355,7 @@ export default function OptimizedFooter() {
             variants={prefersReducedMotion ? {} : FOOTER_COL}
             className="lg:col-span-4 space-y-5"
           >
-            <h4 className="font-subheading text-lg tracking-wider text-brand-yellow-500 uppercase border-b border-white/10 pb-2 font-bold">
+            <h4 className="font-subheading text-lg tracking-wider text-brand-yellow-500 uppercase border-b border-white/10 pb-2">
               Base de Operaciones MDQ
             </h4>
 
@@ -339,42 +372,46 @@ export default function OptimizedFooter() {
 
               <div className="flex gap-3 items-start bg-brand-blue/80 p-3 rounded-xl border border-white/15">
                 <div className="p-2 bg-white/10 rounded-lg shrink-0 text-brand-yellow-500">
-                  <Phone className="h-4 w-4" />
+                  <Phone className="h-4 w-4" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="font-bold text-white uppercase font-subheading tracking-wider">Línea Directa y WhatsApp</p>
-                  <a href="tel:+542236602699" className="font-mono text-[13px] font-bold text-brand-yellow-500 hover:underline block mt-0.5">
-                    +54 223 660-2699
+                  <a
+                    href={PHONE_HREF}
+                    onClick={() => trackAnalytics.phoneClick(SUPPORT_PHONE, 'footer')}
+                    className="font-mono text-[13px] font-bold text-brand-yellow-500 hover:underline block mt-0.5"
+                  >
+                    {SUPPORT_PHONE}
                   </a>
                 </div>
               </div>
 
               <div className="flex gap-3 items-start bg-brand-blue/80 p-3 rounded-xl border border-white/15">
                 <div className="p-2 bg-white/10 rounded-lg shrink-0 text-brand-yellow-500">
-                  <Mail className="h-4 w-4" />
+                  <Mail className="h-4 w-4" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="font-bold text-white uppercase font-subheading tracking-wider">Atención Comercial</p>
-                  <a href="mailto:matiascejas@enviosdosruedas.com" className="font-sans text-[12px] text-brand-blue-50 hover:text-brand-yellow-500 transition-colors block mt-0.5 break-all">
-                    matiascejas@enviosdosruedas.com
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="font-sans text-[12px] text-brand-blue-50 hover:text-brand-yellow-500 transition-colors block mt-0.5 break-all">
+                    {CONTACT_EMAIL}
                   </a>
                 </div>
               </div>
 
               <div className="flex gap-3 items-start bg-brand-blue/80 p-3 rounded-xl border border-white/15">
                 <div className="p-2 bg-white/10 rounded-lg shrink-0 text-brand-yellow-500">
-                  <Clock className="h-4 w-4" />
+                  <Clock className="h-4 w-4" aria-hidden="true" />
                 </div>
                 <div className="space-y-1">
                   <p className="font-bold text-white uppercase font-subheading tracking-wider">Horarios de Despacho (Base Central)</p>
                   <div className="text-[12px] font-sans text-brand-blue-50 space-y-0.5">
                     <div className="flex justify-between items-center gap-4">
                       <span>Lunes a Viernes:</span>
-                      <span className="font-mono font-bold text-brand-yellow-500">09:00 - 18:00 hs</span>
+                      <span className="font-mono font-bold text-brand-yellow-500">{OPERATING_HOURS.weekdays}</span>
                     </div>
                     <div className="flex justify-between items-center gap-4">
                       <span>Sábados:</span>
-                      <span className="font-mono font-bold text-brand-yellow-500">10:00 - 15:00 hs</span>
+                      <span className="font-mono font-bold text-brand-yellow-500">{OPERATING_HOURS.saturdays}</span>
                     </div>
                   </div>
                 </div>
@@ -389,7 +426,7 @@ export default function OptimizedFooter() {
           {/* Scroll to Top — continuous float loop */}
           <motion.button
             onClick={scrollToTop}
-            className="absolute -top-5 right-4 sm:right-6 bg-brand-yellow-500 hover:bg-brand-yellow-400 text-brand-blue-900 p-2.5 rounded-full shadow-accent-md hover:shadow-cta-glow transition-colors flex items-center justify-center border-2 border-brand-yellow-500 cursor-pointer"
+            className="absolute -top-5 right-4 sm:right-6 bg-brand-yellow-500 hover:bg-brand-yellow-400 text-brand-blue-500 p-2.5 rounded-full shadow-accent-md hover:shadow-cta-glow transition-colors flex items-center justify-center border-2 border-brand-yellow-500 cursor-pointer min-w-11 min-h-11"
             title="Volver al inicio"
             aria-label="Volver arriba"
             /* Idle float loop */
@@ -400,25 +437,34 @@ export default function OptimizedFooter() {
                 : { duration: 2, ease: 'easeInOut', repeat: Infinity, repeatType: 'loop' }
             }
             /* Tap feedback */
-            whileTap={{ scale: 0.92 }}
-            whileHover={prefersReducedMotion ? {} : { scale: 1.1, y: -7 }}
+            whileTap={{ scale: 0.97 }}
+            whileHover={prefersReducedMotion ? {} : { scale: 1.05, y: -4 }}
           >
-            <ArrowUp className="h-4 w-4 font-bold" />
+            <ArrowUp className="h-4 w-4 font-bold" aria-hidden="true" />
           </motion.button>
         </div>
 
         {/* BOTTOM SECTION: Legal & Copyright */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-brand-blue-50 font-sans">
           <div className="flex flex-wrap justify-center md:justify-start items-center gap-4 sm:gap-6">
-            <p className="font-medium text-white">© 2026 Envíos DosRuedas · Mar del Plata, Argentina.</p>
+            <p className="font-medium text-white">© {CURRENT_YEAR} Envíos DosRuedas · Mar del Plata, Argentina.</p>
             <Link href="/servicios" className="hover:text-brand-yellow-500 transition-colors text-brand-blue-50">
               Servicios
             </Link>
             <Link href="/cobertura" className="hover:text-brand-yellow-500 transition-colors text-brand-blue-50">
               Cobertura
             </Link>
+            <Link href="/logistica-dosruedas" className="hover:text-brand-yellow-500 transition-colors text-brand-blue-50">
+              Logística DosRuedas
+            </Link>
+            <Link href="/mardelivery" className="hover:text-brand-yellow-500 transition-colors text-brand-blue-50">
+              MarDelivery
+            </Link>
             <Link href="/guias/envios-flex-mar-del-plata" className="hover:text-brand-yellow-500 transition-colors text-brand-blue-50">
               Guía MercadoLibre Flex
+            </Link>
+            <Link href="/nosotros" className="hover:text-brand-yellow-500 transition-colors text-brand-blue-50">
+              Nosotros
             </Link>
             <Link href="/nosotros/sobre-nosotros" className="hover:text-brand-yellow-500 transition-colors text-brand-blue-50">
               Sobre Nosotros

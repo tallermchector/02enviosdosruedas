@@ -30,7 +30,7 @@ const contactCards: ContactCard[] = [
     title: 'WhatsApp Comercial',
     description: 'Cotizaciones instantáneas, consultas operativas y seguimiento en vivo por WhatsApp.',
     buttonText: 'Chatear por WhatsApp',
-    href: 'https://wa.me/542236602699?text=Hola!%20Vengo%20desde%20la%20p%C3%A1gina%20de%20Contacto.',
+    href: 'https://api.whatsapp.com/send/?phone=542236602699&text=Hola!%20Vengo%20desde%20la%20p%C3%A1gina%20de%20Contacto.',
     icon: MessageSquare,
     tag: 'RESPUESTA < 2 MIN',
     subtag: 'MAR DEL PLATA 2026',
@@ -61,11 +61,11 @@ export default function ContactInfo() {
       {/* 3 Canales Directos */}
       <div>
         <div className="text-center sm:text-left mb-6">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-blue-50 text-brand-blue-1000 text-xs font-subheading uppercase tracking-wider -rotate-1 border border-brand-blue-100">
-            <ShieldCheck className="w-3.5 h-3.5 text-brand-blue-1000" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-blue-50 text-brand-blue-500 text-xs font-subheading uppercase tracking-wider -rotate-1 border border-brand-blue-100">
+            <ShieldCheck className="w-3.5 h-3.5 text-brand-blue-500" />
             Canales de Atención Directa
           </span>
-          <h2 className="font-display text-2xl sm:text-3xl uppercase tracking-tight text-brand-blue-1000 mt-2">
+          <h2 className="font-display text-2xl sm:text-3xl uppercase tracking-tight text-brand-blue-500 mt-2">
             Elegí cómo comunicarte
           </h2>
         </div>
@@ -80,16 +80,16 @@ export default function ContactInfo() {
                 <div className="flex flex-col justify-between h-full space-y-4 relative overflow-hidden">
                   <div className="relative z-10">
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="text-2xs font-subheading uppercase tracking-wider text-brand-blue-1000 px-2.5 py-0.5 rounded bg-brand-blue-50 border border-brand-blue-100">
+                      <span className="text-2xs font-subheading uppercase tracking-wider text-brand-blue-500 px-2.5 py-0.5 rounded bg-brand-blue-50 border border-brand-blue-100">
                         {card.tag}
                       </span>
-                      <span className="text-2xs font-mono font-bold uppercase text-brand-blue-1000 tabular-nums">
+                      <span className="text-2xs font-mono font-bold uppercase text-brand-blue-500 tabular-nums">
                         {card.subtag}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-brand-blue-50 border border-brand-blue-100 text-brand-blue-1000">
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-brand-blue-50 border border-brand-blue-100 text-brand-blue-500">
                         {/* Renderizado con el componente optimizado de Next.js */}
                         {typeof IconComp === 'string' ? (
                           <Image
@@ -100,15 +100,15 @@ export default function ContactInfo() {
                             className="w-5 h-5 object-contain"
                           />
                         ) : (
-                          <IconComp className="w-5 h-5 text-brand-blue-1000" />
+                          <IconComp className="w-5 h-5 text-brand-blue-500" />
                         )}
                       </div>
-                      <h3 className="font-display text-lg uppercase tracking-tight text-brand-blue-1000 truncate">
+                      <h3 className="font-display text-lg uppercase tracking-tight text-brand-blue-500 truncate">
                         {card.title}
                       </h3>
                     </div>
 
-                    <p className="font-sans text-xs sm:text-sm text-brand-blue-1000 leading-relaxed mb-6">
+                    <p className="font-sans text-xs sm:text-sm text-brand-blue-500 leading-relaxed mb-6">
                       {card.description}
                     </p>
                   </div>
@@ -220,13 +220,13 @@ export default function ContactInfo() {
                 <div className="space-y-4 font-sans text-sm">
                   <div className="flex items-center justify-between py-2 border-b border-white/10">
                     <span className="text-white font-mono tabular-nums">Lunes a Viernes: 09:00 - 18:00 hs</span>
-                    <span className="px-2.5 py-0.5 text-2xs font-mono uppercase font-bold text-brand-blue-1000 bg-brand-yellow-500 rounded-full shadow-xs tabular-nums">
+                    <span className="px-2.5 py-0.5 text-2xs font-mono uppercase font-bold text-brand-blue-500 bg-brand-yellow-500 rounded-full shadow-xs tabular-nums">
                       Activo
                     </span>
                   </div>
                   <div className="flex items-center justify-between py-2 border-b border-white/10">
                     <span className="text-white font-mono tabular-nums">Sábados: 10:00 - 15:00 hs</span>
-                    <span className="px-2.5 py-0.5 text-2xs font-mono uppercase font-bold text-brand-blue-1000 bg-brand-yellow-500 rounded-full shadow-xs tabular-nums">
+                    <span className="px-2.5 py-0.5 text-2xs font-mono uppercase font-bold text-brand-blue-500 bg-brand-yellow-500 rounded-full shadow-xs tabular-nums">
                       Activo
                     </span>
                   </div>
@@ -245,14 +245,14 @@ export default function ContactInfo() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
               <div>
                 <span className="text-xs font-subheading uppercase tracking-wider text-brand-yellow-500 block">
-                  UBICACIÓN EXACTA · MAPA EN VIVO
+                  UBICACIÓN EXACTA · GOOGLE MAPS
                 </span>
                 <h4 className="font-display text-xl uppercase tracking-tight text-white mt-0.5">
                   BASE OPERATIVA EN MAR DEL PLATA
                 </h4>
               </div>
               <a
-                href="https://share.google/ofw5wAQt3Fc1dArom"
+                href="https://www.google.com/maps/search/?api=1&query=Friuli+1972,+Mar+del+Plata,+Buenos+Aires"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-brand-yellow-500/10 hover:bg-brand-yellow-500/20 border border-brand-yellow-500/40 text-brand-yellow-500 text-xs font-subheading font-bold uppercase tracking-wider transition-all"
@@ -263,11 +263,29 @@ export default function ContactInfo() {
             </div>
 
             <div className="w-full h-64 sm:h-72 rounded-xl overflow-hidden border border-white/20 shadow-md relative bg-brand-blue-500">
+              {/* Skeleton visual placeholder mientras carga el iframe o ante conexión reducida */}
+              <div
+                className="absolute inset-0 flex items-center justify-center p-4 text-center z-0 bg-brand-blue-500"
+                aria-hidden="true"
+              >
+                <div className="space-y-2 opacity-60">
+                  <MapPin className="w-8 h-8 text-brand-yellow-500 mx-auto animate-bounce" />
+                  <p className="text-xs font-mono text-white">Cargando mapa de Google Maps...</p>
+                </div>
+              </div>
+
               <iframe
                 title="Mapa de ubicación Friuli 1972, Mar del Plata - Envíos DosRuedas"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=-57.5750%2C-38.0220%2C-57.5610%2C-38.0120&layer=mapnik&marker=-38.0172%2C-57.5684"
-                className="w-full h-full border-0"
+                src={
+                  process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+                    ? `https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=Friuli+1972,+Mar+del+Plata,+Buenos+Aires&zoom=15&language=es&region=ar`
+                    : `https://maps.google.com/maps?q=Friuli+1972,+Mar+del+Plata,+Buenos+Aires&t=&z=15&ie=UTF8&iwloc=&output=embed`
+                }
+                className="w-full h-full border-0 relative z-10"
                 loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                aria-label="Mapa interactivo con la ubicación de la base en Friuli 1972, Mar del Plata"
               />
             </div>
           </div>

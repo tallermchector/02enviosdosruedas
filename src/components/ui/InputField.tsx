@@ -19,9 +19,9 @@ export interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElem
  * - Height: h-11 (44px touch target)
  * - Border: border-2 border-brand-blue-100 rounded-xl bg-white
  * - Padding left: pl-10 when icon is present
- * - Label: font-subheading text-xs uppercase tracking-wider text-brand-blue-700
+ * - Label: font-subheading text-xs uppercase tracking-wider text-brand-blue-500
  * - Help text: font-mono text-2xs text-brand-blue-400
- * - Focus: border-brand-blue-700 + ring-2 ring-brand-blue-500/20
+ * - Focus: border-brand-blue-500 + ring-2 ring-brand-blue-500/20
  * - Error: border-red-500 + ring-2 ring-red-500/20
  */
 export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
@@ -52,7 +52,7 @@ export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
           <label
             htmlFor={inputId}
             className={cn(
-              'input-label font-subheading text-xs uppercase tracking-wider font-bold text-brand-blue-500 flex items-center justify-between',
+              'input-label font-subheading text-xs uppercase tracking-wider text-brand-blue-500 flex items-center justify-between',
               labelClassName
             )}
           >
@@ -78,12 +78,12 @@ export const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
             aria-invalid={!!error}
             aria-describedby={error ? errorId : helpText ? helpId : undefined}
             className={cn(
-              'input-field h-11 w-full border-2 rounded-xl bg-white font-sans text-sm text-brand-blue-500 placeholder:text-brand-blue-500 transition-all duration-200 focus:outline-none',
+              'input-field h-11 min-h-11 w-full border-2 rounded-xl bg-white font-sans text-base sm:text-sm text-brand-blue-500 placeholder:text-brand-blue-500 transition-all duration-200 focus:outline-none',
               icon ? 'pl-10 pr-4' : 'px-4',
               error
                 ? 'border-red-500 focus:border-red-500 ring-2 ring-red-500/20 text-red-600'
                 : 'border-brand-blue-300 hover:border-brand-blue-400 focus:border-brand-blue-500 focus:ring-2 focus:ring-brand-blue-500/20',
-              disabled && 'border-brand-blue-100 bg-brand-blue-50/50 text-brand-blue-400 cursor-not-allowed',
+              disabled && 'border-brand-blue-100 bg-brand-blue-50/50 text-brand-blue-500/60 cursor-not-allowed',
               className
             )}
             {...inputProps}

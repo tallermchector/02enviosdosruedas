@@ -1,24 +1,13 @@
+'use client';
+
 import Image from 'next/image';
+import Link from 'next/link';
+import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, MapPin, Zap } from 'lucide-react';
 import { CTANestedPill } from '@/components/ui/CTANestedPill';
 import { Knockout } from '@/components/ui/Knockout';
 import Badge from '@/components/ui/Badge';
 import HeroProceduralBackground from '@/components/ui/HeroProceduralBackground';
-
-/**
- * Hero de inicio — concepto "mapa en vivo".
- *
- * La promesa de la casa es cobertura, así que la imagen principal no es una
- * foto de repartidor sino el mapa: un pin con anillos que salen hacia afuera y
- * dos fichas ancladas al barrio real. Los anillos se apagan con movimiento
- * reducido y arrancan invisibles hacia el final, así que sin animación el
- * bloque se ve limpio, no con tres círculos encima del pin.
- *
- * Abajo, el ticker repite los diferenciales. Va duplicado en el DOM y se
- * desplaza -50%: el bucle es invisible porque la segunda copia es idéntica.
- * Es `aria-hidden` y el texto real vive en un `sr-only`, para que un lector de
- * pantalla no lea la lista dos veces.
- */
 
 /** Diferenciales del ticker. La lista se repite dos veces para que el bucle no se vea. */
 const diferenciales = [
@@ -33,21 +22,25 @@ const diferenciales = [
 const fichas = [
   {
     id: 'base',
-    posicion: 'left-[-4%] bottom-[14%]',
-    tono: 'bg-white text-brand-blue-500',
+    posicion: 'left-2 bottom-2 sm:left-[-4%] sm:bottom-[14%]',
     titulo: 'Base Friuli 1972',
     detalle: 'Mar del Plata',
   },
   {
     id: 'entrega',
-    posicion: 'right-[-2%] top-[10%]',
-    tono: 'bg-brand-yellow-500 text-brand-blue-500',
+    posicion: 'right-2 top-2 sm:right-[-2%] sm:top-[10%]',
     titulo: 'Entrega en el día',
     detalle: 'en todo MDQ',
   },
 ] as const;
 
+// Spring tokens desde globals.css: --ease-out, --duration-feedback
+const spring = { duration: 0.5, ease: [0.23, 1, 0.32, 1] as const };
+const fastSpring = { duration: 0.2, ease: [0.23, 1, 0.32, 1] as const };
+
 export default function HeroAnimado() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section
       id="hero-animado"
@@ -56,58 +49,87 @@ export default function HeroAnimado() {
     >
       <HeroProceduralBackground variant="express" tone="blue" />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center px-6 py-14 sm:py-20 lg:px-8 lg:py-24">
-        <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-14">
-          {/* COPY 7 — nunca centrado en desktop. */}
-          <div className="space-y-6 text-center sm:space-y-7 lg:col-span-7 lg:text-left">
-            <Badge
-              variant="accent"
-              size="lg"
-              className="-rotate-1"
-              icon={<Zap className="h-4 w-4" aria-hidden="true" />}
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-start px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-24">
+        <div className="grid w-full grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-14">
+          {/* COPY 7 — LEFT-ALIGNED ALWAYS, never centered */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={shouldReduceMotion ? { duration: 0 } : spring}
+            className="space-y-6 lg:col-span-7"
+          >
+            <motion.div
+              whileHover={shouldReduceMotion ? undefined : { scale: 1.02, transition: fastSpring }}
+              className="inline-flex"
             >
-              Flota propia · Todo Mar del Plata
-            </Badge>
+              <Badge
+                variant="accent"
+                size="lg"
+                icon={<Zap className="h-4 w-4" aria-hidden="true" />}
+              >
+                Flota propia · Todo Mar del Plata
+              </Badge>
+            </motion.div>
 
-            {/* Slogan del dueño (2026-09-29). El prototipo propone "Mensajería y
-                logística e-commerce en Mar del Plata" como H1, pero eso es
-                texto de diseño, no una frase del dueño: se queda como bajada.
-                Las palabras del dueño no se reemplazan por las del mock. */}
-            <h1 className="text-balance font-display text-4xl uppercase leading-[0.92] tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl xl:text-7xl">
+            <motion.h1
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={shouldReduceMotion ? { duration: 0 } : { ...spring, delay: 0.1 }}
+              className="text-balance font-display text-4xl uppercase leading-[0.92] tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl xl:text-7xl max-w-[32ch]"
+            >
+              <span className="sr-only">Mensajería en moto en Mar del Plata: </span>
               <span className="block">El motor de tu</span>
               <Knockout className="whitespace-nowrap">última milla</Knockout>
+              <span className="sr-only">. </span>
               <span className="block">Somos la solución a tus envíos</span>
-            </h1>
+            </motion.h1>
 
-            <p className="mx-auto max-w-[56ch] text-pretty font-sans text-base font-light leading-relaxed text-white/85 sm:text-lg lg:mx-0">
+            <motion.p
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={shouldReduceMotion ? { duration: 0 } : { ...spring, delay: 0.15 }}
+              className="font-sans text-base font-light leading-relaxed text-white/85 sm:text-lg max-w-[56ch]"
+            >
               Mensajería y logística e-commerce en Mar del Plata: envíos en el día con motos
               propias. Llegamos a toda la ciudad y los repartidores son nuestros, sin tercerizar.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-col items-center justify-center gap-4 pt-1 sm:flex-row sm:gap-6 lg:justify-start">
+            <motion.div
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={shouldReduceMotion ? { duration: 0 } : { ...spring, delay: 0.2 }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
               <CTANestedPill
                 href="/cotizar"
                 id="hero-cta-cotizar"
                 variant="primary"
                 size="large"
-                className="focus-visible:ring-2 focus-visible:ring-brand-yellow-500 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-blue-500"
+                className="w-full sm:w-auto justify-center focus-visible:ring-2 focus-visible:ring-brand-yellow-500 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-blue-500"
               >
                 Cotizá tu envío
               </CTANestedPill>
-              <a
+              <Link
                 href="/servicios"
-                className="inline-flex min-h-11 items-center gap-2 rounded-md font-subheading text-sm uppercase tracking-wider text-white underline decoration-brand-yellow-500 decoration-2 underline-offset-4 transition-colors hover:text-brand-yellow-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-blue-500 sm:text-base"
+                className="inline-flex min-h-11 w-full sm:w-auto justify-center items-center gap-2 rounded-md font-subheading text-sm uppercase tracking-wider text-white underline decoration-brand-yellow-500 decoration-2 underline-offset-4 transition-colors hover:text-brand-yellow-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-blue-500 sm:text-base"
               >
                 Ver servicios
                 <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
-              </a>
-            </div>
-          </div>
+              </Link>
+            </motion.div>
+          </motion.div>
 
-          {/* MAPA 5 — pin + anillos + dos fichas ancladas. */}
-          <div className="lg:col-span-5">
+          {/* MAPA 5 — pin + anillos + dos fichas ancladas. CLEAN SPATIAL SEPARATION */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, x: 24 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={shouldReduceMotion ? { duration: 0 } : { ...spring, delay: 0.15 }}
+            className="lg:col-span-5"
+          >
             <div className="relative mx-auto aspect-square w-full max-w-115">
-              {/* Anillos: el `--delay` escalona el arranque para que el pulso sea continuo. */}
+              {/* Anillos: perpetual micro-loop pulse ring */}
               <span
                 aria-hidden="true"
                 className="animate-pulse-ring absolute left-1/2 top-[44%] aspect-square w-[30%] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-brand-yellow-500/60"
@@ -127,14 +149,17 @@ export default function HeroAnimado() {
                 width={560}
                 height={560}
                 priority
+                fetchPriority="high"
+                loading="eager"
                 sizes="(min-width: 1024px) 460px, 92vw"
-                className="relative z-2 h-auto w-full drop-shadow-[0_24px_40px_rgba(255,255,255,0.12)]"
+                className="relative z-2 h-auto w-full drop-shadow-[0_24px_40px_rgba(9,80,246,0.15)]"
               />
 
               {fichas.map((ficha) => (
-                <div
+                <motion.div
                   key={ficha.id}
-                  className={`absolute z-3 inline-flex items-center gap-2 rounded-xl px-3 py-2.5 shadow-[0_12px_30px_rgba(9,80,246,0.25)] ${ficha.posicion} ${ficha.tono}`}
+                  whileHover={shouldReduceMotion ? undefined : { scale: 1.03, transition: fastSpring }}
+                  className={`absolute z-3 inline-flex items-center gap-2 rounded-xl px-3 py-2.5 shadow-[0_12px_30px_rgba(9,80,246,0.25)] ${ficha.posicion} bg-white text-brand-blue-500 ring-1 ring-brand-blue-100`}
                 >
                   <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
                   <span className="font-mono text-2xs font-medium leading-tight">
@@ -143,10 +168,10 @@ export default function HeroAnimado() {
                     </b>
                     {ficha.detalle}
                   </span>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 

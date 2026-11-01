@@ -9,11 +9,15 @@ import {
   EXPRESS_LEAD_TIME,
   EXPRESS_WINDOW_SHORT,
   FLEX_CUTOFF_TIME,
+  FLEX_DELIVERY_DEADLINE,
   LOWCOST_CUTOFF_TIME,
   LOWCOST_DELIVERY_DEADLINE,
   SAME_DAY_FIXED_PRICE,
   STANDARD_WEIGHT_KG,
 } from '@/lib/promises';
+import { EXPRESS_TIERS, LOW_COST_TIERS } from '@/lib/pricing';
+import { trackAnalytics } from '@/lib/analytics';
+import NetworkCanvasWrapper from '@/components/home/NetworkCanvasWrapper';
 
 const formatArs = (value: number) => `$${value.toLocaleString('es-AR')}`;
 
@@ -60,23 +64,60 @@ export default function ServicesOverview() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const [isAutoRotate, setIsAutoRotate] = useState<boolean>(true);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
 
-  // Bloquear scroll del body y cerrar con Escape mientras el modal está abierto
+  const closeModal = useCallback(() => {
+    setSelectedService(null);
+  }, []);
+
+  // Bloquear scroll del body, gestionar foco (inicial, trampa y retorno) y cerrar con Escape mientras el modal está abierto
   useEffect(() => {
     if (!selectedService) return;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+
+    const focusTimer = setTimeout(() => {
+      closeButtonRef.current?.focus();
+    }, 50);
+
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedService(null);
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeModal();
+        return;
+      }
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
+
     window.addEventListener('keydown', onKeyDown);
+    const triggerEl = lastTriggerRef.current;
+
     return () => {
+      clearTimeout(focusTimer);
       document.body.style.overflow = prevOverflow;
       window.removeEventListener('keydown', onKeyDown);
+      triggerEl?.focus();
     };
-  }, [selectedService]);
+  }, [selectedService, closeModal]);
 
   // Snappy spring configs
   const springConfigSnappy = { type: 'spring' as const, stiffness: 300, damping: 25 };
@@ -106,13 +147,13 @@ export default function ServicesOverview() {
       hintColor: 'text-brand-yellow-500',
       stats: {
         time: EXPRESS_WINDOW_SHORT,
-        price: '$3.700 Base',
-        weight: `Hasta ${STANDARD_WEIGHT_KG} kg`,
+        price: `${formatArs(EXPRESS_TIERS[0].price)} Base`,
+        weight: `Sin recargo hasta ${STANDARD_WEIGHT_KG} kg`,
       },
       details: {
         summary: `Servicio de mensajería urbana con horario a elección, ideal para trámites urgentes, despacho de encomiendas y entrega de documentación. Coordinás la franja horaria que te conviene y se asigna un repartidor exclusivo para tu envío.`,
         features: [
-          'Tarifa base de $3.700 hasta 3 km.',
+          `Tarifa base de ${formatArs(EXPRESS_TIERS[0].price)} hasta ${EXPRESS_TIERS[0].maxKm} km.`,
           `Entrega en franja de 3 hs a elección, pedido con ${EXPRESS_LEAD_TIME} mínima.`,
           'Notificación automática de entrega por WhatsApp.'
         ],
@@ -130,7 +171,7 @@ export default function ServicesOverview() {
       city: 'Todo Gral. Pueyrredón',
       founded: 'Tarifa Fija Especial',
       imageUrl: '/cards/fondo_lowcost.webp',
-      cardStyleCenter: 'border-brand-blue-500 bg-linear-to-br from-white to-brand-blue-50 shadow-[8px_8px_0px_rgba(9,80,246,0.2)] text-brand-blue-500',
+      cardStyleCenter: 'border-brand-blue-500 bg-linear-to-br from-white to-brand-blue-50 shadow-float text-brand-blue-500',
       cardStyleSide: 'border-brand-blue-100 bg-white text-brand-blue-500',
       textColor: 'text-brand-blue-500',
       titleColor: 'text-brand-blue-500 group-hover:text-brand-blue-500',
@@ -143,13 +184,13 @@ export default function ServicesOverview() {
       hintColor: 'text-brand-blue-500',
       stats: {
         time: 'Programado en el día',
-        price: '$3.000 Base',
-        weight: `Hasta ${STANDARD_WEIGHT_KG} kg`,
+        price: `${formatArs(LOW_COST_TIERS[0].price)} Base`,
+        weight: `Sin recargo hasta ${STANDARD_WEIGHT_KG} kg`,
       },
       details: {
         summary: 'La alternativa ideal para comercios y e-commerce que buscan optimizar costos de envío. Es un reparto económico programado para el día, no un agrupamiento de tus propios envíos: lo pedís antes del corte y se entrega a lo largo de la jornada.',
         features: [
-          'Tarifa base de $3.000 hasta 3 km.',
+          `Tarifa base de ${formatArs(LOW_COST_TIERS[0].price)} hasta ${LOW_COST_TIERS[0].maxKm} km.`,
           `Pedí antes de las ${LOWCOST_CUTOFF_TIME} y se entrega antes de las ${LOWCOST_DELIVERY_DEADLINE}.`,
           'Sin elección de franja horaria: la tarifa más baja de la ciudad.'
         ],
@@ -167,7 +208,7 @@ export default function ServicesOverview() {
       city: 'Mar del Plata urbana',
       founded: `Corte extendido ${FLEX_CUTOFF_TIME}`,
       imageUrl: '/cards/fondo_flex.webp',
-      cardStyleCenter: 'border-brand-blue-500 bg-linear-to-br from-brand-yellow-500 to-brand-yellow-400 shadow-[8px_8px_0px_rgba(255,236,1,0.25)] text-brand-blue-500',
+      cardStyleCenter: 'border-brand-blue-500 bg-linear-to-br from-brand-yellow-500 to-brand-yellow-400 shadow-accent text-brand-blue-500',
       cardStyleSide: 'border-brand-yellow-500/30 bg-brand-yellow-500 text-brand-blue-500',
       textColor: 'text-brand-blue-500',
       titleColor: 'text-brand-blue-500 group-hover:text-brand-blue-500',
@@ -187,7 +228,7 @@ export default function ServicesOverview() {
         summary: 'Habilitá Envíos Flex en tu cuenta de MercadoLibre y despachá todas tus ventas en el mismo día. Mejorá tu reputación y convertite en vendedor destacado con recolección gratuita.',
         features: [
           'Visitas bonificadas según tu volumen diario de entregas.',
-          'Reparto coordinado antes de las 20:00 hs.',
+          `Reparto coordinado antes de las ${FLEX_DELIVERY_DEADLINE}.`,
           'Recolección a domicilio sin cargo extra por nuestro equipo.'
         ],
         ctaText: 'CONFIGURÁ FLEX',
@@ -233,7 +274,7 @@ export default function ServicesOverview() {
     },
   ];
 
-  const totalServices = services.length;
+  const total = services.length;
   const autoRotateIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Handle resize
@@ -246,9 +287,9 @@ export default function ServicesOverview() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Auto-rotation with deterministic timing
+  // Auto-rotation with deterministic timing (respects manual pause via toggle and temporary pause on hover)
   useEffect(() => {
-    if (!isAutoRotate || reduceMotion || selectedService) {
+    if (!isAutoRotate || isHovered || reduceMotion || selectedService) {
       if (autoRotateIntervalRef.current) {
         clearInterval(autoRotateIntervalRef.current);
         autoRotateIntervalRef.current = null;
@@ -257,7 +298,7 @@ export default function ServicesOverview() {
     }
 
     autoRotateIntervalRef.current = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % totalServices);
+      setActiveIndex((prev) => (prev + 1) % total);
     }, 4500);
 
     return () => {
@@ -266,94 +307,106 @@ export default function ServicesOverview() {
         autoRotateIntervalRef.current = null;
       }
     };
-  }, [isAutoRotate, totalServices, reduceMotion, selectedService]);
+  }, [isAutoRotate, isHovered, total, reduceMotion, selectedService]);
 
   const handlePrev = useCallback(() => {
     setIsAutoRotate(false);
-    setActiveIndex((prev) => (prev - 1 + totalServices) % totalServices);
-  }, [totalServices]);
+    setActiveIndex((prev) => (prev - 1 + total) % total);
+  }, [total]);
 
   const handleNext = useCallback(() => {
     setIsAutoRotate(false);
-    setActiveIndex((prev) => (prev + 1) % totalServices);
-  }, [totalServices]);
+    setActiveIndex((prev) => (prev + 1) % total);
+  }, [total]);
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (selectedService) {
-        if (e.key === 'Escape') setSelectedService(null);
-        return;
-      }
+  // Navegación por teclado restringida al foco interno del carrusel
+  const handleCarouselKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (selectedService) return;
       if (e.key === 'ArrowLeft') {
+        e.preventDefault();
         handlePrev();
       } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
         handleNext();
       }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handlePrev, handleNext, selectedService]);
+    },
+    [handlePrev, handleNext, selectedService]
+  );
 
   // Calculate card transforms using spring-based derived values
   const getCardTransform = (index: number) => {
-    const offset = (index - activeIndex + totalServices / 2) % totalServices - totalServices / 2;
+    const offset = ((((index - activeIndex + total / 2) % total) + total) % total) - Math.floor(total / 2);
     const absOffset = Math.abs(offset);
     const isCenter = offset === 0;
 
     if (reduceMotion) {
       return {
+        offset,
+        isCenter,
         rotateY: 0,
         translateZ: 0,
         translateX: 0,
         opacity: isCenter ? 1 : 0,
         scale: isCenter ? 1 : 0.7,
-        zIndex: isCenter ? totalServices : totalServices - absOffset,
+        zIndex: isCenter ? total : total - absOffset,
       };
     }
 
-    const rotateY = offset * -28;
-    const translateZ = isCenter ? 120 : -absOffset * 180;
+    const rotateY = isSmallScreen ? 0 : offset * -28;
+    const translateZ = isSmallScreen ? 0 : isCenter ? 120 : -absOffset * 180;
     const translateX = offset * (isSmallScreen ? 140 : 260);
     const opacity = isCenter ? 1 : Math.max(0.15, 1 - absOffset * 0.4);
     const scale = isCenter ? 1.05 : Math.max(0.65, 1 - absOffset * 0.18);
 
-    return { rotateY, translateZ, translateX, opacity, scale, zIndex: totalServices - absOffset };
+    return { offset, isCenter, rotateY, translateZ, translateX, opacity, scale, zIndex: total - absOffset };
   };
 
   return (
     <section
       id="services-overview"
       aria-labelledby="services-overview-title"
-      className="py-24 bg-brand-blue text-white relative overflow-hidden perspective-[2000px]"
-      onMouseEnter={() => setIsAutoRotate(false)}
-      onMouseLeave={() => !selectedService && setIsAutoRotate(true)}
+      className="py-16 sm:py-20 lg:py-24 bg-brand-blue text-white relative overflow-hidden perspective-[2000px]"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Background Decorative Asymmetric Glows */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-brand-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-      <motion.div
-        className="absolute bottom-0 right-0 w-125 h-125 bg-brand-yellow-500/5 rounded-full blur-3xl pointer-events-none"
-        animate={reduceMotion ? {} : { scale: [1, 1.05, 1] }}
-        transition={{ duration: 4, ease: 'easeInOut', repeat: Infinity }}
+      {/* Red logística interactiva en canvas (fondo z-0) */}
+      <NetworkCanvasWrapper />
+      <div
+        className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.08),transparent_60%)] pointer-events-none"
+        aria-hidden="true"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* Background Decorative Asymmetric Glows */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
+      <div
+        className="absolute bottom-0 right-0 w-125 h-125 bg-[radial-gradient(circle_at_bottom_right,rgba(255,236,1,0.06),transparent_70%)] pointer-events-none"
+        aria-hidden="true"
+      />
+
+      <div
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="Servicios logísticos"
+        onKeyDown={handleCarouselKeyDown}
+        inert={selectedService ? true : undefined}
+      >
         {/* Editorial Section Header with Viewport Entry */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
-          transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+          transition={{ type: 'spring', stiffness: 360, damping: 28 }}
           className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 border-b border-white/10 pb-8"
         >
           <div>
             <div className="px-4 py-1.5 bg-brand-blue-500 text-brand-yellow-400 rounded-full text-xs font-subheading font-bold tracking-widest inline-block uppercase shadow-glow-yellow mb-3 border border-brand-yellow-400/40">
               NUESTROS SERVICIOS
             </div>
-            <h2 id="services-overview-title" className="font-display text-4xl sm:text-6xl uppercase text-white tracking-tight leading-none text-balance">
+            <h2 id="services-overview-title" className="font-display text-3xl sm:text-4xl lg:text-5xl leading-[0.92] tracking-tight uppercase text-white text-balance">
               SOLUCIONES LOGÍSTICAS <br />
-              <span className="text-brand-yellow-400 drop-shadow-[0_2px_10px_rgba(255,241,46,0.35)] underline decoration-brand-blue-500 underline-offset-8">
+              <span className="text-brand-yellow-400 drop-shadow-[0_2px_10px_rgba(255,241,46,0.35)] underline decoration-brand-yellow-400/60 underline-offset-8">
                 A TU MEDIDA
               </span>
             </h2>
@@ -362,10 +415,11 @@ export default function ServicesOverview() {
           <div className="flex items-center gap-4">
             <motion.button
               type="button"
-              onClick={() => setIsAutoRotate(!isAutoRotate)}
+              onClick={() => setIsAutoRotate((prev) => !prev)}
+              aria-pressed={isAutoRotate}
               whileHover={reduceMotion ? undefined : { scale: 1.02 }}
-              whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-              className={`px-4 py-2 rounded-full text-xs font-bold font-subheading tracking-wider border transition-colors cursor-pointer ${
+              whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+              className={`min-h-11 px-4 py-2 rounded-full text-xs font-bold font-subheading tracking-wider border transition-colors cursor-pointer inline-flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500 ${
                 isAutoRotate
                   ? 'bg-brand-yellow-400 text-brand-blue-500 border-brand-yellow-400 shadow-glow-yellow'
                   : 'bg-white/10 text-white border-white/20 hover:bg-white/20'
@@ -378,22 +432,22 @@ export default function ServicesOverview() {
               <motion.button
                 type="button"
                 onClick={handlePrev}
-                whileHover={reduceMotion ? undefined : { scale: 1.05 }}
-                whileTap={reduceMotion ? undefined : { scale: 0.95 }}
-                className="p-3 rounded-full bg-white/10 hover:bg-brand-yellow-500 hover:text-brand-blue-500 border border-white/20 cursor-pointer transition-colors"
+                whileHover={reduceMotion ? undefined : { scale: 1.04 }}
+                whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+                className="min-w-11 min-h-11 p-3 rounded-full bg-white/10 hover:bg-brand-yellow-500 hover:text-brand-blue-500 border border-white/20 cursor-pointer transition-colors inline-flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500"
                 aria-label="Anterior Servicio"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-5 h-5" aria-hidden="true" />
               </motion.button>
               <motion.button
                 type="button"
                 onClick={handleNext}
-                whileHover={reduceMotion ? undefined : { scale: 1.05 }}
-                whileTap={reduceMotion ? undefined : { scale: 0.95 }}
-                className="p-3 rounded-full bg-white/10 hover:bg-brand-yellow-500 hover:text-brand-blue-500 border border-white/20 cursor-pointer transition-colors"
+                whileHover={reduceMotion ? undefined : { scale: 1.04 }}
+                whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+                className="min-w-11 min-h-11 p-3 rounded-full bg-white/10 hover:bg-brand-yellow-500 hover:text-brand-blue-500 border border-white/20 cursor-pointer transition-colors inline-flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500"
                 aria-label="Siguiente Servicio"
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-5 h-5" aria-hidden="true" />
               </motion.button>
             </div>
           </div>
@@ -407,21 +461,28 @@ export default function ServicesOverview() {
           {services.map((service, index) => {
             const Icon = service.icon;
             const transform = getCardTransform(index);
-            const isCenter = transform.opacity === 1;
+            const isCenter = transform.isCenter;
 
             return (
               <motion.button
                 key={service.id}
                 type="button"
-                onClick={() => {
+                tabIndex={isCenter ? 0 : -1}
+                inert={!isCenter && reduceMotion ? true : undefined}
+                aria-hidden={!isCenter && reduceMotion ? 'true' : undefined}
+                aria-label={isCenter ? `Ver ficha técnica de ${service.title}` : `Seleccionar ${service.title}`}
+                onClick={(e) => {
                   if (isCenter) {
+                    lastTriggerRef.current = e.currentTarget;
                     setSelectedService(service);
                   } else {
                     setActiveIndex(index);
                     setIsAutoRotate(false);
                   }
                 }}
-                className="absolute w-72.5 sm:w-87.5 h-110 sm:h-122.5 rounded-3xl cursor-pointer select-none group text-left focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-yellow-500 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-ink"
+                className={`absolute w-72.5 sm:w-87.5 h-110 sm:h-122.5 rounded-3xl cursor-pointer select-none group text-left focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-yellow-500 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-ink ${
+                  !isCenter && reduceMotion ? 'pointer-events-none' : ''
+                }`}
                 style={{
                   transformStyle: 'preserve-3d',
                   zIndex: transform.zIndex,
@@ -446,19 +507,20 @@ export default function ServicesOverview() {
               >
                 {/* Card Structure with Color Block Themes */}
                 <div
-                  className={`w-full h-full rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden border-4 shadow-2xl ${
+                  className={`w-full h-full rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden border-2 shadow-xl ${
                     isCenter ? service.cardStyleCenter : service.cardStyleSide
                   }`}
                 >
                   {/* Background Image with Layer Blend */}
-                  <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0">
+                  <div className="absolute inset-0 w-full h-full pointer-events-none select-none z-0" aria-hidden="true">
                     <Image
                       src={service.imageUrl}
-                      alt={service.title}
+                      alt=""
                       fill={true}
+                      loading="lazy"
+                      decoding="async"
                       sizes="(max-width: 768px) 290px, 350px"
                       className={`object-cover ${service.imgBlend}`}
-                      priority={index === 0}
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-brand-blue-500/80 via-brand-blue-500/20 to-transparent opacity-60" />
                   </div>
@@ -466,6 +528,7 @@ export default function ServicesOverview() {
                   {/* Center Card Ambient Glow Overlay */}
                   {isCenter && (
                     <motion.div
+                      aria-hidden="true"
                       className="absolute bottom-0 right-0 w-48 h-48 rounded-full blur-3xl pointer-events-none opacity-20 -mr-12 -mb-12"
                       style={{
                         backgroundColor: index === 3 ? 'var(--color-brand-blue-500)' : 'var(--color-brand-yellow-500)',
@@ -477,6 +540,7 @@ export default function ServicesOverview() {
 
                   {/* Watermark Background Icon */}
                   <motion.div
+                    aria-hidden="true"
                     className="absolute right-4 bottom-4 opacity-[0.06] pointer-events-none select-none"
                     animate={isCenter && !reduceMotion ? { rotate: [0, 2, -2, 0], scale: [1, 1.02, 1] } : {}}
                     transition={{ duration: 4, ease: 'easeInOut', repeat: Infinity }}
@@ -490,7 +554,7 @@ export default function ServicesOverview() {
                       className="flex items-center gap-2.5"
                       whileHover={reduceMotion ? undefined : { scale: 1.05, transition: springConfigSnappy }}
                     >
-                      <div className="p-3 bg-brand-yellow-500 text-brand-blue-500 rounded-xl shadow-[2px_2px_0px_var(--color-brand-blue-500)]">
+                      <div className="p-3 bg-brand-yellow-500 text-brand-blue-500 rounded-xl shadow-[2px_2px_0px_var(--color-brand-blue-500)]" aria-hidden="true">
                         <Icon className="h-5 w-5" />
                       </div>
                       <span className={`text-2xs font-bold font-subheading px-2.5 py-1 rounded-full border shadow-sm ${service.badgeStyle}`}>
@@ -502,15 +566,15 @@ export default function ServicesOverview() {
                   {/* Middle Service Information */}
                   <div className="relative z-10 space-y-2 mt-auto">
                     <div className={`text-xs font-bold uppercase tracking-widest font-subheading flex items-center gap-1 ${service.hintColor}`}>
-                      <MapPin className="w-3.5 h-3.5" />
+                      <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
                       {service.city}
                     </div>
-                    <motion.h3
+                    <motion.div
                       className={`font-display text-2xl sm:text-3xl uppercase leading-none text-balance ${service.titleColor}`}
                       whileHover={reduceMotion ? undefined : { x: 4, transition: springConfigSnappy }}
                     >
                       {service.title}
-                    </motion.h3>
+                    </motion.div>
                     <p className={`text-xs line-clamp-2 leading-relaxed ${service.descColor}`}>
                       {service.description}
                     </p>
@@ -571,7 +635,7 @@ export default function ServicesOverview() {
               }}
               aria-label={`Ir al servicio ${service.title}${i === activeIndex ? ', servicio actual' : ''}`}
               aria-current={i === activeIndex ? 'true' : 'false'}
-              className={`min-w-11 min-h-11 flex items-center justify-center rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500`}
+              className="min-w-11 min-h-11 flex items-center justify-center rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500"
               whileHover={i !== activeIndex && !reduceMotion ? { scale: 1.2, transition: springConfigSnappy } : undefined}
               whileTap={reduceMotion ? undefined : { scale: 0.9 }}
             >
@@ -595,12 +659,15 @@ export default function ServicesOverview() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
+            onClick={closeModal}
             className="fixed inset-0 z-50 bg-brand-blue-500/80 backdrop-blur-md flex items-center justify-center p-4 overscroll-contain overflow-y-auto"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="service-modal-title"
           >
             <motion.div
+              ref={modalRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="service-modal-title"
+              onClick={(e) => e.stopPropagation()}
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -610,18 +677,19 @@ export default function ServicesOverview() {
               <div className="double-bezel-inner bg-brand-blue-500 border border-brand-blue-500/20 rounded-2xl p-6 sm:p-8 text-white relative shadow-2xl space-y-6">
                 {/* Close Modal Button */}
                 <motion.button
+                  ref={closeButtonRef}
                   type="button"
-                  onClick={() => setSelectedService(null)}
+                  onClick={closeModal}
                   whileHover={reduceMotion ? undefined : { scale: 1.1, rotate: 90, transition: springConfigSnappy }}
                   whileTap={reduceMotion ? undefined : { scale: 0.9 }}
-                  className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-brand-yellow-500 hover:text-brand-blue-500 transition-colors cursor-pointer z-20"
+                  className="absolute top-4 right-4 min-w-11 min-h-11 p-2.5 rounded-full bg-white/10 hover:bg-brand-yellow-500 hover:text-brand-blue-500 transition-colors cursor-pointer z-20 inline-flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500"
                   aria-label="Cerrar ficha técnica"
                 >
                   <X className="w-5 h-5" />
                 </motion.button>
 
                 {/* Modal Header */}
-                <div className="flex items-center gap-4 text-left">
+                <div className="flex items-center gap-4 text-left pr-10">
                   <div className="p-4 bg-brand-yellow-500 text-brand-blue-500 rounded-2xl shadow-[3px_3px_0px_var(--color-brand-blue-500)]">
                     {React.createElement(selectedService.icon, { className: "w-8 h-8" })}
                   </div>
@@ -689,19 +757,25 @@ export default function ServicesOverview() {
                 <div className="pt-2 flex justify-between items-center gap-4">
                   <motion.button
                     type="button"
-                    onClick={() => setSelectedService(null)}
+                    onClick={closeModal}
                     whileHover={reduceMotion ? undefined : { x: -4, transition: springConfigSnappy }}
                     whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-                    className="text-xs text-brand-blue-50 hover:text-white underline uppercase font-bold tracking-wider cursor-pointer"
+                    className="min-h-11 px-3 text-xs text-brand-blue-50 hover:text-white underline uppercase font-bold tracking-wider cursor-pointer inline-flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500 rounded-lg"
                   >
                     Volver Atrás
                   </motion.button>
                   <a
                     href={selectedService.details.ctaHref}
-                    className="cta-nested-pill bg-brand-yellow-500 text-brand-blue-500 px-6 py-2.5 text-sm font-subheading font-bold uppercase hover:bg-brand-yellow-400"
+                    onClick={() =>
+                      trackAnalytics.ctaClick(
+                        `services_modal_${selectedService.id}_cta`,
+                        selectedService.details.ctaText
+                      )
+                    }
+                    className="cta-nested-pill bg-brand-yellow-500 text-brand-blue-500 px-6 py-2.5 text-sm font-subheading font-bold uppercase hover:bg-brand-yellow-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow-500 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-blue-500"
                   >
                     <span>{selectedService.details.ctaText}</span>
-                    <span className="cta-nested-icon bg-transparent">→</span>
+                    <span className="cta-nested-icon bg-transparent" aria-hidden="true">→</span>
                   </a>
                 </div>
               </div>
